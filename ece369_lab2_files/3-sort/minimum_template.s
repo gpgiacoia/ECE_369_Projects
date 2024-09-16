@@ -1,7 +1,8 @@
 # Exercise 3
 # Max Score: 12 points
 #
-# Students: 
+# Students: Giuseppe Pongelupe Giacoia, Carson Keegan, Leo Dickinson
+# Percentage effort: 33%, 33%, 33%
 #
 # minimum.s 
 # Finds the index of the smallest element in an integer array
@@ -83,13 +84,13 @@ minimum:
     add     $t3,$0, 0       # $t3=0
 
 loop:
-    bge     $t1,$a1,done    # i>=n ?
+    bge     $t1,$a1,done    # i>=n, done
     mul     $t2, $t1, 4     # $t2 = $t1 * 4
     add     $t2,$t2,$a0
     lw      $t2, 0($t2)     # $t2 = V[i]
-    bge     $t2,$t0,next    # V[i] >= min ?
+    bge     $t2,$t0,next    # V[i] >= min, next
     add     $t0,$t2,$0      # min=V[i]
-    add     $t3,$t1,$0      # max_index=max
+    add     $t3,$t1,$0      # min_index=min index
 next:
     addi    $t1,$t1,1       # i++
     j       loop            # Loop back
@@ -104,6 +105,27 @@ done:
 MaxIndex:   
     # Please fill in your implementation for 'MaxIndex' below this line !##########################
     # Your code begins
+    # USING SIMILAR CODE TO MINIMUM FUNCTION ABOVE. 
+    # Functionality: The same as the funciton above but the instead of changing the index and value of t0 
+    # when the current value of t2 is smaller than t0, now we change it when its bigger. As the comments show. 
+    lw      $t0, 0($a0)     # max=V[0]
+    addi    $t1,$0, 1       # i=1
+    add     $t3,$0, 0       # $t3=0
+
+max_loop:
+    bge     $t1,$a1,max_done    # i>=n ?
+    mul     $t2, $t1, 4     # $t2 = $t1 * 4
+    add     $t2,$t2,$a0
+    lw      $t2, 0($t2)     # $t2 = V[i]
+    ble     $t2,$t0,max_next    # V[i] <= max, next
+    add     $t0,$t2,$0      # max=V[i]
+    add     $t3,$t1,$0      # max_index=max
+max_next:
+    addi    $t1,$t1,1       # i++
+    j       max_loop            # Loop back
+max_done: 
+    add     $v0,$t3,$0      # return max_index
+    jr      $ra
 
     # Your code ends
 
@@ -141,16 +163,27 @@ sloop:
     # You will need 10-15 lines of code!
     # Your code begins
             # [$t0=MaxIndex] MaxIndex ($v0), that needs to be swapped with index n - 1
+    move $t0, $v0 #USE WHEN ITS VALUE
             # [$t0=4*$t0] Calculate the offset for MaxIndex
+    mul $t0, $t0, 4
             # [$t0=$t0+$a0] Calculate the address for V[MaxIndex]
+    add $t0, $t0, $a0
             # [$t2=V[$t0]] Load the value of memory address $t0 to $t2, $t2 = V[MaxIndex]
+    lw $t2, 0($t0)
             # [$t1=$s0-1] The index (n - 1) that will be swapped with MaxIndex
+    addi $t1, $s0, -1
             # [$t1=4*$t1] Calculate offset for index n - 1
+    mul $t1, $t1, 4
             # [$t1=$t1+$a0] Calculate the address for V[n - 1]
+    add $t1, $t1, $a0
             # [$t3=V[$t1]] Load the value of memory address $t1 to $t3, $t3 = V[n - 1]
+    lw $t3, 0($t1)
             # [V[$t1]=$t2] Store V[n-1] to be V[MaxIndex]
+    sw $t3, 0($t0)          # Store V[n-1] at V[MaxIndex]
             # [V[$t0]=$t3] Store V[MaxIndex] to be the original V[n - 1]
-            # [$s0=$s0-1] Len = Len - 1    
+    sw $t2, 0($t1)          # Store V[MaxIndex] at V[n-1]
+            # [$s0=$s0-1] Len = Len - 1  
+    addi $s0, $s0, -1  
     # Your code ends
     j       sloop           # Jump back to sort loop
 
@@ -173,15 +206,12 @@ test:
     addi    $sp, $sp, -4        # Make space on stack
     sw      $ra, 0($sp)         # Save return address
 
-    jal    minimum             # call 'minimum' function
-#    jal    MaxIndex            # call 'MaxIndex' function
-    jal    print_integer       # Jump to the routine that prints the index
    
 # Comment out minimum, MaxIndex and print_integer function calls and uncomment sort and 
 # print_sorted_array functions to test your sort routine.
 
-#    jal     sort                # Call sort function
-#    jal     print_array         # Call the function that prints the sorted array
+    jal     sort                # Call sort function
+    jal     print_array         # Call the function that prints the sorted array
 
 # Do not modify following lines
     lw      $ra, 0($sp)          # Restore return address
