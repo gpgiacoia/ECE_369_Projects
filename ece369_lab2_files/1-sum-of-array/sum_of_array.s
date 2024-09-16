@@ -2,7 +2,7 @@
 # 'sum_of_array.s' - This program performs the sum of the array
 #  Max Score: 5 points
 #
-# Students: Giuseppe Pongelupe Giacoia, Carson Keegan, Leo Dickinson
+# Students: Giuseppe Pongelupe Giacoia (33%), Carson Keegan (33%), Leo Dickinson (33%)
 #
 #
 # Insert your answers below each question:-
