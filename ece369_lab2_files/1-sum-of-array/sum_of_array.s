@@ -11,7 +11,7 @@
 # 1(b) What is the address location of the last element (element 7) of the array, X.
 #			268501008
 # 2.   What are the values at location 'SUM' as the program executes?
-#	0, -2, -6, 1
+#	test
 # 3.   Traverse the program in single-step mode. Write down the intermediate 
 #      values stored in register $s1 as the program progresses.
 #	0, -2, -6, 1
