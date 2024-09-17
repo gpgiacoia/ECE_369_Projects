@@ -58,20 +58,19 @@ main:	addi	$sp, $sp, -4	# $sp -= 4		Make space on stack
 	# nop			# break here #2
 # What is the value of $v0 at this point?	(v0) = 22       #
 # What does this code compute? Your answer HERE: _ _ _ _ _ _ _ _ _ _ _ _ #
+#
+# The code finds the sum of 'n' numbers in a list greater than or equal to 'm' through the
+# 'test' procedure. The value in $a0 represents 'n', $a1 represents address of the start of
+# the list, and the value in $a2 represents 'm'.
+#
+# The code uses register $v0 to store a running sum. The code iterates through the quantity
+# of numbers stored in $a0. In the traversal of list2, 8 numbers are checked and added to
+# the running sum if they are greater than or equal to 5, beginning at the starting address
+# of list2. For list1, 13 numbers are checked instead, beginning at the starting address of
+# list1.
 
-# The assembly code uses register $v0 to store a running sum, register $a0 to hold an offset,
-# and $a2 to hold the minimum value to compare against. The code iterates through all numbers
-# in the lists with an offset. In the traversal of list2, an offset of +13 is applied to the
-# list starting address. In list1, an offset of -8 is applied. The code starts the iteration
-# from the base address plus the offset. In the case of list1, the offset is negative so it
-# starts iterating in the memory designated for list2. As the code iterates through each element,
-# it finds the sum of all numbers that are greater than or equal to $a2.
-
-# $v0 = 3 + 9 + 6 + 5 = 23
-	# starts + 13
-# $v0 = 0 (reset)
-# $v0 = 9 + 6 + 5 + 9 + 5 = 34
-	# starts - 8
+# list 2: 9 + 5 + 5 + 6 = 25
+# list 1: 9 + 6 + 5 + 9 + 5 = 34
 
 return:
 	li	$v0, 0		# $v0 = 0		Return value
