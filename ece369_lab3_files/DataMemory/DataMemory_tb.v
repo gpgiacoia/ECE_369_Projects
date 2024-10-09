@@ -32,9 +32,34 @@ module DataMemory_tb();
 	end
 
 	initial begin
-	
-    /* Please fill in the implementation here... */
-	
+       Clk = 0;
+       MemWrite = 0;
+       MemRead = 0;
+       Address = 32'b0;
+       WriteData = 32'b0;
+       #50;
+        WriteData = 32'h00000005; // writing test
+        Address = 32'h0000000C;  
+        MemWrite = 1;
+        MemRead = 0;
+        #50;
+        MemWrite = 0; //test reading
+        MemRead = 1;
+        #50;
+        WriteData = 32'h00000009; //testing a second write
+        Address = 32'h00000010;
+        MemWrite = 1;
+        MemRead = 0;
+        #50;
+       	MemWrite = 0; //test reading new adress
+        MemRead = 1;
+        #50;
+        Address = 32'h0000000C; // check read from previous Address
+        #50;
+        Address = 32'h12345678; // check read from an unwritten adress
+        #50;
+        MemRead = 0;
+        
 	end
 
 endmodule

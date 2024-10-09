@@ -41,9 +41,34 @@ module RegisterFile_tb();
 	end
 
 	initial begin
-	
-    /* Please fill in the implementation here... */
-	
+	   Clk = 0;
+       RegWrite = 0;
+       ReadRegister1 = 5'd0;
+       ReadRegister2 = 5'd0;
+       WriteRegister = 5'd0;
+       WriteData = 32'd0;
+       #50;
+       WriteRegister = 5'd8; // write to register 8
+       WriteData = 32'h00000007; 
+       RegWrite = 1;
+       #50;
+       RegWrite = 0;
+       ReadRegister1 = 5'd8; // read from register 8
+       ReadRegister2 = 5'd10; // read from an empty register
+       #50;
+       WriteRegister = 5'd10; // write to register 10
+       WriteData = 32'h0000000A;
+       RegWrite = 1;
+       #50;
+       RegWrite = 0;
+       ReadRegister1 = 5'd8; //read from register 8
+       ReadRegister2 = 5'd10; // read from register 10
+       #50;
+       WriteRegister = 5'd15; // try writing to register 15 without regwrite
+       WriteData = 32'h0000000F;
+       RegWrite = 0;
+       #50;
+       ReadRegister1 = 5'd15; // try to read from register 15
 	end
 
 endmodule

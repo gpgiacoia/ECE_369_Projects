@@ -11,8 +11,15 @@ module SignExtension(in, out);
     input [15:0] in;
     
     /* A 32-Bit output word */
-    output [31:0] out;
+    output reg [31:0] out;
     
-    /* Fill in the implementation here ... */
+    always @ (in) begin
+        if (in[15] == 1) begin // Check for negative or positive number
+            out <= {16'b1111111111111111, in};
+        end
+        else begin
+            out <= {16'b0000000000000000, in};
+        end
+    end
 
 endmodule
