@@ -41,7 +41,7 @@
 module InstructionFetchUnit(Instruction, PCResult, Reset, Clk);
     input Reset, Clk; 
     output [31:0]PCResult;
-    output [31:0]Instruction; //WHAT
+    output [31:0]Instruction; 
     wire [31:0] PCAddResult;
     InstructionMemory memory(PCResult, Instruction);
     PCAdder PC(PCResult, PCAddResult);
