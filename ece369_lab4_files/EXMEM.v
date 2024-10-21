@@ -6,13 +6,11 @@ module EXMEM(
     
     // Data inputs
     input wire [25:0] JTargetIn,
-    input wire [31:0] PCIn, 
     input wire [31:0] PCAddResultIn,      
     input wire ALUZeroIn,        
     input wire [31:0] ALUResultIn,       
     input wire [31:0] MemWriteIn,   
     input wire [4:0] RegAddressIn,          
-    input wire [4:0] saIn, 
     input wire [31:0] ReadData1,
 
     // Control inputs
@@ -20,21 +18,18 @@ module EXMEM(
     input wire MemWrite,             
     input wire MemRead,              
     input wire MemToReg,             
-    input wire LoadData,             
+    input wire [1:0]LoadData,             
     input wire PCSrc,                
-    input wire Jmux,                 
+    input wire [1:0]Jmux,                 
     input wire JrAddress,            
     input wire JrData,
-
     // Data outputs
     output reg [25:0] JTargetOut,
-    output reg [31:0] PCOut, 
     output reg [31:0] PCAddResultOut,      
     output reg ALUZeroOut,        
     output reg [31:0] ALUResultOut,       
     output reg [31:0] MemWriteOut,   
     output reg [4:0] RegAddressOut,          
-    output reg [4:0] saOut, 
     output reg [31:0] ReadData1Out, 
 
     // Control outputs
@@ -42,9 +37,9 @@ module EXMEM(
     output reg MemWriteOut,             
     output reg MemReadOut,              
     output reg MemToRegOut,             
-    output reg LoadDataOut,             
+    output reg [1:0]LoadDataOut,             
     output reg PCSrcOut,                
-    output reg JmuxOut,                 
+    output reg [1:0]JmuxOut,                 
     output reg JrAddressOut,  //Maybe this is a problem? We'll find out soon           
     output reg JrDataOut
     );
@@ -53,13 +48,11 @@ module EXMEM(
         if (Reset) begin
             // Reset all outputs to zero
             JTargetOut <= 0;
-            PCOut <= 0;
             PCAddResultOut <= 0;
             ALUZeroOut <= 0;
             ALUResultOut <= 0;
             MemWriteOut <= 0;
             RegAddressOut <= 0;
-            saOut <= 0;
             ReadData1Out<=0;
             
             // Reset control signals
@@ -75,13 +68,11 @@ module EXMEM(
         end else begin
             // Pass data inputs to outputs
             JTargetOut <= JTargetIn;
-            PCOut <= PCIn;
             PCAddResultOut <= PCAddResultIn;
             ALUZeroOut <= ALUZeroIn;
             ALUResultOut <= ALUResultIn;
             MemWriteOut <= MemWriteIn;
             RegAddressOut <= RegAddressIn;
-            saOut <= saIn;
             ReadData1Out<=ReadData1;
 
             // Pass control signals to outputs

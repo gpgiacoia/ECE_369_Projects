@@ -1,23 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 09/04/2024 02:44:00 PM
-// Design Name: 
-// Module Name: TopModule
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+
 
 
 module TopModule(Reset, Clk);
@@ -36,7 +18,7 @@ module TopModule(Reset, Clk);
     wire [31:0] ReadData1;
     wire [31:0] ReadData2;
     wire [31:0] Offset;
-    wire [31:0] PCEX;
+    wire [31:0] PCID;
     wire [31:0] SAID;
 
     //Control Signals: 
@@ -54,17 +36,27 @@ module TopModule(Reset, Clk);
     wire RTypeID;
     wire ShiftMuxID; 
     wire  [1:0] JmuxID, StoreDataID, LoadDataID;
+    
             //Execute phase
     wire [31:0]ReadData1EX, ReadData2EX;
     wire [31:0] OffsetEX;
+    wire [31:0] PCEX;
     wire [4:0] RtEX;
     wire [4:0] RdEX;
     wire [31:0] SAEX;
     wire [25:0] JTargetEX;
+    wire [31:0] StoreHalfEX;
+    wire [31:0] StoreByteEX;
+    wire [31:0] WriteDataEX;
+    wire [31:0] TempEX;
+    wire [31:0] ALUB;
+    wire [31:0] ALUResultEX;
+    wire ALUZeroEX;
+    wire [31:0]  ShiftedEX;
+    wire [31:0] JumpPCEX;
     //Control Signals
     wire RegWriteEX;
     wire [5:0]ALUopEX;
-    wire RegWriteEX;
     wire MemWriteEX;
     wire MemReadEX;
     wire MemToRegEX;
@@ -76,6 +68,24 @@ module TopModule(Reset, Clk);
     wire RTypeEX;
     wire ShiftMuxEX; 
     wire  [1:0] JmuxEX, StoreDataEX, LoadDataEX;
+        //Memory stuff
+    //data
+    wire [25:0] JTargetMem;
+    wire [31:0] JumpPCMEM;
+    wire ALUZeroMEM;
+    wire [31:0] ALUResultMEM;
+    wire [31:0] WriteDataMEM;
+    wire [31:0] RAMEM;
+    //controller
+    wire RegWriteMEM;
+    wire MemWriteMEM;
+    wire MemReadMEM;
+    wire MemToRegMEM;
+    wire PCSrcMEM;
+    wire JrAddressMEM;
+    wire JrDataMEM;
+    wire  [1:0] JmuxMEM, LoadDataMEM;
+    
     
     ClkDiv clock(Clk, Reset, ClkOut);
     InstructionMemory instructionMemory(PC, Instruction);
@@ -90,7 +100,7 @@ module TopModule(Reset, Clk);
     WriteRegister, WriteData, RegWrite, ClkOut, ReadData1, ReadData2);
     
     SignExtension signExtent_150(InstructionOut[15:0], Offset);
-    //SignExtension5Bit signExtent_SA(InstructionOut[10:6], SAID); FIXME
+    SignExtension5Bit signExtent_SA(InstructionOut[10:6], SAID); 
     //MUXES Here
     Controller control(InstructionOut, ALUOpID, RegWriteID, MemWriteID, MemReadID, MemToRegID,
 RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDataID, RTypeID, ShiftMuxID);//FIXME
@@ -158,9 +168,61 @@ RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDat
 
     //missing regdst mux FIXME
     
+    SignExtension storeHalfExtent(ReadData2EX[15:0], StoreHalfEX);
+    SignExtension storeByteExtent(ReadData2EX[7:0], StoreByteEX);
     
+    Mux32Bit3To1 writeDataMux(WriteDataEX, ReadData2EX, StoreHalfEX, StoreByteEX, StoreDataEX);
     
+    Mux32Bit2To1 AluSrcMux(TempEX, ReadData2EX, OffsetEX, ALUSrcEX);
+    Mux32Bit2To1 shiftMux(ALUB, TempEX, SAEX, ShiftMuxEX);
+    assign ShiftedEX = OffsetEX<<2;
+    assign JumpPCEX = PCEX + ShiftedEX;
     
+    ALU32Bit alu(ALUOpEX, RTypeEX, ReadData1EX, ALUB, ALUResultEX, ALUZeroEX);
     
-    ALU32Bit alu(Opcode, RType, A, B, ALUResult, Zero)
+    EXMEM(
+    Clk,
+    Reset,
+    
+    // Data inputs
+    JTargetEX,
+    JumpPCEX, 
+    ALUZero,        
+    ALUResultEX,       
+    WriteDataEX,   
+    input wire [4:0] RegAddressIn, // RESULT FROM 5 BIT MUX FIXME         
+    ReadData1EX, //Used for JR RA
+
+    // Control inputs
+    RegWriteEX,             
+    MemWriteEX,             
+    MemReadEX,              
+    MemToRegEX,             
+    LoadDataEX,             
+    PCSrcEX,                
+    JmuxEX,                 
+    JrAddressEX,            
+    JrDataEX,
+
+    // Data outputs
+    JTargetMEM,
+    JumpPCMEM, 
+    ALUZeroMEM,        
+    ALUResultMEM,       
+    WriteDataMEM,   
+    output reg [4:0] RegAddressOut,          
+    RAMEM, 
+
+    // Control outputs
+    RegWriteMEM,             
+    MemWriteMEM,             
+    MemReadMEM,            
+    MemToRegMEM,             
+    LoadDataMEM,            
+    PCSrcMEM,            
+    JmuxMEM,         
+    JrAddressMEM,            
+    JrDataMEM,
+    );
+    
 endmodule
