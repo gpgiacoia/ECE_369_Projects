@@ -73,24 +73,6 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
                     
                 end
                 
-                6'b000_010: begin // mul Instruction
-                    ALUOp <= 6'b000_010;
-                    RegWrite <= 1;
-                    MemWrite <= 0;
-                    MemRead <= 0;
-                    MemToReg <= 1;
-                    RegDst <= 1;
-                    ALUSrc <= 0;
-                    LoadData <= 0;
-                    PCSrc <= 0;
-                    StoreData <= 0;
-                    Jmux <= 0;
-                    JrAddress <= 0;
-                    JrData <= 0;
-                    ShiftMux <= 0;
-                    
-                end
-                
                 6'b100_100: begin // and Instruction
                     ALUOp <= 6'b100_100;
                     RegWrite <= 1;
@@ -236,7 +218,7 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
                 end
                 
                 default begin // undefined Instruction, create a bubble, all signals are 0
-                    ALUOp <= 6'b000_000;
+                    ALUOp <= 6'b111_111;
                     RegWrite <= 0;
                     MemWrite <= 0;
                     MemRead <= 0;
@@ -260,7 +242,7 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
             
             case(Instruction[20:16])
                 5'b00000: begin // bltz Instruction
-                    ALUOp <= 5'b00000; // not sure what to assign for now
+                    ALUOp <= 5'b000_000;
                     RegWrite <= 0;
                     MemWrite <= 0;
                     MemRead <= 0;
@@ -278,7 +260,7 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
                 end
                 
                 5'b00001: begin // bgez Instruction
-                    ALUOp <= 5'b00001; // not sure what to assign for now
+                    ALUOp <= 5'b000_001; // not sure what to assign for now
                     RegWrite <= 0;
                     MemWrite <= 0;
                     MemRead <= 0;
@@ -296,7 +278,7 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
                 end
                 
                 default begin // undefined Instruction, create a bubble, all signals are 0
-                    ALUOp <= 6'b000_000;
+                    ALUOp <= 6'b111_111;
                     RegWrite <= 0;
                     MemWrite <= 0;
                     MemRead <= 0;
@@ -319,6 +301,24 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
             RType <= 0;
             
             case(Instruction[31:26])
+                6'b000_010: begin // mul Instruction
+                    ALUOp <= 6'b011_100;
+                    RegWrite <= 1;
+                    MemWrite <= 0;
+                    MemRead <= 0;
+                    MemToReg <= 1;
+                    RegDst <= 1;
+                    ALUSrc <= 0;
+                    LoadData <= 0;
+                    PCSrc <= 0;
+                    StoreData <= 0;
+                    Jmux <= 0;
+                    JrAddress <= 0;
+                    JrData <= 0;
+                    ShiftMux <= 0;
+                    
+                end
+                
                 6'b000_011: begin // jal Instruction
                     ALUOp <= 6'b000_011;
                     RegWrite <= 1;
@@ -626,7 +626,7 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
                 end 
                 
                 default begin // undefined Instruction, create a bubble, all signals are 0
-                    ALUOp <= 6'b000_000;
+                    ALUOp <= 6'b111_111;
                     RegWrite <= 0;
                     MemWrite <= 0;
                     MemRead <= 0;
