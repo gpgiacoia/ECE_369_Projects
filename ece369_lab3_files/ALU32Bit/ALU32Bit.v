@@ -46,11 +46,6 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 				6'b100_010: begin
 					ALUResult = A - B;
 				end
-				// SPECIAL2 prefix: 011_100 
-				// mul
-				6'b000_010: begin
-					ALUResult = A * B;
-				end
 				// and
 				6'b100_100: begin
 					ALUResult = A & B;
@@ -79,14 +74,17 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 				6'b101_010: begin
 					ALUResult = A < B;
 				end
-				// jal
-				6'b000_011: begin
-					ALUResult = 32'b0;
-				end
 			endcase
 		end
 		else begin
 			case(Opcode)
+				// SPECIAL2 prefix: 011_100
+				// R-type opcode: 000_010
+				// Use prefix as opcode instead
+				// mul
+				6'b011_100: begin
+					ALUResult = A * B;
+				end
 				// addi
 				6'b001_000: begin
 					ALUResult = A + B;
@@ -113,7 +111,12 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 				: begin
 					ALUResult = A + B;
 				end
-				// REGIMM
+				// REGIMM prefix: 000_001
+				// bltz
+				6'b000_000: begin
+					ALUResult = A < 0;
+				end
+				// REGIMM prefix: 000_001
 				// bgez
 				6'b000_001: begin
 					ALUResult = A >= 0;
@@ -126,20 +129,20 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 				6'b000_101: begin
 					ALUResult = A != B;
 				end
-				// bgtz
-				6'b000_111: begin
-					ALUResult = A > 0;
-				end
 				// blez
 				6'b000_110: begin
 					ALUResult = A <= 0;
 				end
-				// bltz
-				6'b000_001: begin
-					ALUResult = A < 0;
+				// bgtz
+				6'b000_111: begin
+					ALUResult = A > 0;
 				end
 				// j, jr
 				6'b000_010, 6'b001_000: begin
+					ALUResult = 32'b0;
+				end
+				// jal
+				6'b000_011: begin
 					ALUResult = 32'b0;
 				end
 			endcase
