@@ -12,7 +12,8 @@ module EXMEM(
     input wire [31:0] ALUResultIn,       
     input wire [31:0] MemWriteIn,   
     input wire [4:0] RegAddressIn,          
-    input wire [4:0] saIn,   
+    input wire [4:0] saIn, 
+    input wire [31:0] ReadData1,
 
     // Control inputs
     input wire RegWrite,             
@@ -33,7 +34,8 @@ module EXMEM(
     output reg [31:0] ALUResultOut,       
     output reg [31:0] MemWriteOut,   
     output reg [4:0] RegAddressOut,          
-    output reg [4:0] saOut,   
+    output reg [4:0] saOut, 
+    output reg [31:0] ReadData1Out, 
 
     // Control outputs
     output reg RegWriteOut,             
@@ -58,6 +60,7 @@ module EXMEM(
             MemWriteOut <= 0;
             RegAddressOut <= 0;
             saOut <= 0;
+            ReadData1Out<=0;
             
             // Reset control signals
             RegWriteOut <= 0;
@@ -79,6 +82,7 @@ module EXMEM(
             MemWriteOut <= MemWriteIn;
             RegAddressOut <= RegAddressIn;
             saOut <= saIn;
+            ReadData1Out<=ReadData1;
 
             // Pass control signals to outputs
             RegWriteOut <= RegWrite;
