@@ -12,6 +12,7 @@ module EXMEM(
     input wire [31:0] MemWriteIn,   
     input wire [4:0] RegAddressIn,          
     input wire [31:0] ReadData1,
+    input wire [31:0] PCIn,
 
     // Control inputs
     input wire RegWrite,             
@@ -31,6 +32,7 @@ module EXMEM(
     output reg [31:0] MemWriteOut,   
     output reg [4:0] RegAddressOut,          
     output reg [31:0] ReadData1Out, 
+    output reg [31:0] PCOut,
 
     // Control outputs
     output reg RegWriteOut,             
@@ -54,6 +56,7 @@ module EXMEM(
             MemWriteOut <= 0;
             RegAddressOut <= 0;
             ReadData1Out<=0;
+            PCOut<=0;
             
             // Reset control signals
             RegWriteOut <= 0;
@@ -65,6 +68,7 @@ module EXMEM(
             JmuxOut <= 0;
             JrAddressOut <= 0;
             JrDataOut <= 0;
+            
         end else begin
             // Pass data inputs to outputs
             JTargetOut <= JTargetIn;
@@ -74,6 +78,7 @@ module EXMEM(
             MemWriteOut <= MemWriteIn;
             RegAddressOut <= RegAddressIn;
             ReadData1Out<=ReadData1;
+            PCOut<=PCIn;
 
             // Pass control signals to outputs
             RegWriteOut <= RegWrite;

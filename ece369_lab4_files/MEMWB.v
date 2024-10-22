@@ -12,8 +12,10 @@ module MEMWB(
     // Control inputs
     input wire RegWrite,             
     input wire MemToReg,             
-    input wire LoadData,             
-    input wire PCSrc,  
+    input wire [1:0]LoadData, 
+    input wire JrAddress,            
+    input wire JrData,
+            
     
     // Data outputs
     output reg [31:0] MemReadDataOut,
@@ -23,8 +25,9 @@ module MEMWB(
     // Control outputs
     output reg RegWriteOut,             
     output reg MemToRegOut,             
-    output reg LoadDataOut,             
-    output reg PCSrcOut
+    output reg [1:0] LoadDataOut,
+        output reg JrAddressOut,            
+    output reg JrDataOut            
     );
 
     always @(posedge Clk or posedge Reset) begin
@@ -33,12 +36,14 @@ module MEMWB(
             MemReadDataOut <= 0;
             ALUResultOut <= 0;
             RegAddressOut <= 0;
+            
 
             // Reset control signals
             RegWriteOut <= 0;
             MemToRegOut <= 0;
             LoadDataOut <= 0;
-            PCSrcOut <= 0;
+            JrAddressOut <= 0;
+            JrDataOut <= 0;
         end else begin
             // Pass data inputs to outputs
             MemReadDataOut <= MemReadData;
@@ -49,7 +54,8 @@ module MEMWB(
             RegWriteOut <= RegWrite;
             MemToRegOut <= MemToReg;
             LoadDataOut <= LoadData;
-            PCSrcOut <= PCSrc;
+            JrDataOut<=JrData;
+            JrAddressOut<=JrAddress;
         end
     end
 
