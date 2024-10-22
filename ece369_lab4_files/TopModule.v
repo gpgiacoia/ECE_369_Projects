@@ -110,6 +110,7 @@ module TopModule(Reset, Clk);
 
     InstructionMemory instructionMemory(PC, Instruction);
     ProgramCounter program_counter(PCFinal, PC, Reset, ClkOut);
+
     PCAdder pcAdder(PC, PCAdderResult);
       
     IFID ifid(ClkOut, Reset, PCAdderResult, Instruction, InstructionOut, PCID);
@@ -255,7 +256,7 @@ RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDat
     assign PCSrc = PCSrcMEM && ALUZeroMEM;
     JumpTarget jtarget(JTargetResult, JTargetMEM, PCMEM);
     Mux32Bit3To1 JmuxMux(JPCValue, JumpPCMEM, RAMEM, JTargetResult, JMuxMEM);
-    Mux32Bit2To1 PcSrcMux(PCFinal, PC, JPCValue, PCSrc);
+    Mux32Bit2To1 PcSrcMux(PCFinal, PCAdderResult, JPCValue, PCSrc);
 
     DataMemory datamemory(ALUResultMEM, WriteDataMEM, ClkOut, 
     MemWriteMEM, MemReadMEM, ReadDataMEM); 
