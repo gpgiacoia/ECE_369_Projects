@@ -13,7 +13,7 @@ module IDEX (
     input wire [31:0] ImmediateIn,   
     input wire [4:0] rtIn,          
     input wire [4:0] rdIn,           
-    input wire [4:0] saIn,   
+    input wire [31:0] saIn,   
     input wire [25:0]JTarget,       
     
     // Control Signal Inputs
@@ -40,7 +40,7 @@ module IDEX (
     output reg [31:0] ImmediateOut, 
     output reg [4:0] rtOut,        
     output reg [4:0] rdOut,      
-    output reg [4:0] saOut,  
+    output reg [31:0] saOut,  
     output reg [25:0] JTargetOut,
        
     

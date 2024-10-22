@@ -22,7 +22,7 @@ module TopModule(Reset, Clk);
     wire [31:0] SAID;
 
     //Control Signals: 
-    wire [5:0]ALUopID;
+    wire [5:0]ALUOpID;
     wire RegWriteID;
     wire MemWriteID;
     wire MemReadID;
@@ -53,10 +53,10 @@ module TopModule(Reset, Clk);
     wire ALUZeroEX;
     wire [31:0]  ShiftedEX;
     wire [31:0] JumpPCEX;
-    wire [4:0] RegDestEx;
+    wire [4:0] RegDestEX;
     //Control Signals
     wire RegWriteEX;
-    wire [5:0]ALUopEX;
+    wire [5:0]ALUOpEX;
     wire MemWriteEX;
     wire MemReadEX;
     wire MemToRegEX;
@@ -70,7 +70,7 @@ module TopModule(Reset, Clk);
     wire  [1:0] JmuxEX, StoreDataEX, LoadDataEX;
         //Memory stuff
     //data
-    wire [25:0] JTargetMem;
+    wire [25:0] JTargetMEM;
     wire [31:0] JumpPCMEM;
     wire ALUZeroMEM;
     wire [31:0] ALUResultMEM;
@@ -81,12 +81,12 @@ module TopModule(Reset, Clk);
     //controller
     wire RegWriteMEM;
     wire MemWriteMEM;
-    wire MemReadMEM;
+    wire [31:0] MemReadMEM;
     wire MemToRegMEM;
     wire PCSrcMEM;
     wire JrAddressMEM;
     wire JrDataMEM;
-    wire  [1:0] JmuxMEM, LoadDataMEM;
+    wire [1:0] JmuxMEM, LoadDataMEM;
     wire PCSrc;
     wire [31:0] JTargetResult;
     wire [31:0] ReadDataMEM;
@@ -102,6 +102,7 @@ module TopModule(Reset, Clk);
     wire [4:0] RegDestWB;
     wire [31:0] LWFull, LWHalf, LWByte;
     wire [31:0] WriteDataRegWB;
+    wire JrAddressWB, JrDataWB;
     
     // TODO: Uncomment clock, temporary for use in test bench
     // ClkDiv clock(Clk, Reset, ClkOut);
@@ -112,7 +113,7 @@ module TopModule(Reset, Clk);
     PCAdder pcAdder(PC, PCAdderResult);
       
     IFID ifid(ClkOut, Reset, PCAdderResult, Instruction, InstructionOut, PCID);
-    
+
     //DECODE PHASE
     Mux5Bit2To1 JrAddrMux(WriteRegister, RegDestWB, RA, JrAddressWB); 
     Mux32Bit2To1 JrDatamux(WriteData, WriteDataRegWB, PCID, JrDataWB); //FIXME
@@ -120,8 +121,8 @@ module TopModule(Reset, Clk);
     RegisterFile registerFile(InstructionOut[25:21], InstructionOut[20:16], 
     WriteRegister, WriteData, RegWriteWB, ClkOut, ReadData1, ReadData2);
     
-    SignExtension signExtent_150(InstructionOut[15:0], Offset);
-    SignExtension5Bit signExtent_SA(InstructionOut[10:6], SAID); 
+    SignExtension signExtend_150(InstructionOut[15:0], Offset);
+    SignExtension5Bit signExtend_SA(InstructionOut[10:6], SAID); 
     //MUXES Here
     Controller control(InstructionOut, ALUOpID, RegWriteID, MemWriteID, MemReadID, MemToRegID,
 RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDataID, RTypeID, ShiftMuxID);//FIXME
@@ -188,8 +189,8 @@ RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDat
 // EXECUTE PHASE
 
     
-    SignExtension storeHalfExtent(ReadData2EX[15:0], StoreHalfEX);
-    SignExtension storeByteExtent(ReadData2EX[7:0], StoreByteEX);
+    SignExtension storeHalfExtend(ReadData2EX[15:0], StoreHalfEX);
+    SignExtension8Bit storeByteExtend(ReadData2EX[7:0], StoreByteEX);
     
     Mux32Bit3To1 writeDataMux(WriteDataEX, ReadData2EX, StoreHalfEX, StoreByteEX, StoreDataEX);
     
@@ -209,7 +210,7 @@ RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDat
     // Data inputs
     JTargetEX,
     JumpPCEX, 
-    ALUZero,        
+    ALUZeroEX,        
     ALUResultEX,       
     WriteDataEX,   
     RegDestEX, // RESULT FROM 5 BIT MUX FIXME         
@@ -253,7 +254,7 @@ RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDat
     
     assign PCSrc = PCSrcMEM && ALUZeroMEM;
     JumpTarget jtarget(JTargetResult, JTargetMEM, PCMEM);
-    Mux32Bit3To1 Jmuxmux(JPCValue, JumpPCMEM, RAMEM, JTargetResult, JMuxMEM);
+    Mux32Bit3To1 JmuxMux(JPCValue, JumpPCMEM, RAMEM, JTargetResult, JMuxMEM);
     Mux32Bit2To1 PcSrcMux(PCFinal, PC, JPCValue, PCSrc);
 
     DataMemory datamemory(ALUResultMEM, WriteDataMEM, ClkOut, 
@@ -268,15 +269,14 @@ RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDat
     MemReadMEM,
     ALUResultMEM,
     RegDestMEM,
-    JrAddressMEM,            
-    JrDataMEM,
-
     
     // Control inputs
     RegWriteMEM,             
     MemToRegMEM,             
-    LoadDataMEM,             
-    
+    LoadDataMEM, 
+    JrAddressMEM,            
+    JrDataMEM,   
+     
     // Data outputs
     MemReadWB,
     ALUResultWB,

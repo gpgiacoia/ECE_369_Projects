@@ -26,7 +26,7 @@ module MEMWB(
     output reg RegWriteOut,             
     output reg MemToRegOut,             
     output reg [1:0] LoadDataOut,
-        output reg JrAddressOut,            
+    output reg JrAddressOut,            
     output reg JrDataOut            
     );
 
