@@ -255,7 +255,7 @@ RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDat
     
     assign PCSrc = PCSrcMEM && ALUZeroMEM;
     JumpTarget jtarget(JTargetResult, JTargetMEM, PCMEM);
-    Mux32Bit3To1 JmuxMux(JPCValue, JumpPCMEM, RAMEM, JTargetResult, JMuxMEM);
+    Mux32Bit3To1 JmuxMux(JPCValue, JumpPCMEM, RAMEM, JTargetResult, JmuxMEM);
     Mux32Bit2To1 PcSrcMux(PCFinal, PCAdderResult, JPCValue, PCSrc);
 
     DataMemory datamemory(ALUResultMEM, WriteDataMEM, ClkOut, 
