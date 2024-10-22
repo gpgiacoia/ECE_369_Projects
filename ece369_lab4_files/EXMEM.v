@@ -36,7 +36,8 @@ module EXMEM(
 
     // Control outputs
     output reg RegWriteOut,             
-    output reg MemWriteOut,             
+    // Renamed to control to avoid name collision
+    output reg MemWriteOutControl,             
     output reg MemReadOut,              
     output reg MemToRegOut,             
     output reg [1:0]LoadDataOut,             
@@ -60,7 +61,8 @@ module EXMEM(
             
             // Reset control signals
             RegWriteOut <= 0;
-            MemWriteOut <= 0;
+            // Renamed to control to avoid name collision
+            MemWriteOutControl <= 0;
             MemReadOut <= 0;
             MemToRegOut <= 0;
             LoadDataOut <= 0;
@@ -82,7 +84,8 @@ module EXMEM(
 
             // Pass control signals to outputs
             RegWriteOut <= RegWrite;
-            MemWriteOut <= MemWrite;
+            // Renamed to control to avoid name collision
+            MemWriteOutControl <= MemWrite;
             MemReadOut <= MemRead;
             MemToRegOut <= MemToReg;
             LoadDataOut <= LoadData;
@@ -92,5 +95,4 @@ module EXMEM(
             JrDataOut <= JrData;
         end
     end
-
 endmodule

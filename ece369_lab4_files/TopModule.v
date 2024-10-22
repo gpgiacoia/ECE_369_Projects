@@ -103,10 +103,12 @@ module TopModule(Reset, Clk);
     wire [31:0] LWFull, LWHalf, LWByte;
     wire [31:0] WriteDataRegWB;
     
-    
-    ClkDiv clock(Clk, Reset, ClkOut);
+    // TODO: Uncomment clock, temporary for use in test bench
+    // ClkDiv clock(Clk, Reset, ClkOut);
+    assign ClkOut = Clk;
+
     InstructionMemory instructionMemory(PC, Instruction);
-    ProgramCounter(PCFinal, PC, Reset, ClkOut);
+    ProgramCounter program_counter(PCFinal, PC, Reset, ClkOut);
     PCAdder pcAdder(PC, PCAdderResult);
       
     IFID ifid(ClkOut, Reset, PCAdderResult, Instruction, InstructionOut, PCID);
@@ -180,7 +182,7 @@ RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDat
     JrAddressEX,            
     JrDataEX,               
     RTypeEX,                
-    ShiftMuxEX,           
+    ShiftMuxEX
 );  
 
 // EXECUTE PHASE
@@ -198,7 +200,7 @@ RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDat
     
     ALU32Bit alu(ALUOpEX, RTypeEX, ReadData1EX, ALUB, ALUResultEX, ALUZeroEX);
     
-    Mux5Bit2To1(RegDestEX, RtEX, RdEX, RegDstEX);
+    Mux5Bit2To1 RegDestMux(RegDestEX, RtEX, RdEX, RegDstEX);
     
     EXMEM exmem(
     ClkOut,
@@ -245,7 +247,7 @@ RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDat
     PCSrcMEM,            
     JmuxMEM,         
     JrAddressMEM,            
-    JrDataMEM,
+    JrDataMEM
     );
     
     
@@ -290,7 +292,8 @@ RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDat
     );
     
     Mux32Bit2To1 MemRegMux(LWFull, MemReadWB, ALUResultWB, MemToRegWB);
-    SignExtensionBit loadHalfEx(LWFull[15:0], LWHalf);
+    // Removed Bit, SignExtension is 16 -> 32
+    SignExtension loadHalfEx(LWFull[15:0], LWHalf);
     SignExtension8Bit loadByteEx(LWFull[7:0], LWHalf);
 
     
