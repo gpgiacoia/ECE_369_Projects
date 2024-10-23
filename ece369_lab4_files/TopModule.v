@@ -48,6 +48,7 @@ module TopModule(Reset, Clk);
     wire [31:0] WriteDataEX;
     wire [31:0] TempEX;
     wire [31:0] ALUB;
+    wire [31:0] ALUA;
     wire [31:0] ALUResultEX;
     wire ALUZeroEX;
     wire [31:0] ShiftedEX;
@@ -212,12 +213,12 @@ module TopModule(Reset, Clk);
     
     Mux32Bit3To1 writeDataMux(WriteDataEX, ReadData2EX, StoreHalfEX, StoreByteEX, StoreDataEX);
     
-    Mux32Bit2To1 AluSrcMux(TempEX, ReadData2EX, OffsetEX, ALUSrcEX);
-    Mux32Bit2To1 shiftMux(ALUB, TempEX, SAEX, ShiftMuxEX);
+    Mux32Bit2To1 AluSrcMux(ALUB, ReadData2EX, OffsetEX, ALUSrcEX);
+    Mux32Bit2To1 shiftMux(ALUA, ReadData1EX, SAEX, ShiftMuxEX); //FIXME CONNECT ALUA TO ALU
     assign ShiftedEX = OffsetEX<<2;
     assign JumpPCEX = PCEX + ShiftedEX;
     
-    ALU32Bit alu(ALUOpEX, RTypeEX, ReadData1EX, ALUB, ALUResultEX, ALUZeroEX);
+    ALU32Bit alu(ALUOpEX, RTypeEX, ALUA, ALUB, ALUResultEX, ALUZeroEX);
     
     Mux5Bit2To1 RegDestMux(RegDestEX, RtEX, RdEX, RegDstEX);
     
