@@ -33,9 +33,9 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
     output reg [1:0] Jmux, StoreData, LoadData;
     
     always @(Instruction) begin
-        if (Instruction[31:26] == 6'b000000 || Instruction[31:26] == 6'b011100) begin // if the instruction is RType
+        if (Instruction[31:26] == 6'b000000) begin // if the instruction is RType
             RType <= 1;
-            
+
             case(Instruction[5:0])
                 6'b100_000: begin // add Instruction
                     ALUOp <= 6'b100_000;
@@ -296,12 +296,10 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
                 end
             endcase
         end
-        
-        else begin // if the Instruction is not RType
-            RType <= 0;
-            
-            case(Instruction[31:26])
-                6'b011_100: begin // mul Instruction
+        else if (Instruction[31:26] == 6'b011100) begin // for bgez and bltz Instructions
+           RType <= 0;
+           case(Instruction[5:0])
+                6'b000_010: begin // mul Instruction
                     ALUOp <= 6'b011_100;
                     RegWrite <= 1;
                     MemWrite <= 0;
@@ -315,10 +313,14 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
                     Jmux <= 0;
                     JrAddress <= 0;
                     JrData <= 0;
-                    ShiftMux <= 0;
-                    
+                    ShiftMux <= 0; 
                 end
-                
+                endcase
+        end
+        else begin // if the Instruction is not RType
+            RType <= 0;
+            
+            case(Instruction[31:26])                
                 6'b000_011: begin // jal Instruction
                     ALUOp <= 6'b000_011;
                     RegWrite <= 1;
