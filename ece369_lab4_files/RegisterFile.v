@@ -61,16 +61,20 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
     
     reg [31:0] registers [31:0];
     
+    // Ensure register $zero (registers[0]) is always zero
+    initial begin
+        registers[0] = 32'b0;
+    end
+    
     always @ (negedge Clk) begin
         ReadData1 <= registers[ReadRegister1];
         ReadData2 <= registers[ReadRegister2];
     end
     
     always @ (posedge Clk) begin
-        if (RegWrite == 1) begin
+        if (RegWrite == 1 && WriteRegister != 5'b00000) begin // Prevent writing to register 0
             registers[WriteRegister] = WriteData;
         end
     end
-	
 
 endmodule
