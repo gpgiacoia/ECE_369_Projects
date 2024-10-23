@@ -1,7 +1,5 @@
 `timescale 1ns / 1ps
 
-
-
 module TopModule(Reset, Clk);
     //Fetch
     input Reset, Clk; 
@@ -51,7 +49,7 @@ module TopModule(Reset, Clk);
     wire [31:0] ALUB;
     wire [31:0] ALUResultEX;
     wire ALUZeroEX;
-    wire [31:0]  ShiftedEX;
+    wire [31:0] ShiftedEX;
     wire [31:0] JumpPCEX;
     wire [4:0] RegDestEX;
     //Control Signals
@@ -125,8 +123,25 @@ module TopModule(Reset, Clk);
     SignExtension signExtend_150(InstructionOut[15:0], Offset);
     SignExtension5Bit signExtend_SA(InstructionOut[10:6], SAID); 
     //MUXES Here
-    Controller control(InstructionOut, ALUOpID, RegWriteID, MemWriteID, MemReadID, MemToRegID,
-RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDataID, RTypeID, ShiftMuxID);//FIXME
+    Controller control(
+        InstructionOut,
+        ALUOpID,
+        RegWriteID,
+        MemWriteID,
+        MemReadID,
+        MemToRegID,
+        RegDstID,
+        ALUSrcID,
+        LoadDataID,
+        PCSrcID,
+        StoreDataID,
+        JmuxID,
+        JrAddressID,
+        JrDataID,
+        RTypeID,
+        ShiftMuxID
+    );//FIXME
+    
     
     IDEX idex(
     ClkOut, 
@@ -241,55 +256,54 @@ RegDstID, ALUSrcID, LoadDataID, PCSrcID, StoreDataID, JmuxID, JrAddressID, JrDat
 
 
     // Control outputs
-    RegWriteMEM,             
-    MemWriteMEM,             
-    MemReadMEM,            
-    MemToRegMEM,             
-    LoadDataMEM,            
-    PCSrcMEM,            
-    JmuxMEM,         
-    JrAddressMEM,            
+    RegWriteMEM,
+    MemWriteMEM,
+    MemReadMEM,
+    MemToRegMEM,
+    LoadDataMEM,
+    PCSrcMEM,
+    JmuxMEM,
+    JrAddressMEM,
     JrDataMEM
     );
     
     
     assign PCSrc = PCSrcMEM && ALUZeroMEM;
     JumpTarget jtarget(JTargetResult, JTargetMEM, PCMEM);
+
     Mux32Bit3To1 JmuxMux(JPCValue, JumpPCMEM, RAMEM, JTargetResult, JmuxMEM);
     Mux32Bit2To1 PcSrcMux(PCFinal, PCAdderResult, JPCValue, PCSrc);
 
     DataMemory datamemory(ALUResultMEM, WriteDataMEM, ClkOut, 
     MemWriteMEM, MemReadMEM, ReadDataMEM); 
     
-    
     MEMWB memwb(
-    ClkOut, 
-    Reset,
-    
-    // Data inputs
-    MemReadMEM,
-    ALUResultMEM,
-    RegDestMEM,
-    
-    // Control inputs
-    RegWriteMEM,             
-    MemToRegMEM,             
-    LoadDataMEM, 
-    JrAddressMEM,            
-    JrDataMEM,   
-     
-    // Data outputs
-    MemReadWB,
-    ALUResultWB,
-    RegDestWB,
-    
-    // Control outputs
-    RegWriteWB,             
-    MemToRegWB,             
-    LoadDataWB,
-    JrAddressWB,       
-    JrDataWB
-             
+        ClkOut, 
+        Reset,
+        
+        // Data inputs
+        MemReadMEM,
+        ALUResultMEM,
+        RegDestMEM,
+        
+        // Control inputs
+        RegWriteMEM,             
+        MemToRegMEM,             
+        LoadDataMEM, 
+        JrAddressMEM,            
+        JrDataMEM,   
+         
+        // Data outputs
+        MemReadWB,
+        ALUResultWB,
+        RegDestWB,
+        
+        // Control outputs
+        RegWriteWB,             
+        MemToRegWB,             
+        LoadDataWB,
+        JrAddressWB,       
+        JrDataWB
     );
     
     Mux32Bit2To1 MemRegMux(LWFull, MemReadWB, ALUResultWB, MemToRegWB);

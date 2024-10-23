@@ -42,7 +42,7 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 				6'b100_000: begin
 					ALUResult = A + B;
 				end
-				// sub
+				// sub0010000000
 				6'b100_010: begin
 					ALUResult = A - B;
 				end
