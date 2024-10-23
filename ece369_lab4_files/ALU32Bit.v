@@ -46,11 +46,6 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 				6'b100_010: begin
 					ALUResult = A - B;
 				end
-				// SPECIAL2 prefix: 011_100 
-				// mul
-				6'b000_010: begin
-					ALUResult = A * B;
-				end
 				// and
 				6'b100_100: begin
 					ALUResult = A & B;
@@ -69,11 +64,11 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 				end
 				// sll
 				6'b000_000: begin
-					ALUResult = A << B;
+					ALUResult = B << A;
 				end
 				// srl
 				6'b000_010: begin
-					ALUResult = A << B;
+					ALUResult = B >> A;
 				end
 				// slt
 				6'b101_010: begin
@@ -141,6 +136,11 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 				// j, jr
 				6'b000_010, 6'b001_000: begin
 					ALUResult = 32'b0;
+				end
+				// SPECIAL2 prefix: 011_100 
+				// mul
+				6'b011_100: begin
+					ALUResult = A * B;
 				end
 			endcase
 		end

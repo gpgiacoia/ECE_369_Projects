@@ -301,7 +301,7 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
             RType <= 0;
             
             case(Instruction[31:26])
-                6'b000_010: begin // mul Instruction
+                6'b011_100: begin // mul Instruction
                     ALUOp <= 6'b011_100;
                     RegWrite <= 1;
                     MemWrite <= 0;
