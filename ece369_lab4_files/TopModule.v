@@ -12,6 +12,7 @@ module TopModule(Reset, Clk);
     //Decode
     wire [4:0] WriteRegister;
     wire [4:0] RA; //need to assign it with the value of RA constant FIXME
+    assign RA = 31;
     wire [31:0] WriteData; 
     wire [31:0] ReadData1;
     wire [31:0] ReadData2;
@@ -79,7 +80,8 @@ module TopModule(Reset, Clk);
     //controller
     wire RegWriteMEM;
     wire MemWriteMEM;
-    wire [31:0] MemReadMEM;
+    wire MemWriteMEM;
+    wire MemReadMEM;
     wire MemToRegMEM;
     wire PCSrcMEM;
     wire JrAddressMEM;
@@ -282,7 +284,7 @@ module TopModule(Reset, Clk);
         Reset,
         
         // Data inputs
-        MemReadMEM,
+        ReadDataMEM,
         ALUResultMEM,
         RegDestMEM,
         
@@ -294,7 +296,7 @@ module TopModule(Reset, Clk);
         JrDataMEM,   
          
         // Data outputs
-        MemReadWB,
+        MemReadWB, 
         ALUResultWB,
         RegDestWB,
         
