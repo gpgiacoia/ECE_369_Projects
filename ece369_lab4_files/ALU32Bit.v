@@ -130,7 +130,7 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 					ALUResult = A <= 0;
 				end
 				// bltz
-				6'b000_001: begin
+				6'b000_000: begin
 					ALUResult = A < 0;
 				end
 				// j, jr

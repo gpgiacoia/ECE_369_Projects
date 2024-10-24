@@ -114,7 +114,7 @@ module TopModule(Reset, Clk);
 
     PCAdder pcAdder(PC, PCAdderResult);
       
-    IFID ifid(ClkOut, Reset, PCAdderResult, Instruction, InstructionOut, PCID);
+    IFID ifid(ClkOut, Reset, PCResult, Instruction, InstructionOut, PCID);
 
     //DECODE PHASE
     Mux5Bit2To1 JrAddrMux(WriteRegister, RegDestWB, RA, JrAddressWB); 
