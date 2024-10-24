@@ -60,10 +60,47 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
     output reg [31:0] ReadData2;
     
     reg [31:0] registers [31:0];
+
+    integer i;
     
     // Ensure register $zero (registers[0]) is always zero
     initial begin
-        registers[0] = 32'b0;
+        registers[0] = 32'h0;
+        registers[28] = 32'h10008000;
+        registers[29] = 32'h3e8;
+
+        $monitor("t=%0t - REG r0 = 0x%8h", $time, registers[0]);
+        $monitor("t=%0t - REG at = 0x%8h", $time, registers[1]);
+        $monitor("t=%0t - REG v0 = 0x%8h", $time, registers[2]);
+        $monitor("t=%0t - REG v1 = 0x%8h", $time, registers[3]);
+        $monitor("t=%0t - REG a0 = 0x%8h", $time, registers[4]);
+        $monitor("t=%0t - REG a1 = 0x%8h", $time, registers[5]);
+        $monitor("t=%0t - REG a2 = 0x%8h", $time, registers[6]);
+        $monitor("t=%0t - REG a3 = 0x%8h", $time, registers[7]);
+        $monitor("t=%0t - REG t0 = 0x%8h", $time, registers[8]);
+        $monitor("t=%0t - REG t1 = 0x%8h", $time, registers[9]);
+        $monitor("t=%0t - REG t2 = 0x%8h", $time, registers[10]);
+        $monitor("t=%0t - REG t3 = 0x%8h", $time, registers[11]);
+        $monitor("t=%0t - REG t4 = 0x%8h", $time, registers[12]);
+        $monitor("t=%0t - REG t5 = 0x%8h", $time, registers[13]);
+        $monitor("t=%0t - REG t6 = 0x%8h", $time, registers[14]);
+        $monitor("t=%0t - REG t7 = 0x%8h", $time, registers[15]);
+        $monitor("t=%0t - REG s0 = 0x%8h", $time, registers[16]);
+        $monitor("t=%0t - REG s1 = 0x%8h", $time, registers[17]);
+        $monitor("t=%0t - REG s2 = 0x%8h", $time, registers[18]);
+        $monitor("t=%0t - REG s3 = 0x%8h", $time, registers[19]);
+        $monitor("t=%0t - REG s4 = 0x%8h", $time, registers[20]);
+        $monitor("t=%0t - REG s5 = 0x%8h", $time, registers[21]);
+        $monitor("t=%0t - REG s6 = 0x%8h", $time, registers[22]);
+        $monitor("t=%0t - REG s7 = 0x%8h", $time, registers[23]);
+        $monitor("t=%0t - REG t8 = 0x%8h", $time, registers[24]);
+        $monitor("t=%0t - REG t9 = 0x%8h", $time, registers[25]);
+        $monitor("t=%0t - REG k0 = 0x%8h", $time, registers[26]);
+        $monitor("t=%0t - REG k1 = 0x%8h", $time, registers[27]);
+        $monitor("t=%0t - REG gp = 0x%8h", $time, registers[28]);
+        $monitor("t=%0t - REG sp = 0x%8h", $time, registers[29]);
+        $monitor("t=%0t - REG s8 = 0x%8h", $time, registers[30]);
+        $monitor("t=%0t - REG ra = 0x%8h", $time, registers[31]);
     end
     
     always @ (negedge Clk) begin
