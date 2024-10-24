@@ -33,6 +33,8 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
     output reg [1:0] Jmux, StoreData, LoadData;
     
     always @(Instruction) begin
+        if (Instruction == 32'd0) $display("t=%0t - CTRL_NOP", $time);
+
         if (Instruction[31:26] == 6'b000000) begin // if the instruction is RType
             RType <= 1;
 
@@ -242,7 +244,7 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
             
             case(Instruction[20:16])
                 5'b00000: begin // bltz Instruction
-                    ALUOp <= 5'b000_000;
+                    ALUOp <= 6'b000_000;
                     RegWrite <= 0;
                     MemWrite <= 0;
                     MemRead <= 0;
@@ -260,7 +262,7 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
                 end
                 
                 5'b00001: begin // bgez Instruction
-                    ALUOp <= 5'b000_001; // not sure what to assign for now
+                    ALUOp <= 6'b000_001; // not sure what to assign for now
                     RegWrite <= 0;
                     MemWrite <= 0;
                     MemRead <= 0;

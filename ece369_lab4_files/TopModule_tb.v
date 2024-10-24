@@ -18,10 +18,13 @@ module TopModule_tb();
 	forever #10 Clk <= ~Clk;
     end
 
+    // 190 ns per instruction
+    // first executes at 10 ns->190 ns
+    // second executes at 190 ns->290 ns
+    // third at 290 ns->390 ns
     initial begin
-	#100;
 	Reset <= 1;
-	#20;
+	#100;
 	Reset <= 0;
 	// #1000;
 	// Reset <= 1;
