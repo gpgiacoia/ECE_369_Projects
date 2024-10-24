@@ -1,18 +1,46 @@
-00004020	//	loop:	add	$t0, $zero, $zero ->	loop:	add	$t0, $zero, $zero
-00000000	//		nop ->		nop
-00000000	//		nop ->		nop
-00000000	//		nop ->		nop
-00000000	//		nop ->		nop
-00000000	//		nop ->		nop
-20080006	//		addi	$t0, $zero, 6 ->		addi	$t0, $zero, 6
-00000000	//		nop ->		nop
-00000000	//		nop ->		nop
-00000000	//		nop ->		nop
-00000000	//		nop ->		nop
-00000000	//		nop ->		nop
-2009000A	//		addi	$t1, $zero, 10 ->		addi	$t1, $zero, 10
-00000000	//		nop ->		nop
-00000000	//		nop ->		nop
-00000000	//		nop ->		nop
-00000000	//		nop ->		nop
-00000000	//		nop ->		nop
+20080000	//        	addi	$t0, $zero, 0 ->        	addi	$t0, $zero, 0
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+2009fffb	//        	addi	$t1, $zero, -5 ->        	addi	$t1, $zero, -5
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+0521001c	//        	bgez	$t1, Branched ->        	bgez	$t1, Branched
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+05010016	//        	bgez	$t0, Branched ->        	bgez	$t0, Branched
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+2129fffb	//        	addi	$t1, $t1, -5 ->        	addi	$t1, $t1, -5
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+21290005	//	Branched:	addi	$t1, $t1, 5 ->	Branched:	addi	$t1, $t1, 5
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
+00000000	//        	nop ->        	nop
