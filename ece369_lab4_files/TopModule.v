@@ -311,8 +311,8 @@ module TopModule(Reset, Clk);
     
     Mux32Bit2To1 MemRegMux(LWFull, MemReadWB, ALUResultWB, MemToRegWB);
     // Removed Bit, SignExtension is 16 -> 32
-    SignExtension loadHalfEx(LWFull[15:0], LWHalf);
-    SignExtension8Bit loadByteEx(LWFull[7:0], LWHalf);
+    SignExtension loadHalfEX(LWFull[15:0], LWHalf);
+    SignExtension8Bit loadByteEX(LWFull[7:0], LWByte);
 
     
     Mux32Bit3To1 LoadDataMux(WriteDataRegWB, LWFull, LWHalf,LWByte, LoadDataWB);

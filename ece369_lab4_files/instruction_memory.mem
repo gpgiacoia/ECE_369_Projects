@@ -1,18 +1,43 @@
-00004020	//	loop:	add	$t0, $zero, $zero ->	loop:	add	$t0, $zero, $zero
+20080000	//	loop:	addi	$t0, $zero, 0 ->	loop:	addi	$t0, $zero, 0
 00000000	//		nop ->		nop
 00000000	//		nop ->		nop
 00000000	//		nop ->		nop
 00000000	//		nop ->		nop
 00000000	//		nop ->		nop
-20080006	//		addi	$t0, $zero, 6 ->		addi	$t0, $zero, 6
+20090003	//		addi	$t1, $zero, 3 ->		addi	$t1, $zero, 3
 00000000	//		nop ->		nop
 00000000	//		nop ->		nop
 00000000	//		nop ->		nop
 00000000	//		nop ->		nop
 00000000	//		nop ->		nop
-2009000A	//		addi	$t1, $zero, 10 ->		addi	$t1, $zero, 10
+000949c0	//		sll	$t1, $t1, 7 ->		sll	$t1, $t1, 7
 00000000	//		nop ->		nop
 00000000	//		nop ->		nop
 00000000	//		nop ->		nop
 00000000	//		nop ->		nop
 00000000	//		nop ->		nop
+00094a00	//		sll	$t1, $t1, 8 ->		sll	$t1, $t1, 8
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+21290001	//		addi	$t1, $t1, 1 ->		addi	$t1, $t1, 1
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+ad090004	//		sw	$t1, 4($t0) ->		sw	$t1, 4($t0)
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+850b0004	//		lh	$t3, 4($t0) ->		lh	$t3, 4($t0)
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+00000000	//		nop ->		nop
+08000000	//		j	loop ->		j	loop
