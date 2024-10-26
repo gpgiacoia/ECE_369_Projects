@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module TopModule(Reset, Clk);
+module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     //Fetch
     input Reset, Clk; 
     wire [31:0] PC;
@@ -81,7 +81,6 @@ module TopModule(Reset, Clk);
     //controller
     wire RegWriteMEM;
     wire MemWriteMEM;
-    wire MemWriteMEM;
     wire MemReadMEM;
     wire MemToRegMEM;
     wire PCSrcMEM;
@@ -104,9 +103,16 @@ module TopModule(Reset, Clk);
     wire [31:0] LWFull, LWHalf, LWByte;
     wire [31:0] WriteDataRegWB;
     wire JrAddressWB, JrDataWB;
+    wire [31:0] PCWB; 
+    output wire [31:0] PCDONE, WRITEDATADONE;
+    
+    // Mark the internal register as debug signal
+    //(* mark_debug = "true" *) wire [31:0] FINALPC = PCWB;
+    assign PCDONE = PCWB; 
+    assign WRITEDATADONE = WriteData;
     
     // TODO: Uncomment clock, temporary for use in test bench
-    // ClkDiv clock(Clk, Reset, ClkOut);
+    //ClkDiv clock(Clk, Reset, ClkOut);
     assign ClkOut = Clk;
     ProgramCounter program_counter(PCFinal, PC, Reset, ClkOut);
 
@@ -118,7 +124,7 @@ module TopModule(Reset, Clk);
 
     //DECODE PHASE
     Mux5Bit2To1 JrAddrMux(WriteRegister, RegDestWB, RA, JrAddressWB); 
-    Mux32Bit2To1 JrDatamux(WriteData, WriteDataRegWB, PCID, JrDataWB); //FIXME
+    Mux32Bit2To1 JrDatamux(WriteData, WriteDataRegWB, PCMEM, JrDataWB); //FIXME
     
     RegisterFile registerFile(InstructionOut[25:21], InstructionOut[20:16], 
     WriteRegister, WriteData, RegWriteWB, ClkOut, ReadData1, ReadData2);
@@ -288,6 +294,7 @@ module TopModule(Reset, Clk);
         ReadDataMEM,
         ALUResultMEM,
         RegDestMEM,
+        PCMEM, 
         
         // Control inputs
         RegWriteMEM,             
@@ -300,6 +307,7 @@ module TopModule(Reset, Clk);
         MemReadWB, 
         ALUResultWB,
         RegDestWB,
+        PCWB, 
         
         // Control outputs
         RegWriteWB,             

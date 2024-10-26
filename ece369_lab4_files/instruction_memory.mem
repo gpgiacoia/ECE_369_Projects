@@ -182,7 +182,20 @@ a10e0014	//			sb	$t6, 20($t0) ->			sb	$t6, 20($t0)
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
-00000000	//	LOGICAL:	nop ->	LOGICAL:	nop
+32750028	//	LOGICAL:	andi	$s5, $s3, 40 ->	LOGICAL:	andi	$s5, $s3, 40
+00000000	//			nop ->			nop
+00000000	//			nop ->			nop
+00000000	//			nop ->			nop
+00000000	//			nop ->			nop
+00000000	//			nop ->			nop
+026ab024	//			and	$s6, $s3, $t2 ->			and	$s6, $s3, $t2
+00000000	//			nop ->			nop
+00000000	//			nop ->			nop
+00000000	//			nop ->			nop
+00000000	//			nop ->			nop
+00000000	//			nop ->			nop
+0211b826	//			xor	$s7, $s0, $s1 ->			xor	$s7, $s0, $s1
+00000000	//			nop ->			nop
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop

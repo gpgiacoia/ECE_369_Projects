@@ -333,8 +333,8 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
                     PCSrc <= 1;
                     StoreData <= 0;
                     Jmux <= 2;
-                    JrAddress <= 0;
-                    JrData <= 0;
+                    JrAddress <= 1;
+                    JrData <= 1;
                     ShiftMux <= 0;
                     
                 end

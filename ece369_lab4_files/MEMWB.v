@@ -8,6 +8,7 @@ module MEMWB(
     input wire [31:0] MemReadData,
     input wire [31:0] ALUResultIn,
     input wire [4:0]  RegAddressIn,
+    input wire [31:0] PCIn, 
     
     // Control inputs
     input wire RegWrite,             
@@ -21,6 +22,7 @@ module MEMWB(
     output reg [31:0] MemReadDataOut,
     output reg [31:0] ALUResultOut,
     output reg [4:0]  RegAddressOut,
+    output reg [31:0] PCOut,
     
     // Control outputs
     output reg RegWriteOut,             
@@ -36,6 +38,7 @@ module MEMWB(
             MemReadDataOut <= 0;
             ALUResultOut <= 0;
             RegAddressOut <= 0;
+            PCOut<=0;
             
 
             // Reset control signals
@@ -49,6 +52,7 @@ module MEMWB(
             MemReadDataOut <= MemReadData;
             ALUResultOut <= ALUResultIn;
             RegAddressOut <= RegAddressIn;
+            PCOut<=PCIn;
 
             // Pass control signals to outputs
             RegWriteOut <= RegWrite;

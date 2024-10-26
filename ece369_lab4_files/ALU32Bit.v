@@ -144,6 +144,6 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 				end
 			endcase
 		end
-		Zero = ALUResult == 0;
+		Zero = ALUResult != 0;
 	end
 endmodule
