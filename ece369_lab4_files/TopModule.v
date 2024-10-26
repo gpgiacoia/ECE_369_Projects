@@ -281,7 +281,7 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     JumpTarget jtarget(JTargetResult, JTargetMEM, PCMEM);
 
     Mux32Bit3To1 JmuxMux(JPCValue, JumpPCMEM, RAMEM, JTargetResult, JmuxMEM);
-    Mux32Bit2To1 PcSrcMux(PCFinal, PCAdderResult, JPCValue, PCSrc);
+    Mux32Bit2To1 PcSrcMux(PCFinal, PCAdderResult, JPCValue, PCSrcMEM);
 
     DataMemory datamemory(ALUResultMEM, WriteDataMEM, ClkOut, 
     MemWriteMEM, MemReadMEM, ReadDataMEM); 
