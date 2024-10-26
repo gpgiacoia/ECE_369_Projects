@@ -88,9 +88,7 @@ a50a000c	//			sh	$t2, 12($t0) ->			sh	$t2, 12($t0)
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
-08000096	//			j	ARITHMETIC ->			j	ARITHMETIC
-00000000	//			nop ->			nop
-00000000	//			nop ->			nop
+08000094	//			j	ARITHMETIC ->			j	ARITHMETIC
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
@@ -136,7 +134,7 @@ a10e0014	//			sb	$t6, 20($t0) ->			sb	$t6, 20($t0)
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
-0c0000ba	//			jal	LOGICAL ->			jal	LOGICAL
+0c0000b8	//			jal	LOGICAL ->			jal	LOGICAL
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
@@ -178,7 +176,7 @@ a10e0014	//			sb	$t6, 20($t0) ->			sb	$t6, 20($t0)
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
-08000060	//			j	BYTES ->			j	BYTES
+0800005e	//			j	BYTES ->			j	BYTES
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop
 00000000	//			nop ->			nop

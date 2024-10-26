@@ -242,7 +242,7 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
             
             case(Instruction[20:16])
                 5'b00000: begin // bltz Instruction
-                    ALUOp <= 5'b000_000;
+                    ALUOp <= 6'b000_000;
                     RegWrite <= 0;
                     MemWrite <= 0;
                     MemRead <= 0;
@@ -260,7 +260,7 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
                 end
                 
                 5'b00001: begin // bgez Instruction
-                    ALUOp <= 5'b000_001; // not sure what to assign for now
+                    ALUOp <= 6'b000_001; // not sure what to assign for now
                     RegWrite <= 0;
                     MemWrite <= 0;
                     MemRead <= 0;
