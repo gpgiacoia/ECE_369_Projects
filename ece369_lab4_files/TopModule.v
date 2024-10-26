@@ -108,9 +108,9 @@ module TopModule(Reset, Clk);
     // TODO: Uncomment clock, temporary for use in test bench
     // ClkDiv clock(Clk, Reset, ClkOut);
     assign ClkOut = Clk;
+    ProgramCounter program_counter(PCFinal, PC, Reset, ClkOut);
 
     InstructionMemory instructionMemory(PC, Instruction);
-    ProgramCounter program_counter(PCFinal, PC, Reset, ClkOut);
 
     PCAdder pcAdder(PC, PCAdderResult);
       
