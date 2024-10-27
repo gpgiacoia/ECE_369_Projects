@@ -32,52 +32,53 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 	input signed [31:0] A, B;
 
 	output reg [31:0] ALUResult;	// answer
-	output reg Zero;		// Zero=1 if ALUResult == 0
+	output Zero;		// Zero=1 if ALUResult == 0
 
+	assign Zero = (ALUResult != 0);
 
-	always @(Opcode or A or B) begin
+	always @(Opcode, A, B, RType) begin
 		if (RType == 1) begin
 			case(Opcode)
 				// R-Type
 				// add
 				6'b100_000: begin
-					ALUResult = A + B;
+					ALUResult <= A + B;
 				end
 				// sub
 				6'b100_010: begin
-					ALUResult = A - B;
+					ALUResult <= A - B;
 				end
 				// and
 				6'b100_100: begin
-					ALUResult = A & B;
+					ALUResult <= A & B;
 				end
 				// or
 				6'b100_101: begin
-					ALUResult = A | B;
+					ALUResult <= A | B;
 				end
 				// nor
 				6'b100_111: begin
-					ALUResult = ~(A | B);
+					ALUResult <= ~(A | B);
 				end
 				// xor
 				6'b100_110: begin
-					ALUResult = A ^ B;
+					ALUResult <= A ^ B;
 				end
 				// sll
 				6'b000_000: begin
-					ALUResult = B << A;
+					ALUResult <= B << A;
 				end
 				// srl
 				6'b000_010: begin
-					ALUResult = B >> A;
+					ALUResult <= B >> A;
 				end
 				// slt
 				6'b101_010: begin
-					ALUResult = A < B;
+					ALUResult <= A < B;
 				end
-				// jal
-				6'b000_011: begin
-					ALUResult = 32'b0;
+				// jr
+				6'b001_000: begin
+					ALUResult <= 32'd1;
 				end
 			endcase
 		end
@@ -85,69 +86,71 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 			case(Opcode)
 				// addi
 				6'b001_000: begin
-					ALUResult = A + B;
+					ALUResult <= A + B;
 				end
 				// andi
 				6'b001_100: begin
-					ALUResult = A & B;
+					ALUResult <= A & B;
 				end
 				// ori
 				6'b001_101: begin
-					ALUResult = A | B;
+					ALUResult <= A | B;
 				end
 				// xori
 				6'b001_110: begin
-					ALUResult = A ^ B;
+					ALUResult <= A ^ B;
 				end
 				// slti
 				6'b001_010: begin
-					ALUResult = A < B;
+					ALUResult <= A < B;
 				end
 				// lw, sw, sb, lh, lb, sh
 				6'b100_011, 6'b101_011, 6'b101_000,
 				6'b100_001, 6'b100_000, 6'b101_001
 				: begin
-					ALUResult = A + B;
+					ALUResult <= A + B;
 				end
 				// REGIMM
 				// bgez
 				6'b000_001: begin
-					ALUResult = A >= 0;
+					ALUResult <= A >= 0;
 				end
 				// beq
 				6'b000_100: begin
-					ALUResult = A == B;
+					ALUResult <= A == B;
 				end
 				// bne
 				6'b000_101: begin
-					ALUResult = A != B;
+					ALUResult <= A != B;
 				end
 				// bgtz
 				6'b000_111: begin
-					ALUResult = A > 0;
+					ALUResult <= A > 0;
 				end
 				// blez
 				6'b000_110: begin
-					ALUResult = A <= 0;
+					ALUResult <= A <= 0;
 				end
 				// bltz
 				6'b000_000: begin
-					ALUResult = A < 0;
+					ALUResult <= A < 0;
 				end
-				// j, jr
-				6'b000_010, 6'b001_000: begin
-					ALUResult = 32'b0;
+				// j
+				6'b000_010: begin
+					ALUResult <= 32'd1;
+				end
+				// jal
+				6'b000_011: begin
+					ALUResult <= 32'd1;
 				end
 				// SPECIAL2 prefix: 011_100 
 				// mul
 				6'b011_100: begin
-					ALUResult = A * B;
+					ALUResult <= A * B;
 				end
 			endcase
 		end
-		Zero = ALUResult != 0;
 	end
-
 
 	always @(ALUResult) begin
 		if (RType == 1) begin
@@ -189,9 +192,9 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 			6'b101_010: begin
 				$display("t=%0t - ALU SLT RT: 0b%1b 0x%8h < 0x%8h = 0x%8h", $time, RType, A, B, ALUResult);
 			end
-			// jal
-			6'b000_011: begin
-				$display("t=%0t - ALU JAL RT: 0b%1b A: 0x%8h B: 0x%8h R: 0x%8h", $time, RType, A, B, ALUResult);
+			// jr
+			6'b001_000: begin
+				$display("t=%0t - ALU JR RT: 0b%1b A: 0x%8h B: 0x%8h R: 0x%8h", $time, RType, A, B, ALUResult);
 			end
 		endcase
 	end
@@ -266,12 +269,13 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 			6'b000_000: begin
 				$display("t=%0t - ALU BLTZ RT: 0b%1b 0x%8h <= 0 = 0x%8h", $time, RType, A, ALUResult);
 			end
-			// j, jr
+			// j
 			6'b000_010: begin
 				$display("t=%0t - ALU J RT: 0b%1b A: 0x%8h B: 0x%8h R: 0x%8h", $time, RType, A, B, ALUResult);
 			end
-			6'b001_000: begin
-				$display("t=%0t - ALU JR RT: 0b%1b A: 0x%8h B: 0x%8h R: 0x%8h", $time, RType, A, B, ALUResult);
+			// jal
+			6'b000_011: begin
+				$display("t=%0t - ALU JAL RT: 0b%1b A: 0x%8h B: 0x%8h R: 0x%8h", $time, RType, A, B, ALUResult);
 			end
 			// SPECIAL2 prefix: 011_100 
 			// mul
@@ -281,5 +285,4 @@ module ALU32Bit(Opcode, RType, A, B, ALUResult, Zero);
 			endcase
 		end
 	end
-
-	endmodule
+endmodule
