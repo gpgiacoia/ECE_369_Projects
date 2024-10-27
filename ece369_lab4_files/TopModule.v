@@ -280,9 +280,9 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     
     assign PCSrc = PCSrcMEM & ALUZeroMEM;
     JumpTarget jtarget(JTargetResult, JTargetMEM, PCMEM);
-
-    Mux32Bit3To1 JmuxMux(JPCValue, JumpPCMEM, RAMEM, JTargetResult, JmuxMEM);
-    Mux32Bit2To1 PcSrcMux(PCFinal, PCAdderResult, JPCValue, PCSrc);
+    
+    Mux32Bit2To1 PcSrcMux(JPCValue, PCAdderResult, JumpPCMEM, PCSrc);
+    Mux32Bit3To1 JmuxMux(PCFinal,JPCValue , RAMEM, JTargetResult, JmuxMEM);
 
     DataMemory datamemory(ALUResultMEM, WriteDataMEM, ClkOut, 
     MemWriteMEM, MemReadMEM, ReadDataMEM); 
