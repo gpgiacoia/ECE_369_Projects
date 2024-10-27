@@ -17,97 +17,91 @@ def test_log(is_pass: bool, pc: int, alu_type: str, op: str):
 
 
 def alu_type(pc: int, op: str, a: int, b: int, r: int, eq: str):
-    match op:
-        # TODO: check dest
-        case "ADD":
-            test_log(a + b == r, pc, op, eq)
-        case "SUB":
-            test_log(a - b == r, pc, op, eq)
-        case "AND":
-            test_log(a & b == r, pc, op, eq)
-        case "OR":
-            test_log(a | b == r, pc, op, eq)
-        case "NOR":
-            test_log(~(a | b) == r, pc, op, eq)
-        case "XOR":
-            test_log(a ^ b == r, pc, op, eq)
-        case "SLL":
-            # why arent shift reversed...
-            test_log(a << b == r, pc, op, eq)
-        case "SRL":
-            # ...
-            test_log(a >> b == r, pc, op, eq)
-        case "SLT":
-            test_log(a < b == r, pc, op, eq)
-        case "JAL":
+    try:
+        match op:
+            # TODO: check dest
+            case "ADD":
+                test_log(a + b == r, pc, op, eq)
+            case "SUB":
+                test_log(a - b == r, pc, op, eq)
+            case "AND":
+                test_log(a & b == r, pc, op, eq)
+            case "OR":
+                test_log(a | b == r, pc, op, eq)
+            case "NOR":
+                test_log(~(a | b) == r, pc, op, eq)
+            case "XOR":
+                test_log(a ^ b == r, pc, op, eq)
+            case "SLL":
+                test_log(b << a == r, pc, op, f"{b} << {a} == {r}")
+            case "SRL":
+                test_log(b >> a == r, pc, op, f"{b} >> {a} == {r}")
+            case "SLT":
+                test_log(a < b == r, pc, op, eq)
+            case "JAL":
+                # TODO: check new PC
+                test_log(r == 0, pc, op, eq)
+            case "ADDI":
+                test_log(a + b == r, pc, op, eq)
+            case "ANDI":
+                test_log(a & b == r, pc, op, eq)
+            case "ORI":
+                test_log(a | b == r, pc, op, eq)
+            case "XORI":
+                test_log(a ^ b == r, pc, op, eq)
+            case "SLTI":
+                test_log(a < b == r, pc, op, eq)
+            # TODO: check mem
+            case "LW":
+                test_log(a + b == r, pc, op, eq)
+            case "SW":
+                test_log(a + b == r, pc, op, eq)
+            case "SB":
+                test_log(a + b == r, pc, op, eq)
+            case "LH":
+                test_log(a + b == r, pc, op, eq)
+            case "LB":
+                test_log(a + b == r, pc, op, eq)
+            case "SH":
+                test_log(a + b == r, pc, op, eq)
+            case "BGEZ":
+                test_log((a >= 0) == r, pc, op, eq)
+            case "BEQ":
+                test_log((a == b) == r, pc, op, eq)
+            case "BNE":
+                test_log((a != b) == r, pc, op, eq)
+            case "BGTZ":
+                test_log((a > 0) == r, pc, op, eq)
+            case "BLEZ":
+                test_log((a <= 0) == r, pc, op, eq)
+            case "BLTZ":
+                test_log((a < 0) == r, pc, op, eq)
             # TODO: check new PC
-            test_log(r == 0, pc, op, eq)
-        case "ADDI":
-            test_log(a + b == r, pc, op, eq)
-        case "ANDI":
-            test_log(a & b == r, pc, op, eq)
-        case "ORI":
-            test_log(a | b == r, pc, op, eq)
-        case "XORI":
-            test_log(a ^ b == r, pc, op, eq)
-        case "SLTI":
-            test_log(a < b == r, pc, op, eq)
-        # TODO: check mem
-        case "LW":
-            test_log(a + b == r, pc, op, eq)
-        case "SW":
-            test_log(a + b == r, pc, op, eq)
-        case "SB":
-            test_log(a + b == r, pc, op, eq)
-        case "LH":
-            test_log(a + b == r, pc, op, eq)
-        case "LB":
-            test_log(a + b == r, pc, op, eq)
-        case "SH":
-            test_log(a + b == r, pc, op, eq)
-        case "BGEZ":
-            test_log(a >= 0 == r, pc, op, eq)
-        case "BEQ":
-            test_log(a == b == r, pc, op, eq)
-        case "BNE":
-            test_log(a != b == r, pc, op, eq)
-        case "BGTZ":
-            test_log(a > 0 == r, pc, op, eq)
-        case "BLEZ":
-            test_log(a <= 0 == r, pc, op, eq)
-        case "BLTZ":
-            test_log(a < 0 == r, pc, op, eq)
-        # TODO: check new PC
-        case "J":
-            test_log(r == 0, pc, op, eq)
-        case "JR":
-            test_log(r == 0, pc, op, eq)
-        case "MUL":
-            test_log(a * b == r, pc, op, eq)
-        case _:
-            print("UNKNOWN OP: ", op)
-            exit(-2)
+            case "J":
+                test_log(r == 0, pc, op, eq)
+            case "JR":
+                test_log(r == 0, pc, op, eq)
+            case "MUL":
+                test_log(a * b == r, pc, op, eq)
+            case _:
+                print("UNKNOWN OP: ", op)
+                exit(-2)
+    except ValueError:
+        print("Invalid operand")
 
 
 def main():
     file = open("simulate.log", "r")
     next(file)  # skip time resolution
-    CYCLE_TIME = 10000
 
     time_last = 0
     pc = 0
-    pc_next = 0
     instruction = 0
-    instruction_next = 0
     reg = ""
-    reg_next = ""
     reg_val = 0
-    reg_val_next = 0
     mem_write = 0
-    mem_write_next = 0
     mem_read = 0
-    mem_read_next = 0
-    first = False
+    i = 0
 
     for line in file:
         split = line.split()
@@ -119,28 +113,27 @@ def main():
         if time != time_last:
             time_last = time
 
-        if time > 4150000:
-            return
+        # if time > 4150000:
+        #     return
+
+        # print(f"{i}: {line}")
+        i += 1
 
         log_type = split.pop(0)
         match log_type:
             case "PC":
-                pc = pc_next
-                pc_next = int(
+                pc = int(
                     replace_x(split.pop(1)),
                     16
                 )
                 print("PC: ", pc)
             case "Instruction":
-                instruction = instruction_next
-                instruction_next = int(
+                instruction = int(
                     replace_x(split.pop(1)),
                     2
                 )
-                # print("Instruction: ", instruction)
+                print("Instruction: ", instruction)
             case "REG":
-                reg = reg_next
-                reg_val = reg_val_next
                 reg = split.pop(0)
                 reg_val = int(
                     replace_x(split.pop(1)),
@@ -148,15 +141,13 @@ def main():
                 )
                 print(f"REG {reg} = {reg_val}")
             case "DATA_MEM_WRITE":
-                mem_write = mem_write_next
-                mem_write_next = int(
+                mem_write = int(
                     replace_x(split.pop(1)),
                     16
                 )
                 print("MEM WRITE: ", mem_write)
             case "DATA_MEM_READ":
-                mem_read = mem_read_next
-                mem_read_next = int(
+                mem_read = int(
                     replace_x(split.pop(1)),
                     16
                 )
@@ -205,8 +196,6 @@ def main():
                     result,
                     f"{a} {op} {b} = {result}"
                 )
-                instruction = instruction_next
-                pc = pc_next
             case _:
                 print("Unknown log type: ", log_type)
                 exit(-1)

@@ -33,8 +33,6 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
     output reg [1:0] Jmux, StoreData, LoadData;
     
     always @(Instruction) begin
-        if (Instruction == 32'd0) $display("t=%0t - CTRL_NOP", $time);
-
         if (Instruction[31:26] == 6'b000000) begin // if the instruction is RType
             RType <= 1;
 
@@ -650,8 +648,3 @@ RegDst, ALUSrc, LoadData, PCSrc, StoreData, Jmux, JrAddress, JrData, RType, Shif
         end
     end
 endmodule
-
-
-
-
-

@@ -1,40 +1,40 @@
 Time resolution is 1 ps
 t=0 - ALU BLTZ RT: 0b0 0xxxxxxxxx <= 0 = 0x0000000X
 t=0 - ALU BLTZ RT: 0b0 0x00000000 <= 0 = 0x00000000
-t=0 - Instruction = 0bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 t=0 - PC = 0xxxxxxxxx
+t=0 - Instruction = 0bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 t=0 - REG r0 = 0x00000000
-t=0 - REG at = 0x00000000
-t=0 - REG v0 = 0x00000000
-t=0 - REG v1 = 0x00000000
-t=0 - REG a0 = 0x00000000
-t=0 - REG a1 = 0x00000000
-t=0 - REG a2 = 0x00000000
-t=0 - REG a3 = 0x00000000
-t=0 - REG t0 = 0x00000000
-t=0 - REG t1 = 0x00000000
-t=0 - REG t2 = 0x00000000
-t=0 - REG t3 = 0x00000000
-t=0 - REG t4 = 0x00000000
-t=0 - REG t5 = 0x00000000
-t=0 - REG t6 = 0x00000000
-t=0 - REG t7 = 0x00000000
-t=0 - REG s0 = 0x00000000
-t=0 - REG s1 = 0x00000000
-t=0 - REG s2 = 0x00000000
-t=0 - REG s3 = 0x00000000
-t=0 - REG s4 = 0x00000000
-t=0 - REG s5 = 0x00000000
-t=0 - REG s6 = 0x00000000
-t=0 - REG s7 = 0x00000000
-t=0 - REG t8 = 0x00000000
-t=0 - REG t9 = 0x00000000
-t=0 - REG k0 = 0x00000000
-t=0 - REG k1 = 0x00000000
+t=0 - REG at = 0xxxxxxxxx
+t=0 - REG v0 = 0xxxxxxxxx
+t=0 - REG v1 = 0xxxxxxxxx
+t=0 - REG a0 = 0xxxxxxxxx
+t=0 - REG a1 = 0xxxxxxxxx
+t=0 - REG a2 = 0xxxxxxxxx
+t=0 - REG a3 = 0xxxxxxxxx
+t=0 - REG t0 = 0xxxxxxxxx
+t=0 - REG t1 = 0xxxxxxxxx
+t=0 - REG t2 = 0xxxxxxxxx
+t=0 - REG t3 = 0xxxxxxxxx
+t=0 - REG t4 = 0xxxxxxxxx
+t=0 - REG t5 = 0xxxxxxxxx
+t=0 - REG t6 = 0xxxxxxxxx
+t=0 - REG t7 = 0xxxxxxxxx
+t=0 - REG s0 = 0xxxxxxxxx
+t=0 - REG s1 = 0xxxxxxxxx
+t=0 - REG s2 = 0xxxxxxxxx
+t=0 - REG s3 = 0xxxxxxxxx
+t=0 - REG s4 = 0xxxxxxxxx
+t=0 - REG s5 = 0xxxxxxxxx
+t=0 - REG s6 = 0xxxxxxxxx
+t=0 - REG s7 = 0xxxxxxxxx
+t=0 - REG t8 = 0xxxxxxxxx
+t=0 - REG t9 = 0xxxxxxxxx
+t=0 - REG k0 = 0xxxxxxxxx
+t=0 - REG k1 = 0xxxxxxxxx
 t=0 - REG gp = 0x10008000
 t=0 - REG sp = 0x000003e8
-t=0 - REG s8 = 0x00000000
-t=0 - REG ra = 0x00000000
+t=0 - REG s8 = 0xxxxxxxxx
+t=0 - REG ra = 0xxxxxxxxx
 t=10000 - CTRL_NOP
 t=10000 - PC = 0x0
 t=10000 - Instruction = 0b00100000000010000000000000000000
@@ -44,6 +44,7 @@ t=130000 - CTRL_NOP
 t=130000 - PC = 0x8
 t=150000 - PC = 0xc
 t=170000 - PC = 0x10
+t=190000 - REG t0 = 0x00000000
 t=190000 - PC = 0x14
 t=210000 - PC = 0x18
 t=210000 - Instruction = 0b00100000000010010000000000000001
@@ -138,3 +139,12 @@ t=1090000 - CTRL_NOP
 t=1090000 - ALU SLL RT: 0b1 0x00000003 << 0x00000007 = 0x00000180
 t=1090000 - PC = 0xc8
 t=1110000 - ALU SLL RT: 0b1 0x00000000 << 0x00000000 = 0x00000000
+t=1110000 - PC = 0xcc
+t=1130000 - PC = 0xd0
+t=1150000 - REG t2 = 0x00000180
+t=1150000 - PC = 0xd4
+t=1170000 - PC = 0xd8
+t=1170000 - Instruction = 0b00000000000010100101001000000000
+t=1190000 - PC = 0xdc
+t=1190000 - Instruction = 0b00000000000000000000000000000000
+t=1210000 - CTRL_NOP
