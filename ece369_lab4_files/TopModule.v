@@ -104,7 +104,8 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     wire [31:0] WriteDataRegWB;
     wire JrAddressWB, JrDataWB;
     wire [31:0] PCWB; 
-    output wire [31:0] PCDONE, WRITEDATADONE;
+    (* mark_debug = "true" *) output wire [31:0] PCDONE;
+    (* mark_debug = "true" *) output wire [31:0] WRITEDATADONE;
     
     // Mark the internal register as debug signal
     //(* mark_debug = "true" *) wire [31:0] FINALPC = PCWB;
@@ -221,7 +222,7 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     
     Mux32Bit2To1 AluSrcMux(ALUB, ReadData2EX, OffsetEX, ALUSrcEX);
     Mux32Bit2To1 shiftMux(ALUA, ReadData1EX, SAEX, ShiftMuxEX); //FIXME CONNECT ALUA TO ALU
-    assign ShiftedEX = OffsetEX<<2;
+    assign ShiftedEX = OffsetEX << 2;
     assign JumpPCEX = PCEX + ShiftedEX;
     
     ALU32Bit alu(ALUOpEX, RTypeEX, ALUA, ALUB, ALUResultEX, ALUZeroEX);
@@ -277,11 +278,11 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     );
     
     
-    assign PCSrc = PCSrcMEM && ALUZeroMEM;
+    assign PCSrc = PCSrcMEM & ALUZeroMEM;
     JumpTarget jtarget(JTargetResult, JTargetMEM, PCMEM);
 
     Mux32Bit3To1 JmuxMux(JPCValue, JumpPCMEM, RAMEM, JTargetResult, JmuxMEM);
-    Mux32Bit2To1 PcSrcMux(PCFinal, PCAdderResult, JPCValue, PCSrcMEM);
+    Mux32Bit2To1 PcSrcMux(PCFinal, PCAdderResult, JPCValue, PCSrc);
 
     DataMemory datamemory(ALUResultMEM, WriteDataMEM, ClkOut, 
     MemWriteMEM, MemReadMEM, ReadDataMEM); 
