@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
-
+//Authors: Giuseppe Pongelupe Giacoia, Leo Dickinson, Carson Keegan
+//Percentage Effort (33%, 33%, 33%)
 module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     //Fetch
     input Reset, Clk; 
