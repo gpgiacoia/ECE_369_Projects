@@ -1,8 +1,5 @@
 `timescale 1ns / 1ps
 
-// TODO:
-// - Add stall to PC from hazard
-// - New MUX for control
 
 module Hazard(
     input [31:0] instruction,
@@ -38,16 +35,16 @@ module Hazard(
         if (op == 6'b101_011 || //sw
             op == 6'b100_011 || //lw
             op == 6'b101_000 || //sb
-            op == 6'b101_001 || // sh
+            op == 6'b101_001 ||// sh
             op == 6'b100_000 || //lb
             op == 6'b100_001 || //lh
-            op == 6'b001_000 || //addi
-            op == 6'b001_100 || //andi
-            op == 6'b001_101 || //ori
-            op == 6'b001_110 || //xori
-            op == 6'b001_010 || //slti
+            op == 6'b001_000 ||//addi
+            op == 6'b001_100 ||//andi
+            op == 6'b001_101 ||//ori
+            op == 6'b001_110 ||//xori
+            op == 6'b001_010 ||//slti
             op == 6'b000_001 || //bgez and bltz
-            op == 6'b000_111 || //bgtz
+            op == 6'b000_111 ||//bgtz
             op == 6'b000_110 //blez
             ) begin
                 if((regWriteEX && rs == destEX) || (regWriteMEM && rs == destMEM)) begin //STALL FIXME 
@@ -61,7 +58,7 @@ module Hazard(
                 op == 6'b000_101 ||//bne
                 op == 6'b000_010 //mul
                 ) begin
-                if((regWriteEX && (rs == destEX || rt == destEX)) || (regWriteMEM && (rs == destMEM || rt == destMEM))) begin  
+                if((regWriteEX && (rs == destEX || (rt == destEX && rt!=0))) || (regWriteMEM && (rs == destMEM || (rt == destMEM&& rt!=0)))) begin  
                     PCSTOP<= 1; 
                     IDIF<= 0;
                     ControlMux<= 1;
