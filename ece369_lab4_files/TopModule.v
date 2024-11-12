@@ -108,7 +108,21 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     wire HAZARDPC, HAZARDCONTROL, HAZARDIFID; 
     (* mark_debug = "true" *) output wire [31:0] PCDONE;
     (* mark_debug = "true" *) output wire [31:0] WRITEDATADONE;
-    
+        wire RegWriteOut;
+wire MemWriteOut;
+wire MemReadOut;
+wire MemToRegOut;
+wire RegDstOut;
+wire ALUSrcOut;
+wire PCSrcOut;
+wire JrAddressOut;
+wire JrDataOut;
+wire RTypeOut;
+wire ShiftMuxOut;
+wire [5:0] ALUOpOut;
+wire [1:0] JmuxOut;
+wire [1:0] StoreDataOut;
+wire [1:0] LoadDataOut;
     // Mark the internal register as debug signal
     //(* mark_debug = "true" *) wire [31:0] FINALPC = PCWB;
     assign PCDONE = PCWB; 
@@ -137,7 +151,6 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     SignExtension signExtend_150(InstructionOut[15:0], Offset);
     SignExtension5Bit signExtend_SA(InstructionOut[10:6], SAID); 
     
-<<<<<<< HEAD
     Hazard hazard(.instruction(Instruction),
     .destEX(RegDestEX), 
     .regWriteEX(RegWriteEX), //checks if there can be a problem dest1 or if it is storeword or something silly
@@ -146,21 +159,6 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     .IDIF(HAZARDIFID), 
     .PCSTOP(HAZARDPC),
     .ControlMux(HAZARDCONTROL));
-    wire RegWriteOut;
-wire MemWriteOut;
-wire MemReadOut;
-wire MemToRegOut;
-wire RegDstOut;
-wire ALUSrcOut;
-wire PCSrcOut;
-wire JrAddressOut;
-wire JrDataOut;
-wire RTypeOut;
-wire ShiftMuxOut;
-wire [5:0] ALUOpOut;
-wire [1:0] JmuxOut;
-wire [1:0] StoreDataOut;
-wire [1:0] LoadDataOut;
 ControlMux controlMUX(
     .RegWriteIn(RegWriteID),
     .MemWriteIn(MemWriteID),
@@ -194,19 +192,6 @@ ControlMux controlMUX(
     .LoadDataOut(LoadDataOut),        // Connect to output wire
     .sel(HAZARDCONTROL)                         // Control signal for mux selection
 );
-=======
-    Hazard hazard(
-        .instruction(Instruction),
-        .destEX(RegDestEX), 
-        .regWriteEX(RegWriteEX), //checks if there can be a problem dest1 or if it is storeword or something silly
-        .destMEM(RegDestMEM), //dest from the memory phase. 
-        .regWriteMEM(RegWriteMEM), //Checks same as other
-        .IDIF(HAZARDIFID), 
-        .PCSTOP(HAZARDPC),
-        .ControlMux(HAZARDCONTROL)
-    );
-    
->>>>>>> a7a77b24185c5e84e84887da89e5801afa2a0e5c
     //MUXES Here
     Controller control(
         InstructionOut,
