@@ -105,6 +105,7 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     wire [31:0] WriteDataRegWB;
     wire JrAddressWB, JrDataWB;
     wire [31:0] PCWB; 
+    wire HAZARDPC, HAZARDCONTROL, HAZARDIFID; 
     (* mark_debug = "true" *) output wire [31:0] PCDONE;
     (* mark_debug = "true" *) output wire [31:0] WRITEDATADONE;
     
@@ -116,13 +117,15 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     // TODO: Uncomment clock, temporary for use in test bench
     //ClkDiv clock(Clk, Reset, ClkOut);
     assign ClkOut = Clk;
-    ProgramCounter program_counter(PCFinal, PC, Reset, ClkOut);
+    ProgramCounter program_counter(.Address(PCFinal), .PCResult(PC), 
+    .Reset(Reset), .Clk(ClkOut), .PCSTOP(HAZARDPC));
 
     InstructionMemory instructionMemory(PC, Instruction);
 
     PCAdder pcAdder(PC, PCAdderResult);
       
-    IFID ifid(ClkOut, Reset, PC, Instruction, InstructionOut, PCID);
+    IFID ifid(.Clk(ClkOut), .Reset(Reset), .PCIn(PC), .InstructionIn(Instruction), 
+    .InstructionOut(InstructionOut), .PCOut(PCID), .WRITE(HAZARDIFID));
 
     //DECODE PHASE
     Mux5Bit2To1 JrAddrMux(WriteRegister, RegDestWB, RA, JrAddressWB); 
@@ -133,6 +136,16 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     
     SignExtension signExtend_150(InstructionOut[15:0], Offset);
     SignExtension5Bit signExtend_SA(InstructionOut[10:6], SAID); 
+    
+    Hazard hazard(.instruction(Instruction),
+    .destEX(RegDestEX), 
+    .regWriteEX(RegWriteEX), //checks if there can be a problem dest1 or if it is storeword or something silly
+    .destMEM(RegDestMEM), //dest from the memory phase. 
+    .regWriteMEM(RegWriteMEM), //Checks same as other
+    .IDIF(HAZARDIFID), 
+    .PCSTOP(HAZARDPC),
+    .ControlMux(HAZARDCONTROL));
+    
     //MUXES Here
     Controller control(
         InstructionOut,
@@ -152,7 +165,6 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
         RTypeID,
         ShiftMuxID
     );//FIXME
-    
     
     IDEX idex(
     ClkOut, 
