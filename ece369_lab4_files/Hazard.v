@@ -58,7 +58,7 @@ module Hazard(
                 op == 6'b000_101 ||//bne
                 op == 6'b000_010 //mul
                 ) begin
-                if((regWriteEX && (rs == destEX || rt == destEX)) || (regWriteMEM && (rs == destMEM || rt == destMEM))) begin //STALL FIXME 
+                if((regWriteEX && (rs == destEX || rt == destEX)) || (regWriteMEM && (rs == destMEM || rt == destMEM))) begin  
                     PCSTOP<= 1; 
                     IDIF<= 0;
                     ControlMux<= 1;

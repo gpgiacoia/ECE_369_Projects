@@ -24,21 +24,18 @@
 // location, 0x00000000H).
 ////////////////////////////////////////////////////////////////////////////////
 
-module ProgramCounter(Address, PCResult, Reset, Clk);
+module ProgramCounter(Address, PCResult, Reset, Clk, PCSTOP);
 
     input [31:0] Address;
-    input Reset, Clk;
+    input Reset, Clk, PCSTOP;
 
     output reg [31:0] PCResult;
 
-    initial begin
-        $monitor("t=%0t - PC = 0x%0h", $time, PCResult);
-    end
     always @(posedge Clk) begin
         if(Reset == 1)begin
             PCResult <= 32'b0;
         end
-        else begin
+        else if(PCSTOP != 1)begin
             PCResult <= Address;
         end
     end
