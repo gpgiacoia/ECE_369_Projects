@@ -22,8 +22,8 @@
 
 module ControlMux(RegWriteIn, MemWriteIn, MemReadIn, MemToRegIn, RegDstIn, ALUSrcIn,
 PCSrcIn,JrAddressIn, JrDataIn, RTypeIn, ShiftMuxIn, ALUOpIn, JmuxIn, StoreDataIn, LoadDataIn,
-RegWriteRegWriteOut, MemWriteOut, MemReadOut, MemToRegOut, RegDstOut, ALUSrcOut,
-PCSrcOutJrAddressOut, JrDataOut, RTypeOut, ShiftMuxOut, ALUOpOut, JmuxOut, StoreDataOut, LoadDataOut, sel);
+RegWriteOut, MemWriteOut, MemReadOut, MemToRegOut, RegDstOut, ALUSrcOut,
+PCSrcOut,JrAddressOut, JrDataOut, RTypeOut, ShiftMuxOut, ALUOpOut, JmuxOut, StoreDataOut, LoadDataOut, sel);
 
     input RegWriteIn, MemWriteIn, MemReadIn, MemToRegIn, RegDstIn, ALUSrcIn,
     PCSrcIn, JrAddressIn, JrDataIn, RTypeIn, ShiftMuxIn, sel;
@@ -62,7 +62,7 @@ PCSrcOutJrAddressOut, JrDataOut, RTypeOut, ShiftMuxOut, ALUOpOut, JmuxOut, Store
             RegDstOut <= RegDstIn;
             ALUSrcOut <= ALUSrcIn;
             PCSrcOut <= PCSrcIn;
-            JrAddressOut <= JrAdressIn;
+            JrAddressOut <= JrAddressIn;
             JrDataOut <= JrDataIn;
             RTypeOut <= RTypeIn;
             ShiftMuxOut <= ShiftMuxIn;

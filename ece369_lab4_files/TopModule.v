@@ -145,7 +145,54 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     .IDIF(HAZARDIFID), 
     .PCSTOP(HAZARDPC),
     .ControlMux(HAZARDCONTROL));
-    
+    wire RegWriteOut;
+wire MemWriteOut;
+wire MemReadOut;
+wire MemToRegOut;
+wire RegDstOut;
+wire ALUSrcOut;
+wire PCSrcOut;
+wire JrAddressOut;
+wire JrDataOut;
+wire RTypeOut;
+wire ShiftMuxOut;
+wire [5:0] ALUOpOut;
+wire [1:0] JmuxOut;
+wire [1:0] StoreDataOut;
+wire [1:0] LoadDataOut;
+ControlMux controlMUX(
+    .RegWriteIn(RegWriteID),
+    .MemWriteIn(MemWriteID),
+    .MemReadIn(MemReadID),
+    .MemToRegIn(MemToRegID),
+    .RegDstIn(RegDstID),
+    .ALUSrcIn(ALUSrcID),
+    .PCSrcIn(PCSrcID),
+    .JrAddressIn(JrAddressID),
+    .JrDataIn(JrDataID),
+    .RTypeIn(RTypeID),
+    .ShiftMuxIn(ShiftMuxID),
+    .ALUOpIn(ALUOpID),
+    .JmuxIn(JmuxID),
+    .StoreDataIn(StoreDataID),
+    .LoadDataIn(LoadDataID),
+    .RegWriteOut(RegWriteOut),        // Connect to output wire
+    .MemWriteOut(MemWriteOut),        // Connect to output wire
+    .MemReadOut(MemReadOut),          // Connect to output wire
+    .MemToRegOut(MemToRegOut),        // Connect to output wire
+    .RegDstOut(RegDstOut),            // Connect to output wire
+    .ALUSrcOut(ALUSrcOut),            // Connect to output wire
+    .PCSrcOut(PCSrcOut),              // Connect to output wire
+    .JrAddressOut(JrAddressOut),      // Connect to output wire
+    .JrDataOut(JrDataOut),            // Connect to output wire
+    .RTypeOut(RTypeOut),              // Connect to output wire
+    .ShiftMuxOut(ShiftMuxOut),        // Connect to output wire
+    .ALUOpOut(ALUOpOut),              // Connect to output wire
+    .JmuxOut(JmuxOut),                // Connect to output wire
+    .StoreDataOut(StoreDataOut),      // Connect to output wire
+    .LoadDataOut(LoadDataOut),        // Connect to output wire
+    .sel(HAZARDCONTROL)                         // Control signal for mux selection
+);
     //MUXES Here
     Controller control(
         InstructionOut,
@@ -166,64 +213,65 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
         ShiftMuxID
     );//FIXME
     
-    IDEX idex(
-    ClkOut, 
-    Reset,
+    IDEX idex (
+    .Clk(ClkOut),
+    .Reset(Reset),
+    
     // Data Inputs
-    PCID,          
-    ReadData1,        
-    ReadData2,       
-    Offset,   
-    InstructionOut[20:16],          
-    InstructionOut[15:11],           
-    SAID,   
-    InstructionOut[25:0],       
+    .PCIn(PCID),
+    .RD1In(ReadData1),
+    .RD2In(ReadData2),
+    .ImmediateIn(Offset),
+    .rtIn(InstructionOut[20:16]),
+    .rdIn(InstructionOut[15:11]),
+    .saIn(SAID),
+    .JTarget(InstructionOut[25:0]),
     
     // Control Signal Inputs
-    ALUOpID,          
-    RegWriteID,             
-    MemWriteID,             
-    MemReadID,              
-    MemToRegID,             
-    RegDstID,               
-    ALUSrcID,               
-    LoadDataID,             
-    PCSrcID,                
-    StoreDataID,            
-    JmuxID,                 
-    JrAddressID,            
-    JrDataID,               
-    RTypeID,                
-    ShiftMuxID,             
-    
+    .ALUOp(ALUOpOut),
+    .RegWrite(RegWriteOut),
+    .MemWrite(MemWriteOut),
+    .MemRead(MemReadOut),
+    .MemToReg(MemToRegOut),
+    .RegDst(RegDstOut),
+    .ALUSrc(ALUSrcOut),
+    .LoadData(LoadDataOut),
+    .PCSrc(PCSrcOut),
+    .StoreData(StoreDataOut),
+    .Jmux(JmuxOut),
+    .JrAddress(JrAddressOut),
+    .JrData(JrDataOut),
+    .RType(RTypeOut),
+    .ShiftMux(ShiftMuxOut),
+
     // Data Outputs
-    PCEX,         
-    ReadData1EX,       
-    ReadData2EX,       
-    OffsetEX, 
-    RtEX,        
-    RdEX,      
-    SAEX,  
-    JTargetEX,
-       
-    
+    .PCOut(PCEX),
+    .RD1Out(ReadData1EX),
+    .RD2Out(ReadData2EX),
+    .ImmediateOut(OffsetEX),
+    .rtOut(RtEX),
+    .rdOut(RdEX),
+    .saOut(SAEX),
+    .JTargetOut(JTargetEX),
+
     // Control Signal Outputs
-    ALUOpEX,          
-    RegWriteEX,             
-    MemWriteEX,             
-    MemReadEX,              
-    MemToRegEX,             
-    RegDstEX,               
-    ALUSrcEX,               
-    LoadDataEX,             
-    PCSrcEX,                
-    StoreDataEX,            
-    JmuxEX,                 
-    JrAddressEX,            
-    JrDataEX,               
-    RTypeEX,                
-    ShiftMuxEX
-);  
+    .ALUOpOut(ALUOpEX),
+    .RegWriteOut(RegWriteEX),
+    .MemWriteOut(MemWriteEX),
+    .MemReadOut(MemReadEX),
+    .MemToRegOut(MemToRegEX),
+    .RegDstOut(RegDstEX),
+    .ALUSrcOut(ALUSrcEX),
+    .LoadDataOut(LoadDataEX),
+    .PCSrcOut(PCSrcEX),
+    .StoreDataOut(StoreDataEX),
+    .JmuxOut(JmuxEX),
+    .JrAddressOut(JrAddressEX),
+    .JrDataOut(JrDataEX),
+    .RTypeOut(RTypeEX),
+    .ShiftMuxOut(ShiftMuxEX)
+);
+
 
 // EXECUTE PHASE
 
