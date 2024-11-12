@@ -137,14 +137,16 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     SignExtension signExtend_150(InstructionOut[15:0], Offset);
     SignExtension5Bit signExtend_SA(InstructionOut[10:6], SAID); 
     
-    Hazard hazard(.instruction(Instruction),
-    .destEX(RegDestEX), 
-    .regWriteEX(RegWriteEX), //checks if there can be a problem dest1 or if it is storeword or something silly
-    .destMEM(RegDestMEM), //dest from the memory phase. 
-    .regWriteMEM(RegWriteMEM), //Checks same as other
-    .IDIF(HAZARDIFID), 
-    .PCSTOP(HAZARDPC),
-    .ControlMux(HAZARDCONTROL));
+    Hazard hazard(
+        .instruction(Instruction),
+        .destEX(RegDestEX), 
+        .regWriteEX(RegWriteEX), //checks if there can be a problem dest1 or if it is storeword or something silly
+        .destMEM(RegDestMEM), //dest from the memory phase. 
+        .regWriteMEM(RegWriteMEM), //Checks same as other
+        .IDIF(HAZARDIFID), 
+        .PCSTOP(HAZARDPC),
+        .ControlMux(HAZARDCONTROL)
+    );
     
     //MUXES Here
     Controller control(
