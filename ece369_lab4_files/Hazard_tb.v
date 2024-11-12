@@ -18,5 +18,12 @@ module Hazard_tb();
 		regWriteEX <= 1'b1;
 		destMEM <= 5'b1;
 		regWriteMEM <= 1'b1;
+		#10;
+		// Should stall
+		instruction <= 6'b100_011;
+		destEX <= 5'b1;
+		regWriteEX <= 1'b1;
+		destMEM <= 5'b1;
+		regWriteMEM <= 1'b1;
 	end
 endmodule

@@ -12,31 +12,33 @@ module HazardALU(Opcode, RType, A, B, ALUResult);
 			
 		end
 		else begin
-			// REGIMM
-			// bgez
-			6'b000_001: begin
-				ALUResult <= A >= 0;
-			end
-			// beq
-			6'b000_100: begin
-				ALUResult <= A == B;
-			end
-			// bne
-			6'b000_101: begin
-				ALUResult <= A != B;
-			end
-			// bgtz
-			6'b000_111: begin
-				ALUResult <= A > 0;
-			end
-			// blez
-			6'b000_110: begin
-				ALUResult <= A <= 0;
-			end
-			// bltz
-			6'b000_000: begin
-				ALUResult <= A < 0;
-			end
+			case(Opcode)
+				// REGIMM
+				// bgez
+				6'b000_001: begin
+					ALUResult <= A >= 0;
+				end
+				// beq
+				6'b000_100: begin
+					ALUResult <= A == B;
+				end
+				// bne
+				6'b000_101: begin
+					ALUResult <= A != B;
+				end
+				// bgtz
+				6'b000_111: begin
+					ALUResult <= A > 0;
+				end
+				// blez
+				6'b000_110: begin
+					ALUResult <= A <= 0;
+				end
+				// bltz
+				6'b000_000: begin
+					ALUResult <= A < 0;
+				end
+			endcase
 		end
 	end
 endmodule
