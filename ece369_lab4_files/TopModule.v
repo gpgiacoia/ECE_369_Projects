@@ -151,7 +151,7 @@ wire [1:0] LoadDataOut;
     SignExtension signExtend_150(InstructionOut[15:0], Offset);
     SignExtension5Bit signExtend_SA(InstructionOut[10:6], SAID); 
     
-    Hazard hazard(.instruction(Instruction),
+    Hazard hazard(.instruction(InstructionOut),
     .destEX(RegDestEX), 
     .regWriteEX(RegWriteEX), //checks if there can be a problem dest1 or if it is storeword or something silly
     .destMEM(RegDestMEM), //dest from the memory phase. 

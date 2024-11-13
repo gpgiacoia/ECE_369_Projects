@@ -32,10 +32,7 @@ module Hazard(
         IDIF<= 1; //one meaning go ahead
         ControlMux<= 0; //meaning control signals go ahead, not reset all to 0
         //PROBLEM FIXME: THERE COULD BE ACCIDENTAL DEPENDENCIES, IF IMMEDIATE TYPE RT IS FOUND TO BE THE SAME AS BEFORE, SHOULD NOT BE DEPENDENCY
-        if (op == 6'b101_011 || //sw
-            op == 6'b100_011 || //lw
-            op == 6'b101_000 || //sb
-            op == 6'b101_001 ||// sh
+        if (op == 6'b100_011 || //lw
             op == 6'b100_000 || //lb
             op == 6'b100_001 || //lh
             op == 6'b001_000 ||//addi
@@ -56,7 +53,10 @@ module Hazard(
         else if(op == 6'b000_000 ||
                 op == 6'b000_100 ||//beq 
                 op == 6'b000_101 ||//bne
-                op == 6'b000_010 //mul
+                op == 6'b000_010 ||//mul
+                op == 6'b101_011 || //sw
+                op == 6'b101_000 || //sb
+                op == 6'b101_001 // sh
                 ) begin
                 if(regWriteEX && ((rs == destEX && rs !=0) || (rt == destEX && rt!=0)) 
                 || (regWriteMEM && ((rs == destMEM && rs!=0) || (rt == destMEM && rt!=0)))) begin  
