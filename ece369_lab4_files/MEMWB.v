@@ -34,7 +34,7 @@ module MEMWB(
     output reg JrDataOut            
     );
 
-    always @(posedge Clk or posedge Reset) begin
+    always @(negedge Clk or posedge Reset) begin
         if (Reset) begin
             // Reset all outputs to zero
             MemReadDataOut <= 0;
@@ -42,7 +42,7 @@ module MEMWB(
             RegAddressOut <= 0;
             PCOut<=0;
             
-PCAdderResultOut<=0;
+            PCAdderResultOut<=0;
             // Reset control signals
             RegWriteOut <= 0;
             MemToRegOut <= 0;
