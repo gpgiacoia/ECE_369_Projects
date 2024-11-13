@@ -31,7 +31,7 @@ module ProgramCounter(Address, PCResult, Reset, Clk, PCSTOP);
 
     output reg [31:0] PCResult;
 
-    always @(posedge Clk) begin
+    always @(negedge Clk) begin
         if(Reset == 1)begin
             PCResult <= 32'b0;
         end
