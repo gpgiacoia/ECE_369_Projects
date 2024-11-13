@@ -195,7 +195,7 @@ ControlMux controlMUX(
     .sel(HAZARDCONTROL)                         // Control signal for mux selection
 );
     HazardALU hazardalu(.Opcode(InstructionOut), .RType(RTypeID), .A(ReadData1), .B(ReadData2), .ALUResult(BRANCHALU));
-    assign PCSrc = PCSrcMEM & BRANCHALU;
+    assign PCSrc = PCSrcID & BRANCHALU;
     JumpTarget jtarget(JTargetResult, InstructionOut[25:0], PCID);
     assign ShiftedEX =  Offset << 2;
     assign JumpPCEX = PCID + ShiftedEX;
