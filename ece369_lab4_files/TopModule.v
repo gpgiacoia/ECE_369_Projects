@@ -123,6 +123,7 @@ wire [5:0] ALUOpOut;
 wire [1:0] JmuxOut;
 wire [1:0] StoreDataOut;
 wire [1:0] LoadDataOut;
+wire BRANCHALU;
     // Mark the internal register as debug signal
     //(* mark_debug = "true" *) wire [31:0] FINALPC = PCWB;
     assign PCDONE = PCWB; 
@@ -159,6 +160,7 @@ wire [1:0] LoadDataOut;
     .IDIF(HAZARDIFID), 
     .PCSTOP(HAZARDPC),
     .ControlMux(HAZARDCONTROL));
+    
 ControlMux controlMUX(
     .RegWriteIn(RegWriteID),
     .MemWriteIn(MemWriteID),
@@ -192,6 +194,14 @@ ControlMux controlMUX(
     .LoadDataOut(LoadDataOut),        // Connect to output wire
     .sel(HAZARDCONTROL)                         // Control signal for mux selection
 );
+    HazardALU hazardalu(.Opcode(InstructionOut), .RType(RTypeID), .A(ReadData1), .B(ReadData2), .ALUResult(BRANCHALU));
+    assign PCSrc = PCSrcMEM & BRANCHALU;
+    JumpTarget jtarget(JTargetResult, InstructionOut[25:0], PCID);
+    assign ShiftedEX =  Offset << 2;
+    assign JumpPCEX = PCID + ShiftedEX;
+
+    Mux32Bit2To1 PcSrcMux(JPCValue, PCAdderResult, JumpPCEX, PCSrc);
+    Mux32Bit3To1 JmuxMux(PCFinal, JPCValue , ReadData1, JTargetResult, JmuxID);
     //MUXES Here
     Controller control(
         InstructionOut,
@@ -282,8 +292,8 @@ ControlMux controlMUX(
     
     Mux32Bit2To1 AluSrcMux(ALUB, ReadData2EX, OffsetEX, ALUSrcEX);
     Mux32Bit2To1 shiftMux(ALUA, ReadData1EX, SAEX, ShiftMuxEX); //FIXME CONNECT ALUA TO ALU
-    assign ShiftedEX = OffsetEX << 2;
-    assign JumpPCEX = PCEX + ShiftedEX;
+    //assign ShiftedEX = OffsetEX << 2;
+    //assign JumpPCEX = PCEX + ShiftedEX;
     
     ALU32Bit alu(ALUOpEX, RTypeEX, ALUA, ALUB, ALUResultEX, ALUZeroEX);
     
@@ -338,11 +348,11 @@ ControlMux controlMUX(
     );
     
     
-    assign PCSrc = PCSrcMEM & ALUZeroMEM;
-    JumpTarget jtarget(JTargetResult, JTargetMEM, PCMEM);
+    //assign PCSrc = PCSrcMEM & ALUZeroMEM;
+    //JumpTarget jtarget(JTargetResult, JTargetMEM, PCMEM);
     
-    Mux32Bit2To1 PcSrcMux(JPCValue, PCAdderResult, JumpPCMEM, PCSrc);
-    Mux32Bit3To1 JmuxMux(PCFinal,JPCValue , RAMEM, JTargetResult, JmuxMEM);
+    //Mux32Bit2To1 PcSrcMux(JPCValue, PCAdderResult, JumpPCMEM, PCSrc);
+    //Mux32Bit3To1 JmuxMux(PCFinal,JPCValue , RAMEM, JTargetResult, JmuxMEM);
 
     DataMemory datamemory(ALUResultMEM, WriteDataMEM, ClkOut, 
     MemWriteMEM, MemReadMEM, ReadDataMEM); 
