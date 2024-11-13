@@ -16,7 +16,6 @@ module Hazard(
     //if R type check for dest equals to rt or rs, 
     //if I type check for dest equals to rs
     //For arithmetic operations will stall for 3 cycles
-
     
     //now we have to check for lw rd, offset(base) dependency with base
     

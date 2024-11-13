@@ -17,6 +17,8 @@ module MEMWB(
     input wire JrAddress,            
     input wire JrData,
             
+    input wire [31:0]PCAdderResultIn,
+    output reg [31:0]PCAdderResultOut,
     
     // Data outputs
     output reg [31:0] MemReadDataOut,
@@ -40,7 +42,7 @@ module MEMWB(
             RegAddressOut <= 0;
             PCOut<=0;
             
-
+PCAdderResultOut<=0;
             // Reset control signals
             RegWriteOut <= 0;
             MemToRegOut <= 0;
@@ -53,6 +55,7 @@ module MEMWB(
             ALUResultOut <= ALUResultIn;
             RegAddressOut <= RegAddressIn;
             PCOut<=PCIn;
+            PCAdderResultOut<=PCAdderResultIn;
 
             // Pass control signals to outputs
             RegWriteOut <= RegWrite;

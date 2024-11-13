@@ -14,7 +14,8 @@ module IDEX (
     input wire [4:0] rtIn,          
     input wire [4:0] rdIn,           
     input wire [31:0] saIn,   
-    input wire [25:0]JTarget,       
+    input wire [25:0]JTarget,  
+    input wire [31:0] PCAdderResultIn,     
     
     // Control Signal Inputs
     input wire [5:0] ALUOp,          
@@ -34,6 +35,7 @@ module IDEX (
     input wire ShiftMux,             
     
     // Data Outputs
+    output reg [31:0] PCAdderResultOut,
     output reg [31:0] PCOut,         
     output reg [31:0] RD1Out,       
     output reg [31:0] RD2Out,       
@@ -73,6 +75,7 @@ always @(posedge Clk or posedge Reset) begin
         rdOut <= 5'b0;
         saOut <= 5'b0;
         JTargetOut<=26'b0;
+        PCAdderResultOut<=32'b0;
         
         // Reset all control signal outputs to zero
         ALUOpOut <= 2'b0;
@@ -100,6 +103,7 @@ always @(posedge Clk or posedge Reset) begin
         rdOut <= rdIn;
         saOut <= saIn;
         JTargetOut<=JTarget;
+        PCAdderResultOut<=PCAdderResultIn;
         
         // Latch control signal inputs to outputs on clock edge
         ALUOpOut <= ALUOp;

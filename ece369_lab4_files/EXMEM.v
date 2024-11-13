@@ -24,6 +24,10 @@ module EXMEM(
     input wire [1:0]Jmux,                 
     input wire JrAddress,            
     input wire JrData,
+    
+    input wire [31:0]PCAdderResultIn,
+    output reg [31:0]PCAdderResultOut,
+
     // Data outputs
     output reg [25:0] JTargetOut,
     output reg [31:0] PCAddResultOut,      
@@ -58,7 +62,7 @@ module EXMEM(
             RegAddressOut <= 0;
             ReadData1Out<=0;
             PCOut<=0;
-            
+            PCAdderResultOut<=32'b0;
             // Reset control signals
             RegWriteOut <= 0;
             // Renamed to control to avoid name collision
@@ -81,7 +85,7 @@ module EXMEM(
             RegAddressOut <= RegAddressIn;
             ReadData1Out<=ReadData1;
             PCOut<=PCIn;
-
+            PCAdderResultOut<=PCAdderResultIn;
             // Pass control signals to outputs
             RegWriteOut <= RegWrite;
             // Renamed to control to avoid name collision

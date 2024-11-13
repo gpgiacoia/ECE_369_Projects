@@ -20,20 +20,24 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module IFID(Clk, Reset, PCIn, InstructionIn, InstructionOut, PCOut, WRITE);
+module IFID(Clk, Reset, PCIn, PCADDEDIN, PCADDEDOUT, InstructionIn, InstructionOut, PCOut, WRITE);
     input [31:0] PCIn; 
+    input[31:0] PCADDEDIN;
     input [31:0] InstructionIn; 
     input Clk, Reset, WRITE;
     output reg [31:0] InstructionOut;
     output reg [31:0] PCOut;
+    output reg [31:0] PCADDEDOUT;
     
     always @(posedge Clk) begin
     if (Reset) begin
         PCOut <= 32'b0;         
-        InstructionOut <= 32'b0;     
+        InstructionOut <= 32'b0;  
+        PCADDEDOUT<= 32'b0;   
     end else if(WRITE == 1) begin
         PCOut <= PCIn;        
         InstructionOut <= InstructionIn;  
+        PCADDEDOUT<=PCADDEDIN;
     end
 end
 

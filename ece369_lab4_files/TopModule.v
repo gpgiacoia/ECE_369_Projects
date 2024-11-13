@@ -106,6 +106,7 @@ module TopModule(Reset, Clk, PCDONE, WRITEDATADONE);
     wire JrAddressWB, JrDataWB;
     wire [31:0] PCWB; 
     wire HAZARDPC, HAZARDCONTROL, HAZARDIFID; 
+    wire [31:0] PCAdderResultID,PCAdderResultEX,PCAdderResultMEM,PCAdderResultWB;
     (* mark_debug = "true" *) output wire [31:0] PCDONE;
     (* mark_debug = "true" *) output wire [31:0] WRITEDATADONE;
         wire RegWriteOut;
@@ -139,12 +140,12 @@ wire BRANCHALU;
 
     PCAdder pcAdder(PC, PCAdderResult);
       
-    IFID ifid(.Clk(ClkOut), .Reset(Reset), .PCIn(PC), .InstructionIn(Instruction), 
+    IFID ifid(.Clk(ClkOut), .Reset(Reset), .PCIn(PC), .InstructionIn(Instruction), .PCADDEDIN(PCAdderResult), .PCADDEDOUT(PCAdderResultID), 
     .InstructionOut(InstructionOut), .PCOut(PCID), .WRITE(HAZARDIFID));
 
     //DECODE PHASE
     Mux5Bit2To1 JrAddrMux(WriteRegister, RegDestWB, RA, JrAddressWB); 
-    Mux32Bit2To1 JrDatamux(WriteData, WriteDataRegWB, PCMEM, JrDataWB); //FIXME
+    Mux32Bit2To1 JrDatamux(WriteData, WriteDataRegWB, PCAdderResultWB, JrDataWB); //FIXME
     
     RegisterFile registerFile(InstructionOut[25:21], InstructionOut[20:16], 
     WriteRegister, WriteData, RegWriteWB, ClkOut, ReadData1, ReadData2);
@@ -196,9 +197,9 @@ ControlMux controlMUX(
 );
     HazardALU hazardalu(.Opcode(InstructionOut), .RType(RTypeID), .A(ReadData1), .B(ReadData2), .ALUResult(BRANCHALU));
     assign PCSrc = PCSrcID & BRANCHALU;
-    JumpTarget jtarget(JTargetResult, InstructionOut[25:0], PCID);
+    JumpTarget jtarget(JTargetResult, InstructionOut[25:0], PCAdderResultID);
     assign ShiftedEX =  Offset << 2;
-    assign JumpPCEX = PCID + ShiftedEX;
+    assign JumpPCEX = PCAdderResultID + ShiftedEX;
 
     Mux32Bit2To1 PcSrcMux(JPCValue, PCAdderResult, JumpPCEX, PCSrc);
     Mux32Bit3To1 JmuxMux(PCFinal, JPCValue , ReadData1, JTargetResult, JmuxID);
@@ -235,6 +236,7 @@ ControlMux controlMUX(
     .rdIn(InstructionOut[15:11]),
     .saIn(SAID),
     .JTarget(InstructionOut[25:0]),
+    .PCAdderResultIn(PCAdderResultID),
     
     // Control Signal Inputs
     .ALUOp(ALUOpOut),
@@ -254,6 +256,7 @@ ControlMux controlMUX(
     .ShiftMux(ShiftMuxOut),
 
     // Data Outputs
+    .PCAdderResultOut(PCAdderResultEX),
     .PCOut(PCEX),
     .RD1Out(ReadData1EX),
     .RD2Out(ReadData2EX),
@@ -300,54 +303,52 @@ ControlMux controlMUX(
     Mux5Bit2To1 RegDestMux(RegDestEX, RtEX, RdEX, RegDstEX);
     
     EXMEM exmem(
-    ClkOut,
-    Reset,
-    
+    .Clk(ClkOut),
+    .Reset(Reset),
     // Data inputs
-    JTargetEX,
-    JumpPCEX, 
-    ALUZeroEX,        
-    ALUResultEX,       
-    WriteDataEX,   
-    RegDestEX, // RESULT FROM 5 BIT MUX FIXME         
-    ReadData1EX, //Used for JR RA
-    PCEX,
-
+    .JTargetIn(JTargetEX),
+    .PCAddResultIn(JumpPCEX),      
+    .ALUZeroIn(ALUZeroEX),        
+    .ALUResultIn(ALUResultEX),       
+    .MemWriteIn(WriteDataEX),   
+    .RegAddressIn(RegDestEX),          
+    .ReadData1(ReadData1EX),
+    .PCIn(PCEX),
     // Control inputs
-    RegWriteEX,             
-    MemWriteEX,             
-    MemReadEX,              
-    MemToRegEX,             
-    LoadDataEX,             
-    PCSrcEX,                
-    JmuxEX,                 
-    JrAddressEX,            
-    JrDataEX,
-
+    .RegWrite(RegWriteEX),             
+    .MemWrite(MemWriteEX),             
+    .MemRead(MemReadEX),              
+    .MemToReg(MemToRegEX),             
+    .LoadData(LoadDataEX),             
+    .PCSrc(PCSrcEX),                
+    .Jmux(JmuxEX),                 
+    .JrAddress(JrAddressEX),            
+    .JrData(JrDataEX),
+    .PCAdderResultIn(PCAdderResultEX),
+    .PCAdderResultOut(PCAdderResultMEM),
     // Data outputs
-    JTargetMEM,
-    JumpPCMEM, 
-    ALUZeroMEM,        
-    ALUResultMEM,       
-    WriteDataMEM,   
-    RegDestMEM,          
-    RAMEM, 
-    PCMEM,
-
+    .JTargetOut(JTargetMEM),
+    .PCAddResultOut(JumpPCMEM),      
+    .ALUZeroOut(ALUZeroMEM),        
+    .ALUResultOut(ALUResultMEM),       
+    .MemWriteOut(WriteDataMEM),   
+    .RegAddressOut(RegDestMEM),          
+    .ReadData1Out(RAMEM), 
+    .PCOut(PCMEM),
 
     // Control outputs
-    RegWriteMEM,
-    MemWriteMEM,
-    MemReadMEM,
-    MemToRegMEM,
-    LoadDataMEM,
-    PCSrcMEM,
-    JmuxMEM,
-    JrAddressMEM,
-    JrDataMEM
+    .RegWriteOut(RegWriteMEM),             
+    // Renamed to control to avoid name collision
+    .MemWriteOutControl(MemWriteMEM),             
+    .MemReadOut(MemReadMEM),              
+    .MemToRegOut(MemToRegMEM),             
+    .LoadDataOut(LoadDataMEM),             
+    .PCSrcOut(PCSrcMEM),                
+    .JmuxOut(JmuxMEM),                 
+    .JrAddressOut(JrAddressMEM),  //Maybe this is a problem? We'll find out soon           
+    .JrDataOut(JrDataMEM)
+
     );
-    
-    
     //assign PCSrc = PCSrcMEM & ALUZeroMEM;
     //JumpTarget jtarget(JTargetResult, JTargetMEM, PCMEM);
     
@@ -358,34 +359,36 @@ ControlMux controlMUX(
     MemWriteMEM, MemReadMEM, ReadDataMEM); 
     
     MEMWB memwb(
-        ClkOut, 
-        Reset,
-        
-        // Data inputs
-        ReadDataMEM,
-        ALUResultMEM,
-        RegDestMEM,
-        PCMEM, 
-        
-        // Control inputs
-        RegWriteMEM,             
-        MemToRegMEM,             
-        LoadDataMEM, 
-        JrAddressMEM,            
-        JrDataMEM,   
-         
-        // Data outputs
-        MemReadWB, 
-        ALUResultWB,
-        RegDestWB,
-        PCWB, 
-        
-        // Control outputs
-        RegWriteWB,             
-        MemToRegWB,             
-        LoadDataWB,
-        JrAddressWB,       
-        JrDataWB
+    .Clk(ClkOut), 
+    .Reset(Reset),
+    
+    // Data inputs
+    .MemReadData(ReadDataMEM),
+    .ALUResultIn(ALUResultMEM),
+    .RegAddressIn(RegDestMEM),
+    .PCIn(PCMEM), 
+    
+    // Control inputs
+    .RegWrite(RegWriteMEM),             
+    .MemToReg(MemToRegMEM),             
+    .LoadData(LoadDataMEM), 
+    .JrAddress(JrAddressMEM),            
+    .JrData(JrDataMEM),
+            .PCAdderResultIn(PCAdderResultMEM),
+    .PCAdderResultOut(PCAdderResultWB),
+    
+    // Data outputs
+    .MemReadDataOut(MemReadWB),
+    .ALUResultOut(ALUResultWB),
+    .RegAddressOut(RegDestWB),
+    .PCOut(PCWB),
+    
+    // Control outputs
+    .RegWriteOut(RegWriteWB),             
+    .MemToRegOut(MemToRegWB),             
+    .LoadDataOut(LoadDataWB),
+    .JrAddressOut(JrAddressWB),            
+    .JrDataOut( JrDataWB)  
     );
     
     Mux32Bit2To1 MemRegMux(LWFull, MemReadWB, ALUResultWB, MemToRegWB);
