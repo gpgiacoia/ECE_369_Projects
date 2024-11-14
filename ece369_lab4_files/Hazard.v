@@ -52,7 +52,7 @@ module Hazard(
         else if(op == 6'b000_000 ||
                 op == 6'b000_100 ||//beq 
                 op == 6'b000_101 ||//bne
-                op == 6'b000_010 ||//mul
+                op == 6'b011100 ||//mul
                 op == 6'b101_011 || //sw
                 op == 6'b101_000 || //sb
                 op == 6'b101_001 // sh

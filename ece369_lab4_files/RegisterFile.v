@@ -76,7 +76,7 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
          ReadData1 <= registers[ReadRegister1];
          ReadData2 <= registers[ReadRegister2];
     end
-    always @ (negedge Clk) begin
+    always @ (posedge Clk) begin
         if (RegWrite == 1 && WriteRegister != 5'b00000) begin // Prevent writing to register 0
             registers[WriteRegister] = WriteData;
         end
