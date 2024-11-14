@@ -31,7 +31,7 @@ module IFID(Clk, Reset, PCIn, PCADDEDIN, PCADDEDOUT, InstructionIn, InstructionO
     
     always @(posedge Clk) begin
     if (Reset) begin
-        PCOut <= 32'b0;         
+        PCOut <= 0;         
         InstructionOut <= 32'b0;  
         PCADDEDOUT<= 32'b0;   
     end else if(WRITE == 1) begin

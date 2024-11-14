@@ -146,7 +146,7 @@ wire BRANCHALU;
 
     InstructionMemory instructionMemory(PC, Instruction);
 
-    PCAdder pcAdder(PCID, PCAdderResult);
+    PCAdder pcAdder(PC, PCAdderResult);
       
     IFID ifid(.Clk(ClkOut), .Reset(Reset), .PCIn(PC), .InstructionIn(Instruction), .PCADDEDIN(PCAdderResult), .PCADDEDOUT(PCAdderResultID), 
     .InstructionOut(InstructionOut), .PCOut(PCID), .WRITE(HAZARDIFID));
