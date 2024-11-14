@@ -133,12 +133,20 @@ wire BRANCHALU;
     // TODO: Uncomment clock, temporary for use in test bench
     //ClkDiv clock(Clk, Reset, ClkOut);
     assign ClkOut = Clk;
+    HazardALU hazardalu(.Opcode(InstructionOut), .RType(RTypeID), .A(ReadData1), .B(ReadData2), .ALUResult(BRANCHALU));
+    assign PCSrc = PCSrcID & BRANCHALU;
+    JumpTarget jtarget(JTargetResult, InstructionOut[25:0], PCAdderResultID);
+    assign ShiftedEX =  Offset << 2;
+    assign JumpPCEX = PCAdderResultID + ShiftedEX;
+
+    Mux32Bit2To1 PcSrcMux(JPCValue, PCAdderResult, JumpPCEX, PCSrc);
+    Mux32Bit3To1 JmuxMux(PCFinal, JPCValue , ReadData1, JTargetResult, JmuxID);
     ProgramCounter program_counter(.Address(PCFinal), .PCResult(PC), 
     .Reset(Reset), .Clk(ClkOut), .PCSTOP(HAZARDPC));
 
     InstructionMemory instructionMemory(PC, Instruction);
 
-    PCAdder pcAdder(PC, PCAdderResult);
+    PCAdder pcAdder(PCID, PCAdderResult);
       
     IFID ifid(.Clk(ClkOut), .Reset(Reset), .PCIn(PC), .InstructionIn(Instruction), .PCADDEDIN(PCAdderResult), .PCADDEDOUT(PCAdderResultID), 
     .InstructionOut(InstructionOut), .PCOut(PCID), .WRITE(HAZARDIFID));
@@ -195,14 +203,7 @@ ControlMux controlMUX(
     .LoadDataOut(LoadDataOut),        // Connect to output wire
     .sel(HAZARDCONTROL)                         // Control signal for mux selection
 );
-    HazardALU hazardalu(.Opcode(InstructionOut), .RType(RTypeID), .A(ReadData1), .B(ReadData2), .ALUResult(BRANCHALU));
-    assign PCSrc = PCSrcID & BRANCHALU;
-    JumpTarget jtarget(JTargetResult, InstructionOut[25:0], PCAdderResultID);
-    assign ShiftedEX =  Offset << 2;
-    assign JumpPCEX = PCAdderResultID + ShiftedEX;
 
-    Mux32Bit2To1 PcSrcMux(JPCValue, PCAdderResult, JumpPCEX, PCSrc);
-    Mux32Bit3To1 JmuxMux(PCFinal, JPCValue , ReadData1, JTargetResult, JmuxID);
     //MUXES Here
     Controller control(
         InstructionOut,

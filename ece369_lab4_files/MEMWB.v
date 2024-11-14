@@ -34,7 +34,7 @@ module MEMWB(
     output reg JrDataOut            
     );
 
-    always @(posedge Clk or posedge Reset) begin
+    always @(posedge Clk) begin
         if (Reset) begin
             // Reset all outputs to zero
             MemReadDataOut <= 0;
