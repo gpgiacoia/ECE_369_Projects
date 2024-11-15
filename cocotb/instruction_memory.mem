@@ -1,0 +1,53 @@
+20080000	//	main:		addi	$t0, $zero, 0 ->	main:		addi	$t0, $zero, 0
+20090001	//			addi	$t1, $zero, 1 ->			addi	$t1, $zero, 1
+00094a00	//			sll	$t1, $t1, 8 ->			sll	$t1, $t1, 8
+00094a00	//			sll	$t1, $t1, 8 ->			sll	$t1, $t1, 8
+21290001	//			addi	$t1, $t1, 1 ->			addi	$t1, $t1, 1
+a5090004	//			sh	$t1, 4($t0) ->			sh	$t1, 4($t0)
+8d0b0004	//			lw	$t3, 4($t0) ->			lw	$t3, 4($t0)
+200a0003	//			addi	$t2, $zero, 3 ->			addi	$t2, $zero, 3
+000a51c0	//			sll	$t2, $t2, 7 ->			sll	$t2, $t2, 7
+000a5200	//			sll	$t2, $t2, 8 ->			sll	$t2, $t2, 8
+214a0001	//			addi	$t2, $t2, 1 ->			addi	$t2, $t2, 1
+ad0a0008	//			sw	$t2, 8($t0) ->			sw	$t2, 8($t0)
+850d0008	//			lh	$t5, 8($t0) ->			lh	$t5, 8($t0)
+a50a000c	//			sh	$t2, 12($t0) ->			sh	$t2, 12($t0)
+8d0c000c	//			lw	$t4, 12($t0) ->			lw	$t4, 12($t0)
+0800001d	//			j	ARITHMETIC ->			j	ARITHMETIC
+200e0001	//	BYTES:		addi	$t6, $zero, 1 ->	BYTES:		addi	$t6, $zero, 1
+000e7200	//			sll	$t6, $t6, 8 ->			sll	$t6, $t6, 8
+21ce0003	//			addi	$t6, $t6, 3 ->			addi	$t6, $t6, 3
+ad0e0010	//			sw	$t6, 16($t0) ->			sw	$t6, 16($t0)
+810f0010	//			lb	$t7, 16($t0) ->			lb	$t7, 16($t0)
+a10e0014	//			sb	$t6, 20($t0) ->			sb	$t6, 20($t0)
+8d180014	//			lw	$t8, 20($t0) ->			lw	$t8, 20($t0)
+2008004b	//			addi	$t0, $zero, 75 ->			addi	$t0, $zero, 75
+0c00002c	//			jal	LOGICAL ->			jal	LOGICAL
+20080064	//			addi	$t0, $zero, 100 ->			addi	$t0, $zero, 100
+20090064	//			addi	$t1, $zero, 100 ->			addi	$t1, $zero, 100
+01094022	//			sub	$t0, $t0, $t1 ->			sub	$t0, $t0, $t1
+11000017	//			beq	$t0, $zero, END ->			beq	$t0, $zero, END
+20100004	//	ARITHMETIC:	addi	$s0, $zero, 4 ->	ARITHMETIC:	addi	$s0, $zero, 4
+2011000a	//			addi	$s1, $zero, 10 ->			addi	$s1, $zero, 10
+72309002	//			mul	$s2, $s1, $s0 ->			mul	$s2, $s1, $s0
+02119822	//			sub	$s3, $s0, $s1 ->			sub	$s3, $s0, $s1
+0272a020	//			add	$s4, $s3, $s2 ->			add	$s4, $s3, $s2
+08000010	//			j	BYTES ->			j	BYTES
+0000a825	//	BEQZTEST:	or	$s5, $zero, $zero ->	BEQZTEST:	or	$s5, $zero, $zero
+3676ffff	//			ori	$s6, $s3, 65535 ->			ori	$s6, $s3, 65535
+0211b827	//			nor	$s7, $s0, $s1 ->			nor	$s7, $s0, $s1
+3a780372	//			xori	$t8, $s3, 882 ->			xori	$t8, $s3, 882
+0013c0c0	//			sll	$t8, $s3, 3 ->			sll	$t8, $s3, 3
+0013c842	//			srl	$t9, $s3, 1 ->			srl	$t9, $s3, 1
+22d60200	//			addi	$s6, $s6, 512 ->			addi	$s6, $s6, 512
+22730050	//			addi	$s3, $s3, 80 ->			addi	$s3, $s3, 80
+2231000a	//			addi	$s1, $s1, 10 ->			addi	$s1, $s1, 10
+3275fffd	//	LOGICAL:	andi	$s5, $s3, -3 ->	LOGICAL:	andi	$s5, $s3, -3
+0275b024	//			and	$s6, $s3, $s5 ->			and	$s6, $s3, $s5
+0211b826	//			xor	$s7, $s0, $s1 ->			xor	$s7, $s0, $s1
+02f6c02a	//			slt	$t8, $s7, $s6 ->			slt	$t8, $s7, $s6
+2ad90000	//			slti	$t9, $s6, 0 ->			slti	$t9, $s6, 0
+1720fff1	//			bne	$t9, $zero, BEQZTEST ->			bne	$t9, $zero, BEQZTEST
+200800a4	//			addi	$t0, $zero, 164 ->			addi	$t0, $zero, 164
+03e00008	//			jr	$ra ->			jr	$ra
+20171337	//	END:		addi	$s7, $zero, 4919 ->	END:		addi	$s7, $zero, 4919
