@@ -46,7 +46,6 @@ module InstructionMemory(Address, Instruction);
 
     initial begin
         $readmemh("instruction_memory.mem", memory);
-        $monitor("t=%0t - Instruction = 0b%32b", $time, Instruction);
     end
     always @(Address) begin
         Instruction <= memory[Address[11:2]];

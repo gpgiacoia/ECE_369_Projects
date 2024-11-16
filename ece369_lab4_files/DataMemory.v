@@ -53,13 +53,11 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData);
     always @ (posedge Clk) begin
         if (MemWrite == 1) begin
             memory[Address[11:2]] <= WriteData;
-            $display("t=%0t - DATA_MEM_WRITE = 0x%8h at 0x%8h", $time, memory[Address[11:2]], Address[11:2]);
         end
     end
     always @ (*) begin
         if (MemRead == 1) begin
             ReadData = memory[Address[11:2]];
-            $display("t=%0t - DATA_MEM_READ = 0x%8h at 0x%8h", $time, ReadData, Address[11:2]);
         end
         else begin
             ReadData = 0;

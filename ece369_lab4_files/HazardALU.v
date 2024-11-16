@@ -9,7 +9,7 @@ module HazardALU(Opcode, RType, A, B, ALUResult);
 
 	always @(Opcode, RType, A, B) begin
 		if (RType == 1) begin
-			
+			// TODO: Should have an action here
 		end
 		else begin
 			case(Opcode)

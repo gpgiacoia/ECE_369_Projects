@@ -65,11 +65,9 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
     
     // Ensure register $zero (registers[0]) is always zero
     initial begin
-        registers[0] = 32'h0;
-        registers[28] = 32'h10008000;
-        registers[29] = 32'h3e8;
-
-
+        registers[0] = 32'h0;           // Initialize Zero
+        registers[28] = 32'h10008000;   // Initialize Global Pointer
+        registers[29] = 32'h3e8;        // Initialize Stack Pointer
     end
     
     always @(*) begin
