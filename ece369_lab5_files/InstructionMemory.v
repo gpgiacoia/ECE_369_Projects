@@ -45,7 +45,7 @@ module InstructionMemory(Address, Instruction);
     reg [31:0] memory [1023:0];      // 1024 words of 32-bit memory
 
     initial begin
-        $readmemh("instruction_memory.mem", memory);
+        $readmemh("instruction_memory.mem", memory, 0, 1023);
     end
     always @(Address) begin
         Instruction <= memory[Address[11:2]];
