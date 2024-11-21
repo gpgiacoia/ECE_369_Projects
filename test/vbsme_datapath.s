@@ -670,27 +670,27 @@ print_result:
     # Printing $v0
     add     $a0, $v0, $zero     # Load $v0 for printing
     li      $v0, 1              # Load the system call numbers
-    syscall
+    # syscall
    
     # Print newline.
     la      $a0, newline          # Load value for printing
     li      $v0, 4                # Load the system call numbers
-    syscall
+    # syscall
    
     # Printing $v1
     add     $a0, $v1, $zero      # Load $v1 for printing
     li      $v0, 1                # Load the system call numbers
-    syscall
+    # syscall
 
     # Print newline.
     la      $a0, newline          # Load value for printing
     li      $v0, 4                # Load the system call numbers
-    syscall
+    # syscall
    
     # Print newline.
     la      $a0, newline          # Load value for printing
     li      $v0, 4                # Load the system call numbers
-    syscall
+    # syscall
    
     jr      $ra                   #function return
 
@@ -795,7 +795,7 @@ vbsme:
     
     li $s7, 0 # s7 = direction = 0
     li $t8, 0 # currIndex = 0;
-    li $s6,1000000 # s6 = "set to a very large value"
+    li $s6, 1000000 # s6 = "set to a very large value"
     li $t3, 0 #TO BE THE FINAL INDEX 
     # registers t0, t1, t2, t3 are now free
     
@@ -825,10 +825,14 @@ back:
     add $t3, $zero, $t8
 skip: 
     #end of call to funciton
-    beq $s7, 0, direction0
-    beq $s7, 1, direction1
-    beq $s7, 2, direction2
-    beq $s7, 3, direction3
+    beq $s7, $zero, direction0
+    addi $sp, $zero, 1
+    beq $s7, $sp, direction1
+    addi $sp, $zero, 2
+    beq $s7, $sp, direction2
+    addi $sp, $zero, 3
+    beq $s7, $sp, direction3
+
 orange:
     j loop
     
@@ -926,10 +930,11 @@ calculateLoop:
     # bge $t5, $t4, calculateLoopExit #if index >= i exit
     sub $sp, $t5, $t4
     bgez $sp, calculateLoopExit
-    mul $t2, $t5, 4 # gets correct index as 4 bytes per word
+    addi $sp, $zero, 4
+    mul $t2, $t5, $sp # gets correct index as 4 bytes per word
     add $t2, $t2, $a2
     lw $t0, 0($t2) #temp = window[index]
-    mul $t2, $t9, 4
+    mul $t2, $t9, $sp
     add $t2, $t2, $a1
     lw $t2, 0($t2) #temp2 = grid[currIndex]
     sub $t0, $t0, $t2 #temp = window[index] - grid[currIndex]
@@ -939,7 +944,8 @@ calculateLoop:
     # bge $t0, $t2, positive#go to greater than 0
     sub $sp, $t0, $t2
     bgez $sp, positive
-    mul $t0, $t0, -1
+    addi $sp, $zero, -1
+    mul $t0, $t0, $sp
 positive:
     add $t7, $t7, $t0 #sum +=temp
     
@@ -957,7 +963,7 @@ positive:
     add $t6, $zero, $t1
     lw $t1, 4($a0) # t1 = j 
 notzero: 
-    add $t5, $t5, 1 #index +=1
+    addi $t5, $t5, 1 #index +=1
     j calculateLoop
     
 calculateLoopExit: 
