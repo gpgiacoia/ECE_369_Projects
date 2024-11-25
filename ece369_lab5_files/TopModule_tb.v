@@ -9,7 +9,7 @@ module TopModule_tb();
     TopModule top_module(
 	.Clk(Clk),
 	.Reset(Reset),
-	.PCDONE(PCDONE),
+	.FINALINDEX(PCDONE),
 	.WRITEDATADONE(WRITEDATADONE)
     );
 
