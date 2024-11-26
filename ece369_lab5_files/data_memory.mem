@@ -1,593 +1,593 @@
-memory[0] <= 32'h4;
-memory[1] <= 32'h4;
-memory[2] <= 32'h2;
-memory[3] <= 32'h2;
-memory[4] <= 32'h0;
-memory[5] <= 32'h0;
-memory[6] <= 32'h1;
-memory[7] <= 32'h2;
-memory[8] <= 32'h0;
-memory[9] <= 32'h0;
-memory[10] <= 32'h3;
-memory[11] <= 32'h4;
-memory[12] <= 32'h0;
-memory[13] <= 32'h0;
-memory[14] <= 32'h0;
-memory[15] <= 32'h0;
-memory[16] <= 32'h0;
-memory[17] <= 32'h0;
-memory[18] <= 32'h0;
-memory[19] <= 32'h0;
-memory[20] <= 32'h1;
-memory[21] <= 32'h2;
-memory[22] <= 32'h3;
-memory[23] <= 32'h4;
-memory[24] <= 32'h10;
-memory[25] <= 32'h10;
-memory[26] <= 32'h4;
-memory[27] <= 32'h4;
-memory[28] <= 32'h0;
-memory[29] <= 32'h1;
-memory[30] <= 32'h2;
-memory[31] <= 32'h3;
-memory[32] <= 32'h0;
-memory[33] <= 32'h0;
-memory[34] <= 32'h0;
-memory[35] <= 32'h0;
-memory[36] <= 32'h0;
-memory[37] <= 32'h0;
-memory[38] <= 32'h0;
-memory[39] <= 32'h0;
-memory[40] <= 32'h0;
-memory[41] <= 32'h0;
-memory[42] <= 32'h0;
-memory[43] <= 32'h0;
-memory[44] <= 32'h1;
-memory[45] <= 32'h2;
-memory[46] <= 32'h3;
-memory[47] <= 32'h4;
-memory[48] <= 32'h4;
-memory[49] <= 32'h5;
-memory[50] <= 32'h6;
-memory[51] <= 32'h7;
-memory[52] <= 32'h8;
-memory[53] <= 32'h9;
-memory[54] <= 32'ha;
-memory[55] <= 32'hb;
-memory[56] <= 32'hc;
-memory[57] <= 32'hd;
-memory[58] <= 32'he;
-memory[59] <= 32'hf;
-memory[60] <= 32'h2;
-memory[61] <= 32'h3;
-memory[62] <= 32'h20;
-memory[63] <= 32'h1;
-memory[64] <= 32'h2;
-memory[65] <= 32'h3;
-memory[66] <= 32'hc;
-memory[67] <= 32'he;
-memory[68] <= 32'h10;
-memory[69] <= 32'h12;
-memory[70] <= 32'h14;
-memory[71] <= 32'h16;
-memory[72] <= 32'h18;
-memory[73] <= 32'h1a;
-memory[74] <= 32'h1c;
-memory[75] <= 32'h1e;
-memory[76] <= 32'h3;
-memory[77] <= 32'h4;
-memory[78] <= 32'h1;
-memory[79] <= 32'h2;
-memory[80] <= 32'h3;
-memory[81] <= 32'h4;
-memory[82] <= 32'h12;
-memory[83] <= 32'h15;
-memory[84] <= 32'h18;
-memory[85] <= 32'h1b;
-memory[86] <= 32'h1e;
-memory[87] <= 32'h21;
-memory[88] <= 32'h24;
-memory[89] <= 32'h27;
-memory[90] <= 32'h2a;
-memory[91] <= 32'h2d;
-memory[92] <= 32'h0;
-memory[93] <= 32'h4;
-memory[94] <= 32'h2;
-memory[95] <= 32'h3;
-memory[96] <= 32'h4;
-memory[97] <= 32'h5;
-memory[98] <= 32'h18;
-memory[99] <= 32'h1c;
-memory[100] <= 32'h20;
-memory[101] <= 32'h24;
-memory[102] <= 32'h28;
-memory[103] <= 32'h2c;
-memory[104] <= 32'h30;
-memory[105] <= 32'h34;
-memory[106] <= 32'h38;
-memory[107] <= 32'h3c;
-memory[108] <= 32'h0;
-memory[109] <= 32'h5;
-memory[110] <= 32'h3;
-memory[111] <= 32'h4;
-memory[112] <= 32'h5;
-memory[113] <= 32'h6;
-memory[114] <= 32'h1e;
-memory[115] <= 32'h23;
-memory[116] <= 32'h28;
-memory[117] <= 32'h2d;
-memory[118] <= 32'h32;
-memory[119] <= 32'h37;
-memory[120] <= 32'h3c;
-memory[121] <= 32'h41;
-memory[122] <= 32'h46;
-memory[123] <= 32'h4b;
-memory[124] <= 32'h0;
-memory[125] <= 32'h6;
-memory[126] <= 32'hc;
-memory[127] <= 32'h12;
-memory[128] <= 32'h18;
-memory[129] <= 32'h1e;
-memory[130] <= 32'h24;
-memory[131] <= 32'h2a;
-memory[132] <= 32'h30;
-memory[133] <= 32'h36;
-memory[134] <= 32'h3c;
-memory[135] <= 32'h42;
-memory[136] <= 32'h48;
-memory[137] <= 32'h4e;
-memory[138] <= 32'h54;
-memory[139] <= 32'h5a;
-memory[140] <= 32'h0;
-memory[141] <= 32'h4;
-memory[142] <= 32'he;
-memory[143] <= 32'h15;
-memory[144] <= 32'h1c;
-memory[145] <= 32'h23;
-memory[146] <= 32'h2a;
-memory[147] <= 32'h31;
-memory[148] <= 32'h38;
-memory[149] <= 32'h3f;
-memory[150] <= 32'h46;
-memory[151] <= 32'h4d;
-memory[152] <= 32'h54;
-memory[153] <= 32'h5b;
-memory[154] <= 32'h62;
-memory[155] <= 32'h69;
-memory[156] <= 32'h0;
-memory[157] <= 32'h8;
-memory[158] <= 32'h10;
-memory[159] <= 32'h18;
-memory[160] <= 32'h20;
-memory[161] <= 32'h28;
-memory[162] <= 32'h30;
-memory[163] <= 32'h38;
-memory[164] <= 32'h40;
-memory[165] <= 32'h48;
-memory[166] <= 32'h50;
-memory[167] <= 32'h58;
-memory[168] <= 32'h60;
-memory[169] <= 32'h68;
-memory[170] <= 32'h70;
-memory[171] <= 32'h78;
-memory[172] <= 32'h0;
-memory[173] <= 32'h9;
-memory[174] <= 32'h12;
-memory[175] <= 32'h1b;
-memory[176] <= 32'h24;
-memory[177] <= 32'h2d;
-memory[178] <= 32'h36;
-memory[179] <= 32'h3f;
-memory[180] <= 32'h48;
-memory[181] <= 32'h51;
-memory[182] <= 32'h5a;
-memory[183] <= 32'h63;
-memory[184] <= 32'h6c;
-memory[185] <= 32'h75;
-memory[186] <= 32'h7e;
-memory[187] <= 32'h87;
-memory[188] <= 32'h0;
-memory[189] <= 32'ha;
-memory[190] <= 32'h14;
-memory[191] <= 32'h1e;
-memory[192] <= 32'h28;
-memory[193] <= 32'h32;
-memory[194] <= 32'h3c;
-memory[195] <= 32'h46;
-memory[196] <= 32'h50;
-memory[197] <= 32'h5a;
-memory[198] <= 32'h64;
-memory[199] <= 32'h6e;
-memory[200] <= 32'h78;
-memory[201] <= 32'h82;
-memory[202] <= 32'h8c;
-memory[203] <= 32'h96;
-memory[204] <= 32'h0;
-memory[205] <= 32'hb;
-memory[206] <= 32'h16;
-memory[207] <= 32'h21;
-memory[208] <= 32'h2c;
-memory[209] <= 32'h37;
-memory[210] <= 32'h42;
-memory[211] <= 32'h4d;
-memory[212] <= 32'h58;
-memory[213] <= 32'h63;
-memory[214] <= 32'h6e;
-memory[215] <= 32'h79;
-memory[216] <= 32'h84;
-memory[217] <= 32'h8f;
-memory[218] <= 32'h9a;
-memory[219] <= 32'ha5;
-memory[220] <= 32'h0;
-memory[221] <= 32'hc;
-memory[222] <= 32'h18;
-memory[223] <= 32'h24;
-memory[224] <= 32'h30;
-memory[225] <= 32'h3c;
-memory[226] <= 32'h48;
-memory[227] <= 32'h54;
-memory[228] <= 32'h60;
-memory[229] <= 32'h6c;
-memory[230] <= 32'h78;
-memory[231] <= 32'h84;
-memory[232] <= 32'h0;
-memory[233] <= 32'h1;
-memory[234] <= 32'h2;
-memory[235] <= 32'h3;
-memory[236] <= 32'h0;
-memory[237] <= 32'hd;
-memory[238] <= 32'h1a;
-memory[239] <= 32'h27;
-memory[240] <= 32'h34;
-memory[241] <= 32'h41;
-memory[242] <= 32'h4e;
-memory[243] <= 32'h5b;
-memory[244] <= 32'h68;
-memory[245] <= 32'h72;
-memory[246] <= 32'h82;
-memory[247] <= 32'h8f;
-memory[248] <= 32'h1;
-memory[249] <= 32'h2;
-memory[250] <= 32'h3;
-memory[251] <= 32'h4;
-memory[252] <= 32'h0;
-memory[253] <= 32'he;
-memory[254] <= 32'h1c;
-memory[255] <= 32'h2a;
-memory[256] <= 32'h38;
-memory[257] <= 32'h46;
-memory[258] <= 32'h54;
-memory[259] <= 32'h62;
-memory[260] <= 32'h70;
-memory[261] <= 32'h7e;
-memory[262] <= 32'h8c;
-memory[263] <= 32'h9a;
-memory[264] <= 32'h2;
-memory[265] <= 32'h3;
-memory[266] <= 32'h4;
-memory[267] <= 32'h5;
-memory[268] <= 32'h0;
-memory[269] <= 32'hf;
-memory[270] <= 32'h1e;
-memory[271] <= 32'h2d;
-memory[272] <= 32'h3c;
-memory[273] <= 32'h4b;
-memory[274] <= 32'h5a;
-memory[275] <= 32'h69;
-memory[276] <= 32'h78;
-memory[277] <= 32'h87;
-memory[278] <= 32'h96;
-memory[279] <= 32'ha5;
-memory[280] <= 32'h3;
-memory[281] <= 32'h4;
-memory[282] <= 32'h5;
-memory[283] <= 32'h6;
-memory[284] <= 32'h0;
-memory[285] <= 32'h1;
-memory[286] <= 32'h2;
-memory[287] <= 32'h3;
-memory[288] <= 32'h1;
-memory[289] <= 32'h2;
-memory[290] <= 32'h3;
-memory[291] <= 32'h4;
-memory[292] <= 32'h2;
-memory[293] <= 32'h3;
-memory[294] <= 32'h4;
-memory[295] <= 32'h5;
-memory[296] <= 32'h3;
-memory[297] <= 32'h4;
-memory[298] <= 32'h5;
-memory[299] <= 32'h6;
-memory[300] <= 32'h10;
-memory[301] <= 32'h10;
-memory[302] <= 32'h4;
-memory[303] <= 32'h8;
-memory[304] <= 32'h7;
-memory[305] <= 32'h5;
-memory[306] <= 32'h8;
-memory[307] <= 32'h8;
-memory[308] <= 32'h0;
-memory[309] <= 32'h0;
-memory[310] <= 32'h0;
-memory[311] <= 32'h0;
-memory[312] <= 32'h0;
-memory[313] <= 32'h0;
-memory[314] <= 32'h0;
-memory[315] <= 32'h0;
-memory[316] <= 32'h1;
-memory[317] <= 32'h0;
-memory[318] <= 32'h0;
-memory[319] <= 32'h0;
-memory[320] <= 32'h7;
-memory[321] <= 32'h5;
-memory[322] <= 32'h8;
-memory[323] <= 32'h8;
-memory[324] <= 32'h0;
-memory[325] <= 32'h0;
-memory[326] <= 32'h0;
-memory[327] <= 32'h0;
-memory[328] <= 32'h0;
-memory[329] <= 32'h0;
-memory[330] <= 32'h0;
-memory[331] <= 32'h0;
-memory[332] <= 32'h1;
-memory[333] <= 32'h0;
-memory[334] <= 32'h0;
-memory[335] <= 32'h0;
-memory[336] <= 32'h7;
-memory[337] <= 32'h5;
-memory[338] <= 32'h8;
-memory[339] <= 32'h8;
-memory[340] <= 32'h0;
-memory[341] <= 32'h0;
-memory[342] <= 32'h0;
-memory[343] <= 32'h0;
-memory[344] <= 32'h0;
-memory[345] <= 32'h0;
-memory[346] <= 32'h0;
-memory[347] <= 32'h0;
-memory[348] <= 32'h1;
-memory[349] <= 32'h0;
-memory[350] <= 32'h0;
-memory[351] <= 32'h0;
-memory[352] <= 32'h7;
-memory[353] <= 32'h5;
-memory[354] <= 32'h8;
-memory[355] <= 32'h8;
-memory[356] <= 32'h0;
-memory[357] <= 32'h0;
-memory[358] <= 32'h0;
-memory[359] <= 32'h0;
-memory[360] <= 32'h0;
-memory[361] <= 32'h0;
-memory[362] <= 32'h0;
-memory[363] <= 32'h0;
-memory[364] <= 32'h1;
-memory[365] <= 32'h0;
-memory[366] <= 32'h0;
-memory[367] <= 32'h0;
-memory[368] <= 32'h0;
-memory[369] <= 32'h4;
-memory[370] <= 32'h2;
-memory[371] <= 32'h3;
-memory[372] <= 32'h4;
-memory[373] <= 32'h5;
-memory[374] <= 32'h18;
-memory[375] <= 32'h1c;
-memory[376] <= 32'h20;
-memory[377] <= 32'h24;
-memory[378] <= 32'h28;
-memory[379] <= 32'h2c;
-memory[380] <= 32'h30;
-memory[381] <= 32'h34;
-memory[382] <= 32'h38;
-memory[383] <= 32'h3c;
-memory[384] <= 32'h0;
-memory[385] <= 32'h5;
-memory[386] <= 32'h3;
-memory[387] <= 32'h4;
-memory[388] <= 32'h5;
-memory[389] <= 32'h6;
-memory[390] <= 32'h1e;
-memory[391] <= 32'h23;
-memory[392] <= 32'h28;
-memory[393] <= 32'h2d;
-memory[394] <= 32'h0;
-memory[395] <= 32'h0;
-memory[396] <= 32'h0;
-memory[397] <= 32'h0;
-memory[398] <= 32'h46;
-memory[399] <= 32'h4b;
-memory[400] <= 32'h0;
-memory[401] <= 32'h6;
-memory[402] <= 32'hc;
-memory[403] <= 32'h12;
-memory[404] <= 32'h18;
-memory[405] <= 32'h1e;
-memory[406] <= 32'h24;
-memory[407] <= 32'h2a;
-memory[408] <= 32'h30;
-memory[409] <= 32'h36;
-memory[410] <= 32'h0;
-memory[411] <= 32'h0;
-memory[412] <= 32'h0;
-memory[413] <= 32'h0;
-memory[414] <= 32'h54;
-memory[415] <= 32'h5a;
-memory[416] <= 32'h0;
-memory[417] <= 32'h4;
-memory[418] <= 32'h8;
-memory[419] <= 32'h8;
-memory[420] <= 32'h8;
-memory[421] <= 32'h8;
-memory[422] <= 32'h2a;
-memory[423] <= 32'h31;
-memory[424] <= 32'h38;
-memory[425] <= 32'h3f;
-memory[426] <= 32'h0;
-memory[427] <= 32'h0;
-memory[428] <= 32'h0;
-memory[429] <= 32'h0;
-memory[430] <= 32'h62;
-memory[431] <= 32'h69;
-memory[432] <= 32'h0;
-memory[433] <= 32'h1;
-memory[434] <= 32'h8;
-memory[435] <= 32'h8;
-memory[436] <= 32'h8;
-memory[437] <= 32'h8;
-memory[438] <= 32'h30;
-memory[439] <= 32'h38;
-memory[440] <= 32'h40;
-memory[441] <= 32'h48;
-memory[442] <= 32'h0;
-memory[443] <= 32'h0;
-memory[444] <= 32'h0;
-memory[445] <= 32'h0;
-memory[446] <= 32'h70;
-memory[447] <= 32'h78;
-memory[448] <= 32'h0;
-memory[449] <= 32'h1;
-memory[450] <= 32'h8;
-memory[451] <= 32'h8;
-memory[452] <= 32'h8;
-memory[453] <= 32'h8;
-memory[454] <= 32'h36;
-memory[455] <= 32'h3f;
-memory[456] <= 32'h48;
-memory[457] <= 32'h51;
-memory[458] <= 32'h5a;
-memory[459] <= 32'h63;
-memory[460] <= 32'h6c;
-memory[461] <= 32'h75;
-memory[462] <= 32'h7e;
-memory[463] <= 32'h87;
-memory[464] <= 32'h0;
-memory[465] <= 32'ha;
-memory[466] <= 32'h8;
-memory[467] <= 32'h8;
-memory[468] <= 32'h8;
-memory[469] <= 32'h8;
-memory[470] <= 32'h3c;
-memory[471] <= 32'h46;
-memory[472] <= 32'h50;
-memory[473] <= 32'h5a;
-memory[474] <= 32'h64;
-memory[475] <= 32'h6e;
-memory[476] <= 32'h78;
-memory[477] <= 32'h82;
-memory[478] <= 32'h8c;
-memory[479] <= 32'h96;
-memory[480] <= 32'h0;
-memory[481] <= 32'hb;
-memory[482] <= 32'h16;
-memory[483] <= 32'h21;
-memory[484] <= 32'h2c;
-memory[485] <= 32'h37;
-memory[486] <= 32'h42;
-memory[487] <= 32'h4d;
-memory[488] <= 32'h58;
-memory[489] <= 32'h63;
-memory[490] <= 32'h6e;
-memory[491] <= 32'h79;
-memory[492] <= 32'h84;
-memory[493] <= 32'h8f;
-memory[494] <= 32'h9a;
-memory[495] <= 32'ha5;
-memory[496] <= 32'h9;
-memory[497] <= 32'h9;
-memory[498] <= 32'h9;
-memory[499] <= 32'h9;
-memory[500] <= 32'h30;
-memory[501] <= 32'h3c;
-memory[502] <= 32'h48;
-memory[503] <= 32'h54;
-memory[504] <= 32'h60;
-memory[505] <= 32'h6c;
-memory[506] <= 32'h78;
-memory[507] <= 32'h84;
-memory[508] <= 32'h0;
-memory[509] <= 32'h1;
-memory[510] <= 32'h2;
-memory[511] <= 32'h3;
-memory[512] <= 32'h9;
-memory[513] <= 32'h9;
-memory[514] <= 32'h9;
-memory[515] <= 32'h9;
-memory[516] <= 32'h34;
-memory[517] <= 32'h41;
-memory[518] <= 32'h4e;
-memory[519] <= 32'h5b;
-memory[520] <= 32'h68;
-memory[521] <= 32'h72;
-memory[522] <= 32'h82;
-memory[523] <= 32'h8f;
-memory[524] <= 32'h1;
-memory[525] <= 32'h2;
-memory[526] <= 32'h3;
-memory[527] <= 32'h4;
-memory[528] <= 32'h9;
-memory[529] <= 32'h9;
-memory[530] <= 32'h9;
-memory[531] <= 32'h9;
-memory[532] <= 32'h38;
-memory[533] <= 32'h46;
-memory[534] <= 32'h54;
-memory[535] <= 32'h62;
-memory[536] <= 32'h70;
-memory[537] <= 32'h7e;
-memory[538] <= 32'h8c;
-memory[539] <= 32'h9a;
-memory[540] <= 32'h2;
-memory[541] <= 32'h3;
-memory[542] <= 32'h4;
-memory[543] <= 32'h5;
-memory[544] <= 32'h9;
-memory[545] <= 32'h9;
-memory[546] <= 32'h9;
-memory[547] <= 32'h9;
-memory[548] <= 32'h3c;
-memory[549] <= 32'h4b;
-memory[550] <= 32'h5a;
-memory[551] <= 32'h69;
-memory[552] <= 32'h78;
-memory[553] <= 32'h87;
-memory[554] <= 32'h96;
-memory[555] <= 32'ha5;
-memory[556] <= 32'h3;
-memory[557] <= 32'h4;
-memory[558] <= 32'h5;
-memory[559] <= 32'h6;
-memory[560] <= 32'h0;
-memory[561] <= 32'h0;
-memory[562] <= 32'h0;
-memory[563] <= 32'h0;
-memory[564] <= 32'h0;
-memory[565] <= 32'h0;
-memory[566] <= 32'h0;
-memory[567] <= 32'h0;
-memory[568] <= 32'h0;
-memory[569] <= 32'h0;
-memory[570] <= 32'h0;
-memory[571] <= 32'h0;
-memory[572] <= 32'h0;
-memory[573] <= 32'h0;
-memory[574] <= 32'h0;
-memory[575] <= 32'h0;
-memory[576] <= 32'h0;
-memory[577] <= 32'h0;
-memory[578] <= 32'h0;
-memory[579] <= 32'h0;
-memory[580] <= 32'h0;
-memory[581] <= 32'h0;
-memory[582] <= 32'h0;
-memory[583] <= 32'h0;
-memory[584] <= 32'h0;
-memory[585] <= 32'h0;
-memory[586] <= 32'h0;
-memory[587] <= 32'h0;
-memory[588] <= 32'h0;
-memory[589] <= 32'h0;
-memory[590] <= 32'h0;
-memory[591] <= 32'h0;
-memory[592] <= 32'h0;
+4
+4
+2
+2
+0
+0
+1
+2
+0
+0
+3
+4
+0
+0
+0
+0
+0
+0
+0
+0
+1
+2
+3
+4
+10
+10
+4
+4
+0
+1
+2
+3
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+1
+2
+3
+4
+4
+5
+6
+7
+8
+9
+a
+b
+c
+d
+e
+f
+2
+3
+20
+1
+2
+3
+c
+e
+10
+12
+14
+16
+18
+1a
+1c
+1e
+3
+4
+1
+2
+3
+4
+12
+15
+18
+1b
+1e
+21
+24
+27
+2a
+2d
+0
+4
+2
+3
+4
+5
+18
+1c
+20
+24
+28
+2c
+30
+34
+38
+3c
+0
+5
+3
+4
+5
+6
+1e
+23
+28
+2d
+32
+37
+3c
+41
+46
+4b
+0
+6
+c
+12
+18
+1e
+24
+2a
+30
+36
+3c
+42
+48
+4e
+54
+5a
+0
+4
+e
+15
+1c
+23
+2a
+31
+38
+3f
+46
+4d
+54
+5b
+62
+69
+0
+8
+10
+18
+20
+28
+30
+38
+40
+48
+50
+58
+60
+68
+70
+78
+0
+9
+12
+1b
+24
+2d
+36
+3f
+48
+51
+5a
+63
+6c
+75
+7e
+87
+0
+a
+14
+1e
+28
+32
+3c
+46
+50
+5a
+64
+6e
+78
+82
+8c
+96
+0
+b
+16
+21
+2c
+37
+42
+4d
+58
+63
+6e
+79
+84
+8f
+9a
+a5
+0
+c
+18
+24
+30
+3c
+48
+54
+60
+6c
+78
+84
+0
+1
+2
+3
+0
+d
+1a
+27
+34
+41
+4e
+5b
+68
+72
+82
+8f
+1
+2
+3
+4
+0
+e
+1c
+2a
+38
+46
+54
+62
+70
+7e
+8c
+9a
+2
+3
+4
+5
+0
+f
+1e
+2d
+3c
+4b
+5a
+69
+78
+87
+96
+a5
+3
+4
+5
+6
+0
+1
+2
+3
+1
+2
+3
+4
+2
+3
+4
+5
+3
+4
+5
+6
+10
+10
+4
+8
+7
+5
+8
+8
+0
+0
+0
+0
+0
+0
+0
+0
+1
+0
+0
+0
+7
+5
+8
+8
+0
+0
+0
+0
+0
+0
+0
+0
+1
+0
+0
+0
+7
+5
+8
+8
+0
+0
+0
+0
+0
+0
+0
+0
+1
+0
+0
+0
+7
+5
+8
+8
+0
+0
+0
+0
+0
+0
+0
+0
+1
+0
+0
+0
+0
+4
+2
+3
+4
+5
+18
+1c
+20
+24
+28
+2c
+30
+34
+38
+3c
+0
+5
+3
+4
+5
+6
+1e
+23
+28
+2d
+0
+0
+0
+0
+46
+4b
+0
+6
+c
+12
+18
+1e
+24
+2a
+30
+36
+0
+0
+0
+0
+54
+5a
+0
+4
+8
+8
+8
+8
+2a
+31
+38
+3f
+0
+0
+0
+0
+62
+69
+0
+1
+8
+8
+8
+8
+30
+38
+40
+48
+0
+0
+0
+0
+70
+78
+0
+1
+8
+8
+8
+8
+36
+3f
+48
+51
+5a
+63
+6c
+75
+7e
+87
+0
+a
+8
+8
+8
+8
+3c
+46
+50
+5a
+64
+6e
+78
+82
+8c
+96
+0
+b
+16
+21
+2c
+37
+42
+4d
+58
+63
+6e
+79
+84
+8f
+9a
+a5
+9
+9
+9
+9
+30
+3c
+48
+54
+60
+6c
+78
+84
+0
+1
+2
+3
+9
+9
+9
+9
+34
+41
+4e
+5b
+68
+72
+82
+8f
+1
+2
+3
+4
+9
+9
+9
+9
+38
+46
+54
+62
+70
+7e
+8c
+9a
+2
+3
+4
+5
+9
+9
+9
+9
+3c
+4b
+5a
+69
+78
+87
+96
+a5
+3
+4
+5
+6
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0

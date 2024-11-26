@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //Authors: Giuseppe Pongelupe Giacoia, Leo Dickinson, Carson Keegan
 //Percentage Effort (33%, 33%, 33%)
-module TopModule(Reset, Clk, FINALINDEX, WRITEDATADONE);
+module TopModule(Reset, Clk, FINALINDEX, FINALINDEXY);
     //Fetch
     input Reset, Clk; 
     wire [31:0] PC;
@@ -108,7 +108,7 @@ module TopModule(Reset, Clk, FINALINDEX, WRITEDATADONE);
     wire HAZARDPC, HAZARDCONTROL, HAZARDIFID; 
     wire [31:0] PCAdderResultID,PCAdderResultEX,PCAdderResultMEM,PCAdderResultWB;
     (* mark_debug = "true" *) output wire [31:0] FINALINDEX; // FINAL INDEX
-    (* mark_debug = "true" *) output wire [31:0] WRITEDATADONE;
+    (* mark_debug = "true" *) output wire [31:0] FINALINDEXY;
         wire RegWriteOut;
 wire MemWriteOut;
 wire MemReadOut;
@@ -127,7 +127,6 @@ wire [1:0] LoadDataOut;
 wire BRANCHALU;
     // Mark the internal register as debug signal
     //(* mark_debug = "true" *) wire [31:0] FINALPC = PCWB;
-    assign WRITEDATADONE = WriteData;
     
     // TODO: Uncomment clock, temporary for use in test bench
     //ClkDiv clock(Clk, Reset, ClkOut);
@@ -155,7 +154,7 @@ wire BRANCHALU;
     Mux32Bit2To1 JrDatamux(WriteData, WriteDataRegWB, PCAdderResultWB, JrDataWB); //FIXME
     
     RegisterFile registerFile(InstructionOut[25:21], InstructionOut[20:16], 
-    WriteRegister, WriteData, RegWriteWB, ClkOut, ReadData1, ReadData2, FINALINDEX);
+    WriteRegister, WriteData, RegWriteWB, ClkOut, ReadData1, ReadData2, FINALINDEX,FINALINDEXY);
     
     SignExtension signExtend_150(InstructionOut[15:0], Offset);
     SignExtension5Bit signExtend_SA(InstructionOut[10:6], SAID); 

@@ -194,9 +194,87 @@ main:
 
 
 # Begin subroutine
+
+
+# vbsme.s 
+# motion estimation is a routine in h.264 video codec that 
+# takes about 80% of the execution time of the whole code
+# given a frame(2d array, x and y dimensions can be any integer 
+# between 16 and 64) where "frame data" is stored under "frame"  
+# and a window (2d array of size 4x4, 4x8, 8x4, 8x8, 8x16, 16x8 or 16x16) 
+# where "window data" is stored under "window" 
+# and size of "window" and "frame" arrays are stored under "asize"
+
+# - initially current sum of difference is set to a very large value
+# - move "window" over the "frame" one cell at a time starting with location (0,0)
+# - moves are based circular pattern 
+# - for each move, function calculates  the sum of absolute difference (SAD) 
+#   between the window and the overlapping block on the frame.
+# - if the calculated sum of difference is LESS THAN the current sum of difference
+#   then the current sum of difference is updated and the coordinate of the top left corner 
+#   for that matching block in the frame is recorded. 
+
+# for example SAD of two 4x4 arrays "window" and "block" shown below is 3  
+# window         block
+# -------       --------
+# 1 2 2 3       1 4 2 3  
+# 0 0 3 2       0 0 3 2
+# 0 0 0 0       0 0 0 0 
+# 1 0 0 5       1 0 0 4
+
+# program keeps track of the window position that results 
+# with the minimum sum of absolute difference. 
+# after scannig the whole frame
+# program returns the coordinates of the block with the minimum SAD
+# in $v0 (row) and $v1 (col) 
+
+
+# Sample Inputs and Output shown below:
+# Frame:
+#
+#  0   1   2   3   0   0   0   0   0   0   0   0   0   0   0   0 
+#  1   2   3   4   4   5   6   7   8   9  10  11  12  13  14  15 
+#  2   3  32   1   2   3  12  14  16  18  20  22  24  26  28  30 
+#  3   4   1   2   3   4  18  21  24  27  30  33  36  39  42  45 
+#  0   4   2   3   4   5  24  28  32  36  40  44  48  52  56  60 
+#  0   5   3   4   5   6  30  35  40  45  50  55  60  65  70  75 
+#  0   6  12  18  24  30  36  42  48  54  60  66  72  78  84  90 
+#  0   7  14  21  28  35  42  49  56  63  70  77  84  91  98 105 
+#  0   8  16  24  32  40  48  56  64  72  80  88  96 104 112 120 
+#  0   9  18  27  36  45  54  63  72  81  90  99 108 117 126 135 
+#  0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 
+#  0  11  22  33  44  55  66  77  88  99 110 121 132 143 154 165 
+#  0  12  24  36  48  60  72  84  96 108 120 132   0   1   2   3 
+#  0  13  26  39  52  65  78  91 104 117 130 143   1   2   3   4 
+#  0  14  28  42  56  70  84  98 112 126 140 154   2   3   4   5 
+#  0  15  30  45  60  75  90 105 120 135 150 165   3   4   5   6 
+
+# Window:
+#  0   1   2   3 
+#  1   2   3   4 
+#  2   3   4   5 
+#  3   4   5   6 
+
+# cord x = 12, cord y = 12 returned in $v0 and $v1 registers
+
+.text
+.globl  vbsme
+
+# Your program must follow circular search pattern.  
+
+# Preconditions:
+#   1st parameter (a0) address of the first element of the dimension info (address of asize[0])
+#   2nd parameter (a1) address of the first element of the frame array (address of frame[0][0])
+#   3rd parameter (a2) address of the first element of the window array (address of window[0][0])
+# Postconditions:	
+#   result (v0) x coordinate of the block in the frame with the minimum SAD
+#          (v1) y coordinate of the block in the frame with the minimum SAD
+
+
+# Begin subroutine
 vbsme:  
-    li      $v0, 0              # reset $v0 and $V1
-    li      $v1, 0
+    addi      $v0, $zero, 0              # reset $v0 and $V1 CHANGED HERE
+    addi      $v1, $zero, 0
 
     # insert your code here
     lw $t0, 0($a0) # t0 = i 
@@ -212,46 +290,41 @@ vbsme:
     sub $s4, $t1, $t3     # s4 = rightWall = j-l
     sub $s5, $t0, $t2     # s5 = flor = i-k
     
-    li $s7, 0 # s7 = direction = 0
-    li $t8, 0 # currIndex = 0;
-    li $s6, 1000000 # s6 = "set to a very large value"
-    li $t3, 0 #TO BE THE FINAL INDEX 
+    addi $s7, $zero, 0 # s7 = direction = 0
+    addi $t8, $zero, 0 # currIndex = 0;
+    addi $s6, $zero, 1000000 # s6 = "set to a very large value"
+    addi $t3, $zero, 0 #TO BE THE FINAL INDEX 
     # registers t0, t1, t2, t3 are now free
     
-loop:
-    # bgt $s2, $s4, loopOut # replaced with sub bgtz
-    # bgt $s3, $s5, loopOut # if roof>flor replaced with sub bgtz
-    sub $sp, $s2, $s4
-    bgtz $sp, loopOut # if leftwall>rightWall exit loop
-    sub $sp, $s3, $s5
-    bgtz $sp, loopOut # if roof>flor
-    #based on x and y calculate the current position
-    # move $t8, $s0 # replaced with add
-    add $t8, $zero, $s0
+loop: 
+    #bgt $s2, $s4, loopOut # if leftwall>rightWall exit loop
+    sub $t0, $s2, $s4      # $t0 = $s2 - $s4
+    bgtz $t0, loopOut      # branch to loopOut if $t0 > 0 (i.e., $s2 > $s4)
 
+    #bgt $s3, $s5, loopOut # if roof>flor
+    sub $t0, $s3, $s5      # $t0 = $s3 - $s5
+    bgtz $t0, loopOut      # branch to loopOut if $t0 > 0 (i.e., $s3 > $s5)
+
+    #based on x and y calculate the current position
+    add $t8, $zero, $s0
     lw $t1, 4($a0) # t1 = j 
     mul $t0, $s1, $t1
     add $t8, $t8, $t0 # currIndex = x+y*j
     # call function now to calculate the cell
     j calculate
 back:
-    # bge $t7, $s6, skip #skips if the found value is not a new minimum
-    sub $sp, $t7, $s6
-    bgez $sp, skip
-    #move $s6, $t7
+    #bge $t7, $s6, skip #skips if the found value is not a new minimum
+    sub $t0, $t7, $s6      # $t0 = $t7 - $s6
+    bgez $t0, skip         # branch to skip if $t0 >= 0 (i.e., $t7 >= $s6)
+
     add $s6, $zero, $t7
-    # move $t3, $t8#NEW FINAL INDEX
-    add $t3, $zero, $t8
+    add $t3, $zero, $t8 #NEW FINAL INDEX
 skip: 
     #end of call to funciton
-    beq $s7, $zero, direction0
-    addi $sp, $zero, 1
-    beq $s7, $sp, direction1
-    addi $sp, $zero, 2
-    beq $s7, $sp, direction2
-    addi $sp, $zero, 3
-    beq $s7, $sp, direction3
-
+    beq $s7, 0, direction0
+    beq $s7, 1, direction1
+    beq $s7, 2, direction2
+    beq $s7, 3, direction3
 orange:
     j loop
     
@@ -262,7 +335,7 @@ direction0:
     j orange
 
 direction0_change:
-    li $s7, 1 # sets direction as 1
+    addi $s7, $zero, 1 # sets direction as 1
     addi $s3, $s3, 1 # adds 1 to roof
     addi $s1, $s1, 1 #moves it down
     j orange
@@ -274,16 +347,17 @@ direction1:
     j orange
     
 direction1_change: 
-    li $s7, 2 # sets direction as 2
+    addi $s7, $zero, 2 # sets direction as 2
     addi $s4, $s4, -1 # subtracts 1 from right wall
     addi $s0, $s0, -1 #updates x
     j orange
 
 direction2:
-    # bgt $s0, $s2, direction2_move # check if x>leftWall
-    sub $sp, $s0, $s2
-    bgtz $sp, direction2_move
-    li $s7, 3 # sets direction as 2
+    #bgt $s0, $s2, direction2_move # check if x>leftWall
+    sub $t0, $s0, $s2      # $t0 = $s0 - $s2
+    bgtz $t0, direction2_move  # branch to direction2_move if $t0 > 0 (i.e., $s0 > $s2)
+
+    addi $s7, $zero, 3 # sets direction as 2
     addi $s5, $s5, -1 # subtracts 1 from flor
     addi $s1, $s1, -1
     j orange
@@ -293,10 +367,11 @@ direction2_move:
     j orange
     
 direction3:
-    # bgt $s1, $s3, direction3_move # check if y>roof
-    sub $sp, $s1, $s3
-    bgtz $sp, direction3_move
-    li $s7, 0 # sets direction as 0
+    #bgt $s1, $s3, direction3_move # check if y>roof
+    sub $t0, $s1, $s3      # $t0 = $s1 - $s3
+    bgtz $t0, direction3_move  # branch to direction3_move if $t0 > 0 (i.e., $s1 > $s3)
+
+    addi $s7, $zero, 0 # sets direction as 0
     addi $s2, $s2, 1 # adds 1 to left wall
     addi $s0, $s0, 1
     j orange
@@ -312,20 +387,18 @@ loopOut:
     lw $s1, 4($a0) # s1 = j 
      #now we have to v0 = x = index % j (number of columns)
      #now we have to v1 = y = index // j 
-    # move $s2, $t3
     add $s2, $zero, $t3
-    li $s3, 0 #s2 = x, s3 = y
+    addi $s3, $zero, 0 #s2 = x, s3 = y
 loopx:
-    # blt $s2, $s1, exitx
-    sub $sp, $s2, $s1
-    bltz $sp, exitx
+    #blt $s2, $s1, exitx
+    sub $t0, $s2, $s1      # $t0 = $s2 - $s1
+    bltz $t0, exitx        # branch to exitx if $t0 < 0 (i.e., $s2 < $s1)
+
     sub $s2, $s2, $s1 #calculate temp -=j 
     addi $s3, $s3, 1
     j loopx
 exitx:
-    # move $v1, $s2
     add $v1, $zero, $s2
-    # move $v0, $s3
     add $v0, $zero, $s3
     jr $ra
     
@@ -335,36 +408,37 @@ calculate:
     lw $t1, 12($a0) # t1 = l
     mul $t4, $t2, $t1 # i = k*l;
     lw $t1, 4($a0) # t1 = j 
-    li $t5, 0 #index = 0;
+    addi $t5, $zero, 0 #index = 0;
     lw $t1, 12($a0) # t1 = l
-    # move $t6, $t1 #rightCount = l
-    add $t6, $zero, $t1
+    add $t6, $zero, $t1 #rightCount = l
     lw $t1, 4($a0) # t1 = j 
-    li $t7, 0 #sum = 0;
-    li $t0, 0 #temp =0;
-    # move $t9, $t8 # currIndex = w;
-    add $t9, $zero, $t8
+    addi $t7, $zero, 0 #sum = 0;
+    addi $t0, $zero, 0 #temp =0;
+    add $t9, $zero, $t8 # currIndex = w;
     # t2 are free to be used
 calculateLoop: 
-    # bge $t5, $t4, calculateLoopExit #if index >= i exit
-    sub $sp, $t5, $t4
-    bgez $sp, calculateLoopExit
-    addi $sp, $zero, 4
-    mul $t2, $t5, $sp # gets correct index as 4 bytes per word
+    #bge $t5, $t4, calculateLoopExit #if index >= i exit
+    sub $t0, $t5, $t4      # $t0 = $t5 - $t4
+    bgez $t0, calculateLoopExit  # branch to calculateLoopExit if $t0 >= 0 (i.e., $t5 >= $t4)
+
+    addi $t1, $zero, 4
+    mul $t2, $t5, $t1 # gets correct index as 4 bytes per word
     add $t2, $t2, $a2
     lw $t0, 0($t2) #temp = window[index]
-    mul $t2, $t9, $sp
+    mul $t2, $t9, $t1
     add $t2, $t2, $a1
     lw $t2, 0($t2) #temp2 = grid[currIndex]
     sub $t0, $t0, $t2 #temp = window[index] - grid[currIndex]
     
     # Check if temp is negative
-    li $t2, 0 
-    # bge $t0, $t2, positive#go to greater than 0
-    sub $sp, $t0, $t2
-    bgez $sp, positive
-    addi $sp, $zero, -1
-    mul $t0, $t0, $sp
+    addi $t2, $zero, 0 
+    #bge $t0, $t2, positive#go to greater than 0
+    sub $t3, $t0, $t2      # $t3 = $t0 - $t2
+    bgez $t3, positive     # branch to positive if $t3 >= 0 (i.e., $t0 >= $t2)
+
+    addi $t1, $zero, -1
+    mul $t0, $t0, $t1
+
 positive:
     add $t7, $t7, $t0 #sum +=temp
     
@@ -378,11 +452,10 @@ positive:
     lw $t1, 4($a0) # t1 = j 
     add $t9, $t9, $t1 # currIndex +=j
     lw $t1, 12($a0) # t1 = l
-    # move $t6, $t1 #rightCount = l
-    add $t6, $zero, $t1
+    add $t6, $zero, $t1 #rightCount = l
     lw $t1, 4($a0) # t1 = j 
 notzero: 
-    addi $t5, $t5, 1 #index +=1
+    add $t5, $t5, 1 #index +=1
     j calculateLoop
     
 calculateLoopExit: 
