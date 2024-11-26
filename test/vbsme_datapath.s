@@ -490,14 +490,14 @@ newline: .asciiz     "\n"
 .globl main
 
 main: 
-    addi    $sp, $sp, -4    # Make space on stack
-    sw      $ra, 0($sp)     # Save return address
+    # addi    $sp, $sp, -4    # Make space on stack
+    # sw      $ra, 0($sp)     # Save return address
          
     # Start test 1 
     ############################################################
-    la      $a0, asize1     # 1st parameter: address of asize1[0]
-    la      $a1, frame1     # 2nd parameter: address of frame1[0]
-    la      $a2, window1    # 3rd parameter: address of window1[0] 
+    la $a0, asize0     # 1st parameter: address of asize1[0]
+    la $a1, frame0     # 2nd parameter: address of frame1[0]
+    la $a2, window0    # 3rd parameter: address of window1[0] 
    
     jal     vbsme           # call function
     jal     print_result    # print results to console
@@ -508,188 +508,188 @@ main:
    
     # Start test 2 
     ############################################################
-    la      $a0, asize2     # 1st parameter: address of asize2[0]
-    la      $a1, frame2     # 2nd parameter: address of frame2[0]
-    la      $a2, window2    # 3rd parameter: address of window2[0] 
-   
-    jal     vbsme           # call function
-    jal     print_result    # print results to console
-    ############################################################
-    # End of test 2   
-                    
-               
-    # Start test 3
-    ############################################################
-    la      $a0, asize3     # 1st parameter: address of asize3[0]
-    la      $a1, frame3     # 2nd parameter: address of frame3[0]
-    la      $a2, window3    # 3rd parameter: address of window3[0] 
-
-    jal     vbsme           # call function
-    jal     print_result    # print results to console 
-    ############################################################
-    # End of test 3   
-      
-      
-    # Start test 4 
-    ############################################################
-    la      $a0, asize4     # 1st parameter: address of asize4[0]
-    la      $a1, frame4     # 2nd parameter: address of frame4[0]
-    la      $a2, window4    # 3rd parameter: address of window4[0] 
-
-    jal     vbsme           # call function
-    jal     print_result    # print results to console
-    ############################################################
-    # End of test 4   
-   
-   
-    # Start test 5
-    ############################################################
-    la      $a0, asize5     # 1st parameter: address of asize5[0]
-    la      $a1, frame5     # 2nd parameter: address of frame5[0]
-    la      $a2, window5    # 3rd parameter: address of window5[0] 
-
-    jal     vbsme           # call function
-    jal     print_result    # print results to console
-    ############################################################
-    # End of test 5
-
-   
-    # Start test 6 
-    ############################################################
-    la      $a0, asize6     # 1st parameter: address of asize6[0]
-    la      $a1, frame6     # 2nd parameter: address of frame6[0]
-    la      $a2, window6    # 3rd parameter: address of window6[0] 
-
-    jal     vbsme           # call function
-    jal     print_result    # print results to console
-    ############################################################
-    # End of test 6
-   
-
-    # Start test 7
-    ############################################################
-    la      $a0, asize7     # 1st parameter: address of asize7[0]
-    la      $a1, frame7     # 2nd parameter: address of frame7[0]
-    la      $a2, window7    # 3rd parameter: address of window7[0] 
-
-    jal     vbsme           # call function
-    jal     print_result    # print results to console
-    ############################################################
-    # End of test 7   
-   
-
-    # Start test 8 
-    ############################################################
-    la      $a0, asize8     # 1st parameter: address of asize8[0]
-    la      $a1, frame8     # 2nd parameter: address of frame8[0]
-    la      $a2, window8    # 3rd parameter: address of window8[0] 
-
-    jal     vbsme           # call function
-    jal     print_result    # print results to console
-    ############################################################
-    # End of test 8   
-   
-   
-    # Start test 9 
-    ############################################################
-    la      $a0, asize9     # 1st parameter: address of asize9[0]
-    la      $a1, frame9     # 2nd parameter: address of frame9[0]
-    la      $a2, window9    # 3rd parameter: address of window9[0] 
-
-    jal     vbsme           # call function
-    jal     print_result    # print results to console
-    ############################################################
-    # End of test 9      
-   
-   
-    # Start test 10 
-    ############################################################
-    la      $a0, asize10        # 1st parameter: address of asize10[0]
-    la      $a1, frame10        # 2nd parameter: address of frame10[0]
-    la      $a2, window10       # 3rd parameter: address of window10[0]   
-
-    jal     vbsme               # call function
-    jal     print_result        # print results to console
-    ############################################################
-    # End of test 10  
-   
-   
-    # Start test 11
-    ############################################################
-    la      $a0, asize11     # 1st parameter: address of asize11[0]
-    la      $a1, frame11     # 2nd parameter: address of frame11[0]
-    la      $a2, window11    # 3rd parameter: address of window11[0]   
-
-    jal     vbsme           # call function
-    jal     print_result    # print results to console
-    ############################################################
-    # End of test 11  
-   
-
-    # Start test 12
-    ############################################################
-    la      $a0, asize12     # 1st parameter: address of asize12[0]
-    la      $a1, frame12     # 2nd parameter: address of frame12[0]
-    la      $a2, window12    # 3rd parameter: address of window12[0]   
-
-    jal     vbsme           # call function
-    jal     print_result    # print results to console
-    ############################################################
-    # End of test 12  
-   
-
-    # Start test 13
-    ############################################################
-    la      $a0, asize13     # 1st parameter: address of asize13[0]
-    la      $a1, frame13     # 2nd parameter: address of frame13[0]
-    la      $a2, window13    # 3rd parameter: address of window13[0]   
-
-    jal     vbsme           # call function
-    jal     print_result    # print results to console
-    ############################################################
-    # End of test 13  
-   
-   
-    # Start test 14
-    ############################################################
-    la      $a0, asize14     # 1st parameter: address of asize14[0]
-    la      $a1, frame14     # 2nd parameter: address of frame14[0]
-    la      $a2, window14    # 3rd parameter: address of window14[0]   
-
-    jal     vbsme           # call function
-    jal     print_result    # print results to console
+   #  la $a0, asize2    # 1st parameter: address of asize2[0]
+   #  la      $a1, frame2     # 2nd parameter: address of frame2[0]
+   #  la      $a2, window2    # 3rd parameter: address of window2[0] 
+   # 
+   #  jal     vbsme           # call function
+   #  jal     print_result    # print results to console
+   #  ############################################################
+   #  # End of test 2   
+   #                  
+   #             
+   #  # Start test 3
+   #  ############################################################
+   #  la      $a0, asize3     # 1st parameter: address of asize3[0]
+   #  la      $a1, frame3     # 2nd parameter: address of frame3[0]
+   #  la      $a2, window3    # 3rd parameter: address of window3[0] 
+   #
+   #  jal     vbsme           # call function
+   #  jal     print_result    # print results to console 
+   #  ############################################################
+   #  # End of test 3   
+   #    
+   #    
+   #  # Start test 4 
+   #  ############################################################
+   #  la      $a0, asize4     # 1st parameter: address of asize4[0]
+   #  la      $a1, frame4     # 2nd parameter: address of frame4[0]
+   #  la      $a2, window4    # 3rd parameter: address of window4[0] 
+   #
+   #  jal     vbsme           # call function
+   #  jal     print_result    # print results to console
+   #  ############################################################
+   #  # End of test 4   
+   # 
+   # 
+   #  # Start test 5
+   #  ############################################################
+   #  la      $a0, asize5     # 1st parameter: address of asize5[0]
+   #  la      $a1, frame5     # 2nd parameter: address of frame5[0]
+   #  la      $a2, window5    # 3rd parameter: address of window5[0] 
+   #
+   #  jal     vbsme           # call function
+   #  jal     print_result    # print results to console
+   #  ############################################################
+   #  # End of test 5
+   #
+   # 
+   #  # Start test 6 
+   #  ############################################################
+   #  la      $a0, asize6     # 1st parameter: address of asize6[0]
+   #  la      $a1, frame6     # 2nd parameter: address of frame6[0]
+   #  la      $a2, window6    # 3rd parameter: address of window6[0] 
+   #
+   #  jal     vbsme           # call function
+   #  jal     print_result    # print results to console
+   #  ############################################################
+   #  # End of test 6
+   # 
+   #
+   #  # Start test 7
+   #  ############################################################
+   #  la      $a0, asize7     # 1st parameter: address of asize7[0]
+   #  la      $a1, frame7     # 2nd parameter: address of frame7[0]
+   #  la      $a2, window7    # 3rd parameter: address of window7[0] 
+   #
+   #  jal     vbsme           # call function
+   #  jal     print_result    # print results to console
+   #  ############################################################
+   #  # End of test 7   
+   # 
+   #
+   #  # Start test 8 
+   #  ############################################################
+   #  la      $a0, asize8     # 1st parameter: address of asize8[0]
+   #  la      $a1, frame8     # 2nd parameter: address of frame8[0]
+   #  la      $a2, window8    # 3rd parameter: address of window8[0] 
+   #
+   #  jal     vbsme           # call function
+   #  jal     print_result    # print results to console
+   #  ############################################################
+   #  # End of test 8   
+   # 
+   # 
+   #  # Start test 9 
+   #  ############################################################
+   #  la      $a0, asize9     # 1st parameter: address of asize9[0]
+   #  la      $a1, frame9     # 2nd parameter: address of frame9[0]
+   #  la      $a2, window9    # 3rd parameter: address of window9[0] 
+   #
+   #  jal     vbsme           # call function
+   #  jal     print_result    # print results to console
+   #  ############################################################
+   #  # End of test 9      
+   # 
+   # 
+   #  # Start test 10 
+   #  ############################################################
+   #  la      $a0, asize10        # 1st parameter: address of asize10[0]
+   #  la      $a1, frame10        # 2nd parameter: address of frame10[0]
+   #  la      $a2, window10       # 3rd parameter: address of window10[0]   
+   #
+   #  jal     vbsme               # call function
+   #  jal     print_result        # print results to console
+   #  ############################################################
+   #  # End of test 10  
+   # 
+   # 
+   #  # Start test 11
+   #  ############################################################
+   #  la      $a0, asize11     # 1st parameter: address of asize11[0]
+   #  la      $a1, frame11     # 2nd parameter: address of frame11[0]
+   #  la      $a2, window11    # 3rd parameter: address of window11[0]   
+   #
+   #  jal     vbsme           # call function
+   #  jal     print_result    # print results to console
+   #  ############################################################
+   #  # End of test 11  
+   # 
+   #
+   #  # Start test 12
+   #  ############################################################
+   #  la      $a0, asize12     # 1st parameter: address of asize12[0]
+   #  la      $a1, frame12     # 2nd parameter: address of frame12[0]
+   #  la      $a2, window12    # 3rd parameter: address of window12[0]   
+   #
+   #  jal     vbsme           # call function
+   #  jal     print_result    # print results to console
+   #  ############################################################
+   #  # End of test 12  
+   # 
+   #
+   #  # Start test 13
+   #  ############################################################
+   #  la      $a0, asize13     # 1st parameter: address of asize13[0]
+   #  la      $a1, frame13     # 2nd parameter: address of frame13[0]
+   #  la      $a2, window13    # 3rd parameter: address of window13[0]   
+   #
+   #  jal     vbsme           # call function
+   #  jal     print_result    # print results to console
+   #  ############################################################
+   #  # End of test 13  
+   # 
+   # 
+   #  # Start test 14
+   #  ############################################################
+   #  la      $a0, asize14     # 1st parameter: address of asize14[0]
+   #  la      $a1, frame14     # 2nd parameter: address of frame14[0]
+   #  la      $a2, window14    # 3rd parameter: address of window14[0]   
+   #
+   #  jal     vbsme           # call function
+   #  jal     print_result    # print results to console
     ############################################################
     # End of test 14     
    
-    lw      $ra, 0($sp)         # Restore return address
-    addi    $sp, $sp, 4         # Restore stack pointer
-    jr      $ra                 # Return
-
+    # lw      $ra, 0($sp)         # Restore return address
+    # addi    $sp, $sp, 4         # Restore stack pointer
+    j EndProgram
+    # jr      $ra                 # Return
 ################### Print Result ####################################
 print_result:
     # Printing $v0
     add     $a0, $v0, $zero     # Load $v0 for printing
-    li      $v0, 1              # Load the system call numbers
+    addi      $v0, $zero, 1              # Load the system call numbers
     # syscall
    
     # Print newline.
     la      $a0, newline          # Load value for printing
-    li      $v0, 4                # Load the system call numbers
+    addi      $v0, $zero, 4                # Load the system call numbers
     # syscall
    
     # Printing $v1
     add     $a0, $v1, $zero      # Load $v1 for printing
-    li      $v0, 1                # Load the system call numbers
+    addi      $v0, $zero, 1                # Load the system call numbers
     # syscall
 
     # Print newline.
     la      $a0, newline          # Load value for printing
-    li      $v0, 4                # Load the system call numbers
+    addi      $v0, $zero, 4                # Load the system call numbers
     # syscall
    
     # Print newline.
     la      $a0, newline          # Load value for printing
-    li      $v0, 4                # Load the system call numbers
+    addi      $v0, $zero, 4                # Load the system call numbers
     # syscall
    
     jr      $ra                   #function return
@@ -776,8 +776,8 @@ print_result:
 
 # Begin subroutine
 vbsme:  
-    li      $v0, 0              # reset $v0 and $V1
-    li      $v1, 0
+    addi $v0, $zero, 0              # reset $v0 and $V1
+    addi $v1, $zero, 0
 
     # insert your code here
     lw $t0, 0($a0) # t0 = i 
@@ -793,10 +793,10 @@ vbsme:
     sub $s4, $t1, $t3     # s4 = rightWall = j-l
     sub $s5, $t0, $t2     # s5 = flor = i-k
     
-    li $s7, 0 # s7 = direction = 0
-    li $t8, 0 # currIndex = 0;
-    li $s6, 1000000 # s6 = "set to a very large value"
-    li $t3, 0 #TO BE THE FINAL INDEX 
+    addi $s7, $zero, 0 # s7 = direction = 0
+    addi $t8, $zero, 0 # currIndex = 0;
+    addi $s6, $zero, 32767 # s6 = "set to a very large value"
+    addi $t3, $zero, 0 #TO BE THE FINAL INDEX 
     # registers t0, t1, t2, t3 are now free
     
 loop:
@@ -843,19 +843,19 @@ direction0:
     j orange
 
 direction0_change:
-    li $s7, 1 # sets direction as 1
+    addi $s7, $zero, 1 # sets direction as 1
     addi $s3, $s3, 1 # adds 1 to roof
     addi $s1, $s1, 1 #moves it down
     j orange
     
 direction1:
-    slt $t0, $s1, $s5 # check if y<floor
-    beq $t0, $zero, direction1_change
+                slt $t0, $s1, $s5 # check if y<floor
+                beq $t0, $zero, direction1_change
     addi $s1, $s1, 1 #update y
     j orange
     
 direction1_change: 
-    li $s7, 2 # sets direction as 2
+    addi $s7, $zero, 2 # sets direction as 2
     addi $s4, $s4, -1 # subtracts 1 from right wall
     addi $s0, $s0, -1 #updates x
     j orange
@@ -864,7 +864,7 @@ direction2:
     # bgt $s0, $s2, direction2_move # check if x>leftWall
     sub $sp, $s0, $s2
     bgtz $sp, direction2_move
-    li $s7, 3 # sets direction as 2
+    addi $s7, $zero, 3 # sets direction as 2
     addi $s5, $s5, -1 # subtracts 1 from flor
     addi $s1, $s1, -1
     j orange
@@ -877,7 +877,7 @@ direction3:
     # bgt $s1, $s3, direction3_move # check if y>roof
     sub $sp, $s1, $s3
     bgtz $sp, direction3_move
-    li $s7, 0 # sets direction as 0
+    addi $s7, $zero, 0 # sets direction as 0
     addi $s2, $s2, 1 # adds 1 to left wall
     addi $s0, $s0, 1
     j orange
@@ -885,7 +885,6 @@ direction3:
 direction3_move: 
     addi $s1, $s1, -1 #update y
     j orange
-    
     
 loopOut: 
     # here none of the previous stored values matter with the exception of t3
@@ -895,7 +894,7 @@ loopOut:
      #now we have to v1 = y = index // j 
     # move $s2, $t3
     add $s2, $zero, $t3
-    li $s3, 0 #s2 = x, s3 = y
+    addi $s3, $zero, 0 #s2 = x, s3 = y
 loopx:
     # blt $s2, $s1, exitx
     sub $sp, $s2, $s1
@@ -916,13 +915,13 @@ calculate:
     lw $t1, 12($a0) # t1 = l
     mul $t4, $t2, $t1 # i = k*l;
     lw $t1, 4($a0) # t1 = j 
-    li $t5, 0 #index = 0;
+    addi $t5, $zero, 0 #index = 0;
     lw $t1, 12($a0) # t1 = l
     # move $t6, $t1 #rightCount = l
     add $t6, $zero, $t1
     lw $t1, 4($a0) # t1 = j 
-    li $t7, 0 #sum = 0;
-    li $t0, 0 #temp =0;
+    addi $t7, $zero, 0 #sum = 0;
+    addi $t0, $zero, 0 #temp =0;
     # move $t9, $t8 # currIndex = w;
     add $t9, $zero, $t8
     # t2 are free to be used
@@ -940,10 +939,7 @@ calculateLoop:
     sub $t0, $t0, $t2 #temp = window[index] - grid[currIndex]
     
     # Check if temp is negative
-    li $t2, 0 
-    # bge $t0, $t2, positive#go to greater than 0
-    sub $sp, $t0, $t2
-    bgez $sp, positive
+    bgez $t0, positive
     addi $sp, $zero, -1
     mul $t0, $t0, $sp
 positive:
@@ -960,11 +956,13 @@ positive:
     add $t9, $t9, $t1 # currIndex +=j
     lw $t1, 12($a0) # t1 = l
     # move $t6, $t1 #rightCount = l
-    add $t6, $zero, $t1
+            add $t6, $zero, $t1
     lw $t1, 4($a0) # t1 = j 
 notzero: 
-    addi $t5, $t5, 1 #index +=1
-    j calculateLoop
+                addi $t5, $t5, 1 #index +=1
+                j calculateLoop
     
 calculateLoopExit: 
-    j back # FIXME check if it returns correctly. 
+    j back # FIXME check if it returns correctly.
+EndProgram:
+    nop

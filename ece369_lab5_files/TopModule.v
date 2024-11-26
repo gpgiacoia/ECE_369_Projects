@@ -133,10 +133,17 @@ wire BRANCHALU;
     // TODO: Uncomment clock, temporary for use in test bench
     //ClkDiv clock(Clk, Reset, ClkOut);
     assign ClkOut = Clk;
-    HazardALU hazardalu(.Opcode(InstructionOut[31:26]), .RType(RTypeID), .A(ReadData1), .B(ReadData2), .ALUResult(BRANCHALU));
+    HazardALU hazardalu(
+        .Opcode(InstructionOut[31:26]),
+        .RType(RTypeID),
+        .A(ReadData1),
+        .B(ReadData2),
+        .ALUResult(BRANCHALU)
+    );
     assign PCSrc = PCSrcID & BRANCHALU;
     JumpTarget jtarget(JTargetResult, InstructionOut[25:0], PCAdderResultID);
     assign ShiftedEX =  Offset << 2;
+    // idk about PCAdderResultID
     assign JumpPCEX = PCAdderResultID + ShiftedEX;
 
     Mux32Bit2To1 PcSrcMux(JPCValue, PCAdderResult, JumpPCEX, PCSrc);
@@ -177,7 +184,8 @@ ControlMux controlMUX(
     .MemToRegIn(MemToRegID),
     .RegDstIn(RegDstID),
     .ALUSrcIn(ALUSrcID),
-    .PCSrcIn(PCSrcID),
+    // idk about PCSrcID
+    .PCSrcIn(PCSrc),
     .JrAddressIn(JrAddressID),
     .JrDataIn(JrDataID),
     .RTypeIn(RTypeID),
