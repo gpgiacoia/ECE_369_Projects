@@ -48,7 +48,7 @@
 // to allow for data multiplexing and setup time.
 ////////////////////////////////////////////////////////////////////////////////
 
-module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2);
+module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2, FINALINDEX, WIDTH);
     input [4:0] ReadRegister1;
     input [4:0] ReadRegister2;
     input [4:0] WriteRegister;
@@ -56,18 +56,22 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
     input RegWrite;
     input Clk;
     
+    output [31:0] WIDTH;
+    output [31:0] FINALINDEX;
     output reg [31:0] ReadData1;
     output reg [31:0] ReadData2;
     
     reg [31:0] registers [31:0];
 
     integer i;
+    assign WIDTH = registers[9];
+    assign FINALINDEX = registers[11];
     
     // Ensure register $zero (registers[0]) is always zero
     initial begin
         registers[0] = 32'h0;           // Initialize Zero
         registers[28] = 32'h10008000;   // Initialize Global Pointer
-        registers[29] = 32'h3e8;        // Initialize Stack Pointer
+        registers[29] = 32'hffc;        // Initialize Stack Pointer
     end
     
     always @(*) begin

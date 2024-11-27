@@ -8,11 +8,11 @@ module TopTopModule(Reset, Clk, out7, en_out);
     input Reset, Clk; 
     output [6:0] out7;
     output [7:0] en_out;
-    wire [31:0] WriteData; 
-    wire [31:0] PCResult; 
+    wire [31:0] X; 
+    wire [31:0] Y; 
     wire ClkOut;
     
     ClkDiv c(Clk, 0, ClkOut);
-    TopModule x(Reset, ClkOut, PCResult, WriteData);
-    Two4DigitDisplay y(Clk, WriteData[15:0], PCResult[15:0], out7, en_out);
+    TopModule x(Reset, ClkOut, X, Y);
+    Two4DigitDisplay y(Clk, Y[15:0], X[15:0], out7, en_out);
 endmodule

@@ -77,6 +77,57 @@ window2: .word    0, 0, 0, 0, 0, 0, 0, 0,
          .word    0, 0, 0, 0, 0, 0, 0, 0
 
 
+# test 3 For the 16X16 frame size and a 8X4 window size
+# The result should be 3, 2
+asize3:  .word    16, 16, 8, 4    #i, j, k, l
+frame3:  .word    7, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+         .word    7, 8, 8, 8, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
+         .word    7, 8, 8, 8, 2, 8, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 
+         .word    7, 8, 8, 8, 8, 8, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 
+         .word    0, 4, 8, 8, 8, 8, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 
+         .word    0, 5, 8, 8, 8, 8, 30, 35, 40, 45, 50, 55, 60, 65, 70,  75, 
+         .word    0, 6, 8, 8, 8, 8, 36, 42, 48, 54, 60, 66, 72, 78, 84, 90, 
+         .word    0, 4, 8, 8, 8, 8, 42, 49, 56, 63, 70, 77, 84, 91, 98, 105, 
+         .word    0, 1, 8, 8, 8, 8, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 
+         .word    0, 1, 8, 8, 8, 8, 54, 63, 72, 81, 90, 99, 108, 117, 126, 135, 
+         .word    0, 10, 8, 8, 8, 8, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 
+         .word    0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132, 143, 154, 165, 
+         .word    9, 9, 9, 9, 48, 60, 72, 84, 96, 108, 120, 132, 0, 1, 2, 3, 
+         .word    9, 9, 9, 9, 52, 65, 78, 91, 104, 114, 130, 143, 1, 2, 3, 4, 
+         .word    9, 9, 9, 9, 56, 70, 84, 98, 112, 126, 140, 154, 2, 3, 4, 5, 
+         .word    9, 9, 9, 9, 60, 75, 90, 105, 120, 135, 150, 165, 3, 4, 5, 6 
+window3: .word    8, 8, 8, 8, 
+         .word    8, 8, 8, 8, 
+         .word    8, 8, 8, 8, 
+         .word    8, 8, 8, 8, 
+         .word    8, 8, 8, 8, 
+         .word    8, 8, 8, 8, 
+         .word    8, 8, 8, 8, 
+         .word    8, 8, 8, 8 
+
+# test 4 For the 16X16 frame and a 4X4 window size
+# The result should be 1, 1
+asize4:  .word    16, 16, 4, 4    #i, j, k, l
+frame4:  .word    9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 6, 7, 7, 7, 
+         .word    9, 7, 7, 7, 7, 5, 6, 7, 8, 9, 10, 11, 6, 7, 7, 7, 
+         .word    9, 7, 7, 7, 7, 3, 12, 14, 16, 18, 20, 6, 6, 7, 7, 7, 
+         .word    9, 7, 7, 7, 7, 4, 18, 21, 24, 27, 30, 33, 6, 7, 7, 7, 
+         .word    0, 7, 7, 7, 7, 5, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 
+         .word    0, 5, 3, 4, 5, 6, 30, 35, 40, 45, 50, 55, 60, 65, 70,  75, 
+         .word    0, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84, 90, 
+         .word    0, 4, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91, 98, 105, 
+         .word    0, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 
+         .word    0, 9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99, 108, 117, 126, 135, 
+         .word    0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 
+         .word    0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132, 143, 154, 165, 
+         .word    9, 9, 9, 9, 48, 60, 72, 84, 96, 108, 120, 132, 0, 1, 2, 3, 
+         .word    9, 9, 9, 9, 52, 65, 78, 91, 104, 114, 130, 143, 1, 2, 3, 4, 
+         .word    9, 9, 9, 9, 56, 70, 84, 98, 112, 126, 140, 154, 2, 3, 4, 5, 
+         .word    9, 9, 9, 9, 60, 75, 90, 105, 120, 135, 150, 165, 3, 4, 5, 6 
+window4: .word    7, 7, 7, 7, 
+         .word    7, 7, 7, 7, 
+         .word    7, 7, 7, 7, 
+         .word    7, 7, 7, 7 
 
          
 
@@ -91,12 +142,12 @@ window2: .word    0, 0, 0, 0, 0, 0, 0, 0,
 main: 
     addi    $sp, $sp, -4    # Make space on stack
     sw      $ra, 0($sp)     # Save return address
-         
+         """
     # Start test 1 
     ############################################################
-    la      $a0, asize0     # 1st parameter: address of asize1[0]
-    la      $a1, frame0    # 2nd parameter: address of frame1[0]
-    la      $a2, window0    # 3rd parameter: address of window1[0] 
+    la      $a0, asize1     # 1st parameter: address of asize1[0]
+    la      $a1, frame1    # 2nd parameter: address of frame1[0]
+    la      $a2, window1    # 3rd parameter: address of window1[0] 
    
     jal     vbsme           # call function
 
@@ -115,7 +166,26 @@ main:
     jal     vbsme           # call function
     ############################################################
     # End of test 2   
-                    
+           # Start test 3
+    ############################################################
+    la      $a0, asize3     # 1st parameter: address of asize3[0]
+    la      $a1, frame3     # 2nd parameter: address of frame3[0]
+    la      $a2, window3    # 3rd parameter: address of window3[0] 
+
+    jal     vbsme           # call function
+    ############################################################
+    # End of test 3   
+      """
+      
+    # Start test 4 
+    ############################################################
+    la      $a0, asize4     # 1st parameter: address of asize4[0]
+    la      $a1, frame4     # 2nd parameter: address of frame4[0]
+    la      $a2, window4    # 3rd parameter: address of window4[0] 
+
+    jal     vbsme           # call function
+    ############################################################
+    # End of test 4           
 
 .text
 .globl  vbsme
@@ -157,7 +227,7 @@ loop:
     bgtz $a3, loopOut       # If the result is greater than 0 (roof > floor), branch to loopOut
 
     add $t8, $zero, $s0
-    lw $t1, 4($a0) # t1 = j 
+    #lw $t1, 4($a0) # t1 = j 
     mul $t0, $s1, $t1
     add $t8, $t8, $t0 # currIndex = x+y*j
     # call function now to calculate the cell
@@ -258,15 +328,15 @@ exitx:
     jr $ra
     
 calculate: 
-    lw $t1, 4($a0) # t1 = j 
+    #lw $t1, 4($a0) # t1 = j 
     lw $t2, 8($a0) # t2 = k
-    lw $t1, 12($a0) # t1 = l
-    mul $t4, $t2, $t1 # i = k*l;
-    lw $t1, 4($a0) # t1 = j 
+    lw $a3, 12($a0) # t1 = l
+    mul $t4, $t2, $a3 # i = k*l;
+    #lw $t1, 4($a0) # t1 = j 
     li $t5, 0 #index = 0;
-    lw $t1, 12($a0) # t1 = l
-    move $t6, $t1 #rightCount = l
-    lw $t1, 4($a0) # t1 = j 
+    lw $a3, 12($a0) # t1 = l
+    move $t6, $a3 #rightCount = l
+    #lw $t1, 4($a0) # t1 = j 
     li $t7, 0 #sum = 0;
     li $t0, 0 #temp =0;
     move $t9, $t8 # currIndex = w;
@@ -288,8 +358,8 @@ calculateLoop:
     # Check if temp is negative
     li $t2, 0 
     #bge $t0, $t2, positive#go to greater than 0
-    sub $t1, $t0, $t2      # Calculate $t0 - $t2
-    bgez $t1, positive      # If $t0 >= $t2, branch to positive
+    sub $a3, $t0, $t2      # Calculate $t0 - $t2
+    bgez $a3, positive      # If $t0 >= $t2, branch to positive
     addi $a3, $zero, -1
     mul $t0, $t0, $a3
 
@@ -300,13 +370,13 @@ positive:
     addi $t6, $t6, -1 #rightCount -=1;
     
     bne $t6, $t2, notzero # skip if rightCount != 0
-    lw $t1, 12($a0) # t1 = l
-    sub $t9, $t9, $t1 #currIndex = currIndex - (l)
-    lw $t1, 4($a0) # t1 = j 
-    add $t9, $t9, $t1 # currIndex +=j
-    lw $t1, 12($a0) # t1 = l
-    move $t6, $t1 #rightCount = l
-    lw $t1, 4($a0) # t1 = j 
+    lw $a3, 12($a0) # t1 = l
+    sub $t9, $t9, $a3 #currIndex = currIndex - (l)
+    lw $a3, 4($a0) # t1 = j 
+    add $t9, $t9, $a3 # currIndex +=j
+    lw $a3, 12($a0) # t1 = l
+    move $t6, $a3 #rightCount = l
+    #lw $t1, 4($a0) # t1 = j 
 notzero: 
     addi $t5, $t5, 1 #index +=1
     j calculateLoop

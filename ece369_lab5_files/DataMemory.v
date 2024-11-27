@@ -57,10 +57,10 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData);
     end
     always @ (*) begin
         if (MemRead == 1) begin
-            ReadData = memory[Address[11:2]];
+            ReadData <= memory[Address[11:2]];
         end
         else begin
-            ReadData = 0;
+            ReadData <= 0;
         end
     end
 endmodule

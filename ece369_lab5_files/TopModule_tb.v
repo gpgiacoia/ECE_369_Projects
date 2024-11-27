@@ -3,14 +3,14 @@
 module TopModule_tb();
     reg Clk;
     reg Reset;
-    wire [31:0] PCDONE;
-    wire [31:0] WRITEDATADONE;
+    wire [31:0] X;
+    wire [31:0] Y;
 
     TopModule top_module(
 	.Clk(Clk),
 	.Reset(Reset),
-	.PCDONE(PCDONE),
-	.WRITEDATADONE(WRITEDATADONE)
+	.X(X),
+	.Y(Y)
     );
 
     initial begin
@@ -24,7 +24,7 @@ module TopModule_tb();
     // third at 290 ns->390 ns
     initial begin
 	Reset <= 1;
-	#90;
+	#81;
 	Reset <= 0;
 	// #1000;
 	// Reset <= 1;
