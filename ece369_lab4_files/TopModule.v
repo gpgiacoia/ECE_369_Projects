@@ -133,7 +133,7 @@ wire BRANCHALU;
     // TODO: Uncomment clock, temporary for use in test bench
     //ClkDiv clock(Clk, Reset, ClkOut);
     assign ClkOut = Clk;
-    HazardALU hazardalu(.Opcode(InstructionOut[31:26]), .RType(RTypeID), .A(ReadData1), .B(ReadData2), .ALUResult(BRANCHALU));
+    HazardALU hazardalu(.Opcode(InstructionOut[31:26]),.rt(InstructionOut[20:16]), .A(ReadData1), .B(ReadData2), .ALUResult(BRANCHALU));
     assign PCSrc = PCSrcID & BRANCHALU;
     JumpTarget jtarget(JTargetResult, InstructionOut[25:0], PCAdderResultID);
     assign ShiftedEX =  Offset << 2;

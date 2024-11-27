@@ -48,15 +48,14 @@
 // to allow for data multiplexing and setup time.
 ////////////////////////////////////////////////////////////////////////////////
 
-module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2, FINALINDEX,FINALINDEXY);
+module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2);
     input [4:0] ReadRegister1;
     input [4:0] ReadRegister2;
     input [4:0] WriteRegister;
     input [31:0] WriteData;
     input RegWrite;
     input Clk;
-    output reg [31:0] FINALINDEX;
-    output reg [31:0] FINALINDEXY;
+    
     output reg [31:0] ReadData1;
     output reg [31:0] ReadData2;
     
@@ -72,9 +71,6 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
     end
     
     always @(*) begin
-        FINALINDEX<=registers[2];
-        FINALINDEXY<=registers[3];
-
          ReadData1 <= registers[ReadRegister1];
          ReadData2 <= registers[ReadRegister2];
     end

@@ -1,22 +1,23 @@
 `timescale 1ns / 1ps
 
-module HazardALU(Opcode, RType, A, B, ALUResult);
+module HazardALU(Opcode, rt, A, B, ALUResult);
 	input [5:0] Opcode;
-	input RType;
+	input [4:0] rt;
 	input signed [31:0] A, B;
 
 	output reg ALUResult;
 
-	always @(Opcode, RType, A, B) begin
-		if (RType == 1) begin
-			// TODO: Should have an action here
-		end
-		else begin
+	always @(Opcode, A, B) begin
 			case(Opcode)
 				// REGIMM
-				// bgez
+				// bgez and bltz
 				6'b000_001: begin
+				if (rt == 5'b00001)begin 
+				    //bgez
 					ALUResult <= A >= 0;
+					end else begin
+					   ALUResult <= A < 0;
+					end
 				end
 				// beq
 				6'b000_100: begin
@@ -34,11 +35,6 @@ module HazardALU(Opcode, RType, A, B, ALUResult);
 				6'b000_110: begin
 					ALUResult <= A <= 0;
 				end
-				// bltz
-				6'b000_000: begin
-					ALUResult <= A < 0;
-				end
 			endcase
-		end
 	end
 endmodule
