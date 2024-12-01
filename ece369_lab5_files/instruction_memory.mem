@@ -1,21 +1,24 @@
 23bdfffc	//	main:			addi	$sp, $sp, -4 ->	main:			addi	$sp, $sp, -4
 afbf0000	//				sw	$ra, 0($sp) ->				sw	$ra, 0($sp)
-34040060	//				ori	$a0, $zero, 96 ->				ori	$a0, $zero, 96
-34050070	//				ori	$a1, $zero, 112 ->				ori	$a1, $zero, 112
-34060470	//				ori	$a2, $zero, 1136 ->				ori	$a2, $zero, 1136
-0c000012	//				jal	vbsme ->				jal	vbsme
-340404b0	//				ori	$a0, $zero, 1200 ->				ori	$a0, $zero, 1200
-340504c0	//				ori	$a1, $zero, 1216 ->				ori	$a1, $zero, 1216
-340608c0	//				ori	$a2, $zero, 2240 ->				ori	$a2, $zero, 2240
-0c000012	//				jal	vbsme ->				jal	vbsme
-34040940	//				ori	$a0, $zero, 2368 ->				ori	$a0, $zero, 2368
-34050950	//				ori	$a1, $zero, 2384 ->				ori	$a1, $zero, 2384
-34060d50	//				ori	$a2, $zero, 3408 ->				ori	$a2, $zero, 3408
-0c000012	//				jal	vbsme ->				jal	vbsme
-34040dd0	//				ori	$a0, $zero, 3536 ->				ori	$a0, $zero, 3536
-34050de0	//				ori	$a1, $zero, 3552 ->				ori	$a1, $zero, 3552
-340611e0	//				ori	$a2, $zero, 4576 ->				ori	$a2, $zero, 4576
-0c000012	//				jal	vbsme ->				jal	vbsme
+34040000	//				ori	$a0, $zero, 0 ->				ori	$a0, $zero, 0
+34050010	//				ori	$a1, $zero, 16 ->				ori	$a1, $zero, 16
+34060410	//				ori	$a2, $zero, 1040 ->				ori	$a2, $zero, 1040
+0c000015	//				jal	vbsme ->				jal	vbsme
+00000000	//				nop ->				nop
+34040450	//				ori	$a0, $zero, 1104 ->				ori	$a0, $zero, 1104
+34050460	//				ori	$a1, $zero, 1120 ->				ori	$a1, $zero, 1120
+34060860	//				ori	$a2, $zero, 2144 ->				ori	$a2, $zero, 2144
+0c000015	//				jal	vbsme ->				jal	vbsme
+00000000	//				nop ->				nop
+340408e0	//				ori	$a0, $zero, 2272 ->				ori	$a0, $zero, 2272
+340508f0	//				ori	$a1, $zero, 2288 ->				ori	$a1, $zero, 2288
+34060cf0	//				ori	$a2, $zero, 3312 ->				ori	$a2, $zero, 3312
+0c000015	//				jal	vbsme ->				jal	vbsme
+00000000	//				nop ->				nop
+34040d70	//				ori	$a0, $zero, 3440 ->				ori	$a0, $zero, 3440
+34050d80	//				ori	$a1, $zero, 3456 ->				ori	$a1, $zero, 3456
+34061180	//				ori	$a2, $zero, 4480 ->				ori	$a2, $zero, 4480
+0c000015	//				jal	vbsme ->				jal	vbsme
 201affff	//	vbsme:			addi	$k0, $zero, -1 ->	vbsme:			addi	$k0, $zero, -1
 20020000	//				addi	$v0, $zero, 0 ->				addi	$v0, $zero, 0
 20030000	//				addi	$v1, $zero, 0 ->				addi	$v1, $zero, 0
@@ -40,7 +43,7 @@ afbf0000	//				sw	$ra, 0($sp) ->				sw	$ra, 0($sp)
 0010c020	//				add	$t8, $zero, $s0 ->				add	$t8, $zero, $s0
 72294002	//				mul	$t0, $s1, $t1 ->				mul	$t0, $s1, $t1
 0308c020	//				add	$t8, $t8, $t0 ->				add	$t8, $t8, $t0
-08000063	//				j	calculate ->				j	calculate
+08000066	//				j	calculate ->				j	calculate
 01f63822	//	back:			sub	$a3, $t7, $s6 ->	back:			sub	$a3, $t7, $s6
 04e10002	//				bgez	$a3, skip ->				bgez	$a3, skip
 000fb020	//				add	$s6, $zero, $t7 ->				add	$s6, $zero, $t7
@@ -56,35 +59,35 @@ afbf0000	//				sw	$ra, 0($sp) ->				sw	$ra, 0($sp)
 0214402a	//	direction0:		slt	$t0, $s0, $s4 ->	direction0:		slt	$t0, $s0, $s4
 11000002	//				beq	$t0, $zero, direction0_change ->				beq	$t0, $zero, direction0_change
 22100001	//				addi	$s0, $s0, 1 ->				addi	$s0, $s0, 1
-08000023	//				j	loop ->				j	loop
+08000026	//				j	loop ->				j	loop
 34170001	//	direction0_change:	ori	$s7, $zero, 1 ->	direction0_change:	ori	$s7, $zero, 1
 22730001	//				addi	$s3, $s3, 1 ->				addi	$s3, $s3, 1
 22310001	//				addi	$s1, $s1, 1 ->				addi	$s1, $s1, 1
-08000023	//				j	loop ->				j	loop
+08000026	//				j	loop ->				j	loop
 0235402a	//	direction1:		slt	$t0, $s1, $s5 ->	direction1:		slt	$t0, $s1, $s5
 11000002	//				beq	$t0, $zero, direction1_change ->				beq	$t0, $zero, direction1_change
 22310001	//				addi	$s1, $s1, 1 ->				addi	$s1, $s1, 1
-08000023	//				j	loop ->				j	loop
+08000026	//				j	loop ->				j	loop
 34170002	//	direction1_change:	ori	$s7, $zero, 2 ->	direction1_change:	ori	$s7, $zero, 2
 2294ffff	//				addi	$s4, $s4, -1 ->				addi	$s4, $s4, -1
 2210ffff	//				addi	$s0, $s0, -1 ->				addi	$s0, $s0, -1
-08000023	//				j	loop ->				j	loop
+08000026	//				j	loop ->				j	loop
 02123822	//	direction2:		sub	$a3, $s0, $s2 ->	direction2:		sub	$a3, $s0, $s2
 1ce00004	//				bgtz	$a3, direction2_move ->				bgtz	$a3, direction2_move
 20170003	//				addi	$s7, $zero, 3 ->				addi	$s7, $zero, 3
 22b5ffff	//				addi	$s5, $s5, -1 ->				addi	$s5, $s5, -1
 2231ffff	//				addi	$s1, $s1, -1 ->				addi	$s1, $s1, -1
-08000023	//				j	loop ->				j	loop
+08000026	//				j	loop ->				j	loop
 2210ffff	//	direction2_move:	addi	$s0, $s0, -1 ->	direction2_move:	addi	$s0, $s0, -1
-08000023	//				j	loop ->				j	loop
+08000026	//				j	loop ->				j	loop
 02333822	//	direction3:		sub	$a3, $s1, $s3 ->	direction3:		sub	$a3, $s1, $s3
 1ce00004	//				bgtz	$a3, direction3_move ->				bgtz	$a3, direction3_move
 20170000	//				addi	$s7, $zero, 0 ->				addi	$s7, $zero, 0
 22520001	//				addi	$s2, $s2, 1 ->				addi	$s2, $s2, 1
 22100001	//				addi	$s0, $s0, 1 ->				addi	$s0, $s0, 1
-08000023	//				j	loop ->				j	loop
+08000026	//				j	loop ->				j	loop
 2231ffff	//	direction3_move:	addi	$s1, $s1, -1 ->	direction3_move:	addi	$s1, $s1, -1
-08000023	//				j	loop ->				j	loop
+08000026	//				j	loop ->				j	loop
 8c900000	//	loopOut:		lw	$s0, 0($a0) ->	loopOut:		lw	$s0, 0($a0)
 8c910004	//				lw	$s1, 4($a0) ->				lw	$s1, 4($a0)
 01609020	//				add	$s2, $t3, $zero ->				add	$s2, $t3, $zero
@@ -93,7 +96,7 @@ afbf0000	//				sw	$ra, 0($sp) ->				sw	$ra, 0($sp)
 04e00003	//				bltz	$a3, exitx ->				bltz	$a3, exitx
 02519022	//				sub	$s2, $s2, $s1 ->				sub	$s2, $s2, $s1
 22730001	//				addi	$s3, $s3, 1 ->				addi	$s3, $s3, 1
-0800005b	//				j	loopx ->				j	loopx
+0800005e	//				j	loopx ->				j	loopx
 02401820	//	exitx:			add	$v1, $s2, $zero ->	exitx:			add	$v1, $s2, $zero
 02601020	//				add	$v0, $s3, $zero ->				add	$v0, $s3, $zero
 03e00008	//				jr	$ra ->				jr	$ra
@@ -133,4 +136,4 @@ afbf0000	//				sw	$ra, 0($sp) ->				sw	$ra, 0($sp)
 8c87000c	//				lw	$a3, 12($a0) ->				lw	$a3, 12($a0)
 00e07020	//				add	$t6, $a3, $zero ->				add	$t6, $a3, $zero
 21ad0001	//	notzero:		addi	$t5, $t5, 1 ->	notzero:		addi	$t5, $t5, 1
-0800006c	//				j	calculateLoop ->				j	calculateLoop
+0800006f	//				j	calculateLoop ->				j	calculateLoop

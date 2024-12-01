@@ -45,7 +45,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData);
 
     output reg[31:0] ReadData; // Contents of memory location at Address
     
-    reg[31:0] memory[1023:0];
+    reg[31:0] memory[4095:0];
 
     initial begin
         $readmemh("data_memory.mem", memory);
@@ -57,7 +57,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData);
     end
     always @ (*) begin
         if (MemRead == 1) begin
-            ReadData <= memory[Address[11:2]];
+            ReadData <= memory[Address[31:2]];
         end
         else begin
             ReadData <= 0;

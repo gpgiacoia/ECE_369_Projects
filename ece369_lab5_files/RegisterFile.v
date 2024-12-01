@@ -71,7 +71,7 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
     initial begin
         registers[0] = 32'h0;           // Initialize Zero
         registers[28] = 32'h10008000;   // Initialize Global Pointer
-        registers[29] = 32'hffc;        // Initialize Stack Pointer
+        registers[29] = 32'h3ffc;        // Initialize Stack Pointer
     end
     
     always @(*) begin
