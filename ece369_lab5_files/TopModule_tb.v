@@ -24,7 +24,7 @@ module TopModule_tb();
     // third at 290 ns->390 ns
     initial begin
 	Reset <= 1;
-	#81;
+	#50;
 	Reset <= 0;
 	// #1000;
 	// Reset <= 1;

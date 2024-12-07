@@ -34,11 +34,6 @@ module Hazard(
         if (op == 6'b100_011 || //lw
             op == 6'b100_000 || //lb
             op == 6'b100_001 || //lh
-            op == 6'b001_000 ||//addi
-            op == 6'b001_100 ||//andi
-            op == 6'b001_101 ||//ori
-            op == 6'b001_110 ||//xori
-            op == 6'b001_010 ||//slti
             op == 6'b000_001 || //bgez and bltz
             op == 6'b000_111 ||//bgtz
             op == 6'b000_110 //blez
@@ -49,10 +44,8 @@ module Hazard(
                     ControlMux<= 1;
                 end
             end
-        else if(op == 6'b000_000 ||
-                op == 6'b000_100 ||//beq 
+        else if(op == 6'b000_100 ||//beq 
                 op == 6'b000_101 ||//bne
-                op == 6'b011100 ||//mul
                 op == 6'b101_011 || //sw
                 op == 6'b101_000 || //sb
                 op == 6'b101_001 // sh

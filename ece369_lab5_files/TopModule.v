@@ -126,6 +126,13 @@ wire [1:0] StoreDataOut;
 wire [1:0] LoadDataOut;
 wire BRANCHALU;
 wire [31:0] FINALINDEX, WIDTH;
+wire [31:0] InstructionEX;
+wire ALUAFORWARDMUX;
+wire ALUBFORWARDMUX; 
+wire [31:0] ALUAFINAL;
+wire [31:0] ALUBFINAL;
+wire [31:0] NewValue;
+
     // Mark the internal register as debug signal
     assign X = FINALINDEX / WIDTH;
     assign Y = FINALINDEX % WIDTH;
@@ -236,6 +243,7 @@ ControlMux controlMUX(
     .saIn(SAID),
     .JTarget(InstructionOut[25:0]),
     .PCAdderResultIn(PCAdderResultID),
+    .InstructionIn(InstructionOut),
     
     // Control Signal Inputs
     .ALUOp(ALUOpOut),
@@ -264,6 +272,7 @@ ControlMux controlMUX(
     .rdOut(RdEX),
     .saOut(SAEX),
     .JTargetOut(JTargetEX),
+    .InstructionOut(InstructionEX),
 
     // Control Signal Outputs
     .ALUOpOut(ALUOpEX),
@@ -285,7 +294,17 @@ ControlMux controlMUX(
 
 
 // EXECUTE PHASE
-
+    Forward forward(.instruction(InstructionEX),
+    .destMEM(RegDestMEM), //dest from the memory phase. 
+    .regWriteMEM(RegWriteMEM), //Checks same as other
+    .destWB(RegDestWB), //dest from the memory phase. 
+    .regWriteWB(RegWriteWB), //Checks same as other
+    .ALUAFORWARDMUX(ALUAFORWARDMUX),
+    .ALUBFORWARDMUX(ALUBFORWARDMUX),
+    .NewValue(NewValue),
+    .ALURESULTMEM(ALUResultMEM),
+    .ALURESULTWB(ALUResultWB)
+);
     
     SignExtension storeHalfExtend(ReadData2EX[15:0], StoreHalfEX);
     SignExtension8Bit storeByteExtend(ReadData2EX[7:0], StoreByteEX);
@@ -294,10 +313,11 @@ ControlMux controlMUX(
     
     Mux32Bit2To1 AluSrcMux(ALUB, ReadData2EX, OffsetEX, ALUSrcEX);
     Mux32Bit2To1 shiftMux(ALUA, ReadData1EX, SAEX, ShiftMuxEX); //FIXME CONNECT ALUA TO ALU
-    //assign ShiftedEX = OffsetEX << 2;
-    //assign JumpPCEX = PCEX + ShiftedEX;
+
+    Mux32Bit2To1 ForwardAluAMux(ALUAFINAL, ALUA, NewValue, ALUAFORWARDMUX);
+    Mux32Bit2To1 ForwardAluBMux(ALUBFINAL, ALUB, NewValue, ALUAFORWARDMUX);
     
-    ALU32Bit alu(ALUOpEX, RTypeEX, ALUA, ALUB, ALUResultEX, ALUZeroEX);
+    ALU32Bit alu(ALUOpEX, RTypeEX, ALUAFINAL, ALUBFINAL, ALUResultEX, ALUZeroEX);
     
     Mux5Bit2To1 RegDestMux(RegDestEX, RtEX, RdEX, RegDstEX);
     
@@ -373,7 +393,7 @@ ControlMux controlMUX(
     .LoadData(LoadDataMEM), 
     .JrAddress(JrAddressMEM),            
     .JrData(JrDataMEM),
-            .PCAdderResultIn(PCAdderResultMEM),
+     .PCAdderResultIn(PCAdderResultMEM),
     .PCAdderResultOut(PCAdderResultWB),
     
     // Data outputs
