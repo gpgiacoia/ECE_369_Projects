@@ -131,7 +131,9 @@ wire ALUAFORWARDMUX;
 wire ALUBFORWARDMUX; 
 wire [31:0] ALUAFINAL;
 wire [31:0] ALUBFINAL;
-wire [31:0] NewValue;
+wire [31:0] NewValueRS;
+wire [31:0] NewValueRT;
+
 
     // Mark the internal register as debug signal
     assign X = FINALINDEX / WIDTH;
@@ -294,14 +296,16 @@ ControlMux controlMUX(
 
 
 // EXECUTE PHASE
-    Forward forward(.instruction(InstructionEX),
+    Forward forward(.Clk(ClkOut),
+    .instruction(InstructionEX),
     .destMEM(RegDestMEM), //dest from the memory phase. 
     .regWriteMEM(RegWriteMEM), //Checks same as other
     .destWB(RegDestWB), //dest from the memory phase. 
     .regWriteWB(RegWriteWB), //Checks same as other
     .ALUAFORWARDMUX(ALUAFORWARDMUX),
     .ALUBFORWARDMUX(ALUBFORWARDMUX),
-    .NewValue(NewValue),
+    .NewValueRS(NewValueRS),
+    .NewValueRT(NewValueRT),
     .ALURESULTMEM(ALUResultMEM),
     .ALURESULTWB(WriteDataRegWB) // to account for load words
 );
@@ -314,8 +318,8 @@ ControlMux controlMUX(
     Mux32Bit2To1 AluSrcMux(ALUB, ReadData2EX, OffsetEX, ALUSrcEX);
     Mux32Bit2To1 shiftMux(ALUA, ReadData1EX, SAEX, ShiftMuxEX); //FIXME CONNECT ALUA TO ALU
 
-    Mux32Bit2To1 ForwardAluAMux(ALUAFINAL, ALUA, NewValue, ALUAFORWARDMUX);
-    Mux32Bit2To1 ForwardAluBMux(ALUBFINAL, ALUB, NewValue, ALUBFORWARDMUX);
+    Mux32Bit2To1 ForwardAluAMux(ALUAFINAL, ALUA, NewValueRS, ALUAFORWARDMUX);
+    Mux32Bit2To1 ForwardAluBMux(ALUBFINAL, ALUB, NewValueRT, ALUBFORWARDMUX);
     
     ALU32Bit alu(ALUOpEX, RTypeEX, ALUAFINAL, ALUBFINAL, ALUResultEX, ALUZeroEX);
     

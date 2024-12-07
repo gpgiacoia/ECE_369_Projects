@@ -2,6 +2,7 @@
 
 
 module Forward(
+    input Clk,
     input [31:0] instruction,
     input [4:0] destMEM, //dest from the execute phase
     input regWriteMEM, //checks if there can be a problem dest1 or if it is storeword or something silly
@@ -11,7 +12,8 @@ module Forward(
     input [31:0] ALURESULTWB,
     output reg ALUAFORWARDMUX, 
     output reg ALUBFORWARDMUX,
-    output reg [31:0] NewValue
+    output reg [31:0] NewValueRS, 
+    output reg [31:0] NewValueRT
     );
 
     wire [4:0] rs = instruction[25:21];
@@ -19,6 +21,7 @@ module Forward(
     wire [5:0] op = instruction[31:26];
 
     always @(*) begin
+        if (Clk) begin //Problems with the memex pipeline being to negedge
         ALUAFORWARDMUX<= 0; //0 meaning stop = false so go ahead
         ALUBFORWARDMUX<= 0; //one meaning go ahead
         if (op == 6'b100_011 || //lw
@@ -34,10 +37,10 @@ module Forward(
                 if((rs!=0) && ((regWriteMEM && rs == destMEM) || (regWriteWB && rs == destWB))) begin //STALL FIXME 
                     ALUAFORWARDMUX<= 1; 
                     if(regWriteMEM && rs == destMEM) begin
-                        NewValue<=ALURESULTMEM;
+                        NewValueRS<=ALURESULTMEM;
                     end
                     else begin
-                        NewValue<=ALURESULTWB;
+                        NewValueRS<=ALURESULTWB;
                     end
                     //if writeback is the value that amtches rs
                     //newvalue = aluresultwb
@@ -51,22 +54,23 @@ module Forward(
                 if((rs!=0) && ((regWriteMEM && rs == destMEM) || (regWriteWB && rs == destWB))) begin //STALL FIXME 
                     ALUAFORWARDMUX<= 1; 
                     if(regWriteMEM && rs == destMEM) begin
-                        NewValue<=ALURESULTMEM;
+                        NewValueRS<=ALURESULTMEM;
                     end
                     else begin
-                        NewValue<=ALURESULTWB;
+                        NewValueRS<=ALURESULTWB;
                     end
                 end
                 
                 if((rt!=0) && ((regWriteMEM && rt == destMEM) || (regWriteWB && rt == destWB))) begin //STALL FIXME 
                     ALUBFORWARDMUX<= 1; 
                     if(regWriteMEM && rt == destMEM) begin
-                        NewValue<=ALURESULTMEM;
+                        NewValueRT<=ALURESULTMEM;
                     end
                     else begin
-                        NewValue<=ALURESULTWB;
+                        NewValueRT<=ALURESULTWB;
                     end
                 end
+            end
             end
     end
 endmodule
