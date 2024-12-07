@@ -21,7 +21,10 @@ module Forward(
     always @(*) begin
         ALUAFORWARDMUX<= 0; //0 meaning stop = false so go ahead
         ALUBFORWARDMUX<= 0; //one meaning go ahead
-        if (op == 6'b001_000 ||//addi
+        if (op == 6'b100_011 || //lw
+            op == 6'b100_000 || //lb
+            op == 6'b100_001 || //lh
+            op == 6'b001_000 ||//addi
             op == 6'b001_100 ||//andi
             op == 6'b001_101 ||//ori
             op == 6'b001_110 ||//xori
