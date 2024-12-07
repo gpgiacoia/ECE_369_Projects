@@ -303,7 +303,7 @@ ControlMux controlMUX(
     .ALUBFORWARDMUX(ALUBFORWARDMUX),
     .NewValue(NewValue),
     .ALURESULTMEM(ALUResultMEM),
-    .ALURESULTWB(ALUResultWB)
+    .ALURESULTWB(WriteDataRegWB) // to account for load words
 );
     
     SignExtension storeHalfExtend(ReadData2EX[15:0], StoreHalfEX);

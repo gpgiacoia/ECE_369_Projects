@@ -1,3 +1,6 @@
 20080000	//	main:	addi	$t0, $zero, 0 ->	main:	addi	$t0, $zero, 0
 20090001	//		addi	$t1, $0, 1 ->		addi	$t1, $0, 1
 01295020	//		add	$t2, $t1, $t1 ->		add	$t2, $t1, $t1
+ad4a0000	//		sw	$t2, 0($t2) ->		sw	$t2, 0($t2)
+8d4c0000	//		lw	$t4, 0($t2) ->		lw	$t4, 0($t2)
+018c6820	//		add	$t5, $t4, $t4 ->		add	$t5, $t4, $t4
