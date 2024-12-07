@@ -315,7 +315,7 @@ ControlMux controlMUX(
     Mux32Bit2To1 shiftMux(ALUA, ReadData1EX, SAEX, ShiftMuxEX); //FIXME CONNECT ALUA TO ALU
 
     Mux32Bit2To1 ForwardAluAMux(ALUAFINAL, ALUA, NewValue, ALUAFORWARDMUX);
-    Mux32Bit2To1 ForwardAluBMux(ALUBFINAL, ALUB, NewValue, ALUAFORWARDMUX);
+    Mux32Bit2To1 ForwardAluBMux(ALUBFINAL, ALUB, NewValue, ALUBFORWARDMUX);
     
     ALU32Bit alu(ALUOpEX, RTypeEX, ALUAFINAL, ALUBFINAL, ALUResultEX, ALUZeroEX);
     
