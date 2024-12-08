@@ -1,25 +1,10 @@
 `timescale 1ns / 1ps
-////////////////////////////////////////////////////////////////////////////////
-// ECE369 - Computer Architecture
-// 
-// Module - SignExtension.v
-// Description - Sign extension module.
-////////////////////////////////////////////////////////////////////////////////
-module SignExtension(in, out);
 
-    /* A 16-Bit input word */
-    input [15:0] in;
-    
-    /* A 32-Bit output word */
-    output reg [31:0] out;
-    
-    always @ (in) begin
-        if (in[15] == 1) begin // Check for negative or positive number
-            out <= {16'b1111111111111111, in};
-        end
-        else begin
-            out <= {16'b0000000000000000, in};
-        end
-    end
+module SignExtension(
+    input [15:0] in,
+    output [31:0] out
+);
+    // Concatenate 16 replicated bits of in[15] to the input
+    assign out = {{16{in[15]}}, in};
 
 endmodule

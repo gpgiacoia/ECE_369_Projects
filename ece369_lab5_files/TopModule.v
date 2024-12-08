@@ -173,6 +173,7 @@ wire [31:0] NewValueRT;
     .regWriteEX(RegWriteEX), //checks if there can be a problem dest1 or if it is storeword or something silly
     .destMEM(RegDestMEM), //dest from the memory phase. 
     .regWriteMEM(RegWriteMEM), //Checks same as other
+    .MemReadEX(MemReadEX),
     .IDIF(HAZARDIFID), 
     .PCSTOP(HAZARDPC),
     .ControlMux(HAZARDCONTROL));
@@ -307,7 +308,7 @@ ControlMux controlMUX(
     .NewValueRS(NewValueRS),
     .NewValueRT(NewValueRT),
     .ALURESULTMEM(ALUResultMEM),
-    .ALURESULTWB(WriteDataRegWB) // to account for load words
+    .ALURESULTWB(WriteData) // to account for load words
 );
     
     SignExtension storeHalfExtend(ReadData2EX[15:0], StoreHalfEX);
