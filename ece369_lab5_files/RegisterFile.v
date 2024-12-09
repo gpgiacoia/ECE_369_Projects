@@ -10,12 +10,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module RegisterFile #(
+    parameter INSTANCE = 0,
     parameter STACK_REG = 39996
 ) (
     input [4:0] ReadRegister1, ReadRegister2, WriteRegister,
     input [31:0] WriteData,
     input RegWrite, Clk,
-    output [31:0] WIDTH, FINALINDEX,
+    output [31:0] WIDTH, FINALINDEX, MINSAD,
     output reg [31:0] ReadData1, ReadData2
 );
 
@@ -31,6 +32,7 @@ module RegisterFile #(
     // Assign values for WIDTH and FINALINDEX
     assign WIDTH = registers[9];      // register $9
     assign FINALINDEX = registers[11]; // register $11
+    assign MINSAD = registers[22];
 
     // Read data from registers
     always @(*) begin

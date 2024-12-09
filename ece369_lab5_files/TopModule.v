@@ -4,11 +4,12 @@
 
 module TopModule
 #(
+        parameter INSTANCE = 0,
 	parameter DATA_MEM = "data_memory.mem",
 	parameter INSTRUCTION_MEM = "instruction_memory.mem",
         parameter STACK_REG = 39996
 )
-(Reset, Clk, X, Y);
+(Reset, Clk, X, Y, MINSAD);
     //Fetch
     input Reset, Clk; 
     wire [31:0] PC;
@@ -115,6 +116,7 @@ module TopModule
     wire [31:0] PCAdderResultID,PCAdderResultEX,PCAdderResultMEM,PCAdderResultWB;
     output wire [31:0] X;
     output wire [31:0] Y;
+    output wire [31:0] MINSAD;
         wire RegWriteOut;
 wire MemWriteOut;
 wire MemReadOut;
@@ -163,6 +165,7 @@ wire [31:0] NewValueRT;
     .Reset(Reset), .Clk(ClkOut), .PCSTOP(HAZARDPC));
 
     InstructionMemory #(
+        .INSTANCE(INSTANCE),
         .INSTRUCTION_MEM("instruction_memory.mem")
     ) instructionMemory (
         PC,
@@ -177,6 +180,7 @@ wire [31:0] NewValueRT;
     //DECODE PHASE
     
     RegisterFile #(
+        .INSTANCE(INSTANCE),
         .STACK_REG(STACK_REG)
     ) registerFile (
         .ReadRegister1(InstructionOut[25:21]),
@@ -188,7 +192,8 @@ wire [31:0] NewValueRT;
         .ReadData1(ReadData1),
         .ReadData2(ReadData2),
         .FINALINDEX(FINALINDEX),
-        .WIDTH(WIDTH)
+        .WIDTH(WIDTH),
+        .MINSAD(MINSAD)
     );
     
     SignExtension signExtend_150(InstructionOut[15:0], Offset);
@@ -412,6 +417,7 @@ ControlMux controlMUX(
     );
     
     DataMemory #(
+        .INSTANCE(INSTANCE),
         .DATA_MEM("data_memory.mem")
     ) datamemory (
         ALUResultMEM,

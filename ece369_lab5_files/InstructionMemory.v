@@ -37,7 +37,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 module InstructionMemory #(
-    parameter INSTRUCTION_MEM = "instruction_memory.mem"
+    parameter INSTANCE = 0,
+    parameter INSTRUCTION_MEM = "test.mem"
 ) (
         Address,
         Instruction
