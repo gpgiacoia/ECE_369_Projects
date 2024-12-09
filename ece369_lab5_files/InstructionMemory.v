@@ -36,7 +36,12 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionMemory(Address, Instruction);
+module InstructionMemory #(
+    parameter INSTRUCTION_MEM = "instruction_memory.mem"
+) (
+        Address,
+        Instruction
+    );
 
     input [31:0] Address;        // Input Address
 
@@ -45,7 +50,7 @@ module InstructionMemory(Address, Instruction);
     reg [31:0] memory [1023:0];      // 1024 words of 32-bit memory
 
     initial begin
-        $readmemh("instruction_memory.mem", memory);
+        $readmemh(INSTRUCTION_MEM, memory);
     end
     always @(Address) begin
         Instruction <= memory[Address[11:2]];

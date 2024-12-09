@@ -9,7 +9,9 @@
 // Description: Implements a register file with 32 32-bit wide registers.
 //////////////////////////////////////////////////////////////////////////////////
 
-module RegisterFile(
+module RegisterFile #(
+    parameter STACK_REG = 39996
+) (
     input [4:0] ReadRegister1, ReadRegister2, WriteRegister,
     input [31:0] WriteData,
     input RegWrite, Clk,
@@ -23,7 +25,7 @@ module RegisterFile(
     initial begin
         registers[0] = 32'h0;           // $zero is always 0
         registers[28] = 32'h10008000;   // $gp (global pointer)
-        registers[29] = 39996;          // $sp (stack pointer)
+        registers[29] = STACK_REG;          // $sp (stack pointer)
     end
 
     // Assign values for WIDTH and FINALINDEX

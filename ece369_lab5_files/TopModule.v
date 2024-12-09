@@ -1,7 +1,14 @@
 `timescale 1ns / 1ps
 //Authors: Giuseppe Pongelupe Giacoia, Leo Dickinson, Carson Keegan
 //Percentage Effort (33%, 33%, 33%)
-module TopModule(Reset, Clk, X, Y);
+
+module TopModule
+#(
+	parameter DATA_MEM = "data_memory.mem",
+	parameter INSTRUCTION_MEM = "instruction_memory.mem",
+        parameter STACK_REG = 39996
+)
+(Reset, Clk, X, Y);
     //Fetch
     input Reset, Clk; 
     wire [31:0] PC;
@@ -155,7 +162,12 @@ wire [31:0] NewValueRT;
     ProgramCounter program_counter(.Address(PCFinal), .PCResult(PC), 
     .Reset(Reset), .Clk(ClkOut), .PCSTOP(HAZARDPC));
 
-    InstructionMemory instructionMemory(PC, Instruction);
+    InstructionMemory #(
+        .INSTRUCTION_MEM("instruction_memory.mem")
+    ) instructionMemory (
+        PC,
+        Instruction
+    );
 
     PCAdder pcAdder(PC, PCAdderResult);
       
@@ -164,8 +176,20 @@ wire [31:0] NewValueRT;
 
     //DECODE PHASE
     
-    RegisterFile registerFile(.ReadRegister1(InstructionOut[25:21]), .ReadRegister2(InstructionOut[20:16]), 
-    .WriteRegister(NEWFINALWRITEREGISTER), .WriteData(NEWFINALWRITEDATA), .RegWrite(NEWFINALREGWRITE), .Clk(ClkOut), .ReadData1(ReadData1), .ReadData2(ReadData2), .FINALINDEX(FINALINDEX), .WIDTH(WIDTH));
+    RegisterFile #(
+        .STACK_REG(STACK_REG)
+    ) registerFile (
+        .ReadRegister1(InstructionOut[25:21]),
+        .ReadRegister2(InstructionOut[20:16]),
+        .WriteRegister(NEWFINALWRITEREGISTER),
+        .WriteData(NEWFINALWRITEDATA),
+        .RegWrite(NEWFINALREGWRITE),
+        .Clk(ClkOut),
+        .ReadData1(ReadData1),
+        .ReadData2(ReadData2),
+        .FINALINDEX(FINALINDEX),
+        .WIDTH(WIDTH)
+    );
     
     SignExtension signExtend_150(InstructionOut[15:0], Offset);
     SignExtension5Bit signExtend_SA(InstructionOut[10:6], SAID); 
@@ -387,8 +411,16 @@ ControlMux controlMUX(
 
     );
     
-    DataMemory datamemory(ALUResultMEM, WriteDataMEM, ClkOut, 
-    MemWriteMEM, MemReadMEM, ReadDataMEM); 
+    DataMemory #(
+        .DATA_MEM("data_memory.mem")
+    ) datamemory (
+        ALUResultMEM,
+        WriteDataMEM,
+        ClkOut,
+        MemWriteMEM,
+        MemReadMEM,
+        ReadDataMEM
+    ); 
     
     assign LWFull = (MemToRegMEM) ? ALUResultMEM : ReadDataMEM;
     SignExtension loadHalfEX(LWFull[15:0], LWHalf);
