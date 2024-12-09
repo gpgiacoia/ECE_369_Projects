@@ -24,7 +24,7 @@ module Forward(
     wire [5:0] op = instruction[31:26];
 
     always @(*) begin
-        if (Clk) begin //Problems with the memex pipeline being to negedge
+        if(Clk) begin
         ALUAFORWARDMUX<= 0; //0 meaning stop = false so go ahead
         ALUBFORWARDMUX<= 0; //one meaning go ahead
         if (op == 6'b100_011 || //lw

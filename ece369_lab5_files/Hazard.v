@@ -19,12 +19,24 @@ module Hazard(
     wire [4:0] rs = instruction[25:21];
     wire [4:0] rt = instruction[20:16];
     wire [5:0] op = instruction[31:26];
+    
+    reg [31:0] oldInstruction;
+    reg alreadyStalled;
+    initial begin
+        oldInstruction = 0;
+        alreadyStalled = 0;
+    end
 
     always @(*) begin
         // Default values (no stall)
         PCSTOP <= 0;        // 0 means proceed
         IDIF <= 1;          // 1 means go ahead
         ControlMux <= 0;    // 0 means control signals pass through
+        
+        if(oldInstruction != instruction)begin
+            alreadyStalled = 0;
+            oldInstruction <= instruction;
+        end
         
         // Branch instructions that depend on 'rs'
         if (op == 6'b000_001 || // bgez and bltz
@@ -79,5 +91,23 @@ module Hazard(
                 ControlMux <= 1;
             end
         end
+        
+//        if((op == 6'b000_001 || // bgez and bltz
+//           op == 6'b000_111 || // bgtz
+//           op == 6'b000_110 || // blez
+//           op == 6'b000_001 || // bgez and bltz
+//           op == 6'b000_111 || // bgtz
+//           op == 6'b000_110 ||   // blez
+//           op == 6'b000_011 || //jal
+//           op == 6'b000_010 || //j
+//           (op == 6'b000_000 && instruction[5:0] == 6'bb001_000)) && //jr
+//           alreadyStalled == 0) begin
+//                alreadyStalled <=1;
+//                PCSTOP <= 1;
+//                IDIF <= 0;
+//                ControlMux <= 1;           
+//           end
+           
+        
     end
 endmodule

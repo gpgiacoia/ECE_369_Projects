@@ -148,7 +148,7 @@ wire [31:0] NewValueRT;
     assign ShiftedEX =  Offset << 2;
     assign JumpPCEX = PCAdderResultID + ShiftedEX;
 
-    Mux32Bit2To1 PcSrcMux(JPCValue, PCAdderResult, JumpPCEX, PCSrc);
+    assign JPCValue = PCSrc ? JumpPCEX : PCAdderResult;
     Mux32Bit3To1 JmuxMux(PCFinal, JPCValue , ReadData1, JTargetResult, JmuxID);
     ProgramCounter program_counter(.Address(PCFinal), .PCResult(PC), 
     .Reset(Reset), .Clk(ClkOut), .PCSTOP(HAZARDPC));
@@ -325,15 +325,15 @@ ControlMux controlMUX(
     
     Mux32Bit3To1 writeDataMux(WriteDataEX, ReadData2EX, StoreHalfEX, StoreByteEX, StoreDataEX);
     
-    Mux32Bit2To1 AluSrcMux(ALUB, ReadData2EX, OffsetEX, ALUSrcEX);
-    Mux32Bit2To1 shiftMux(ALUA, ReadData1EX, SAEX, ShiftMuxEX); //FIXME CONNECT ALUA TO ALU
+    assign ALUB = ALUSrcEX ? OffsetEX : ReadData2EX;
+    assign ALUA = ShiftMuxEX ? SAEX : ReadData1EX;
 
-    Mux32Bit2To1 ForwardAluAMux(ALUAFINAL, ALUA, NewValueRS, ALUAFORWARDMUX);
-    Mux32Bit2To1 ForwardAluBMux(ALUBFINAL, ALUB, NewValueRT, ALUBFORWARDMUX);
+    assign ALUAFINAL = ALUAFORWARDMUX ? NewValueRS : ALUA;
+    assign ALUBFINAL = ALUBFORWARDMUX ? NewValueRT : ALUB;
     
     ALU32Bit alu(ALUOpEX, RTypeEX, ALUAFINAL, ALUBFINAL, ALUResultEX, ALUZeroEX);
     
-    Mux5Bit2To1 RegDestMux(RegDestEX, RtEX, RdEX, RegDstEX);
+    assign RegDestEX = RegDstEX ? RdEX : RtEX;
     
     EXMEM exmem(
     .Clk(ClkOut),
