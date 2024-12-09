@@ -1,6 +1,8 @@
 `timescale 1ns / 1ps
 
-module DataMemory(
+module DataMemory #(
+    parameter DATA_MEM = "data_memory.mem"
+) (
     input [31:0] Address,        // Input Address
     input [31:0] WriteData,      // Data to write into the address
     input Clk,                   // Clock signal
@@ -13,7 +15,7 @@ module DataMemory(
     reg [31:0] memory [0:9999];
 
     // Memory initialization
-    initial $readmemh("data_memory.mem", memory);
+    initial $readmemh(DATA_MEM, memory);
 
     // Memory write on positive clock edge
     always @(posedge Clk) begin

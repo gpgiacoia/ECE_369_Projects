@@ -2,7 +2,7 @@
 afbf0000	//				sw	$ra, 0($sp) ->				sw	$ra, 0($sp)
 34040000	//				ori	$a0, $zero, 0 ->				ori	$a0, $zero, 0
 34050010	//				ori	$a1, $zero, 16 ->				ori	$a1, $zero, 16
-34060a10	//				ori	$a2, $zero, 2576 ->				ori	$a2, $zero, 2576
+34060910	//				ori	$a2, $zero, 2320 ->				ori	$a2, $zero, 2320
 0c000008	//				jal	vbsme ->				jal	vbsme
 08000007	//				j	end_program ->				j	end_program
 08000007	//	end_program:		j	end_program ->	end_program:		j	end_program
