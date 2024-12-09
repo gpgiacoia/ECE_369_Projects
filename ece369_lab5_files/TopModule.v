@@ -107,8 +107,8 @@ module TopModule(Reset, Clk, X, Y);
     wire [31:0] PCWB; 
     wire HAZARDPC, HAZARDCONTROL, HAZARDIFID; 
     wire [31:0] PCAdderResultID,PCAdderResultEX,PCAdderResultMEM,PCAdderResultWB;
-    (* mark_debug = "true" *) output wire [31:0] X;
-    (* mark_debug = "true" *) output wire [31:0] Y;
+    output wire [31:0] X;
+    output wire [31:0] Y;
         wire RegWriteOut;
 wire MemWriteOut;
 wire MemReadOut;
@@ -148,8 +148,14 @@ wire [31:0] NewValueRT;
     assign ShiftedEX =  Offset << 2;
     assign JumpPCEX = PCAdderResultID + ShiftedEX;
 
-    Mux32Bit2To1 PcSrcMux(JPCValue, PCAdderResult, JumpPCEX, PCSrc);
-    Mux32Bit3To1 JmuxMux(PCFinal, JPCValue , ReadData1, JTargetResult, JmuxID);
+    assign JPCValue = PCSrc ? JumpPCEX : PCAdderResult;
+    assign PCFinal = JmuxID == 2'b00 ? JPCValue :
+                     JmuxID == 2'b01 ? ReadData1 :
+                     JmuxID == 2'b10 ? JTargetResult : 0;
+
+    // Mux32Bit2To1 PcSrcMux(JPCValue, PCAdderResult, JumpPCEX, PCSrc);
+    //Mux32Bit3To1 JmuxMux(PCFinal, JPCValue , ReadData1, JTargetResult, JmuxID);
+    //
     ProgramCounter program_counter(.Address(PCFinal), .PCResult(PC), 
     .Reset(Reset), .Clk(ClkOut), .PCSTOP(HAZARDPC));
 
@@ -326,14 +332,17 @@ ControlMux controlMUX(
     Mux32Bit3To1 writeDataMux(WriteDataEX, ReadData2EX, StoreHalfEX, StoreByteEX, StoreDataEX);
     
     Mux32Bit2To1 AluSrcMux(ALUB, ReadData2EX, OffsetEX, ALUSrcEX);
+    // assign ALUB = ALUSrcEX ? OffsetEX : ReadData2EX;
     Mux32Bit2To1 shiftMux(ALUA, ReadData1EX, SAEX, ShiftMuxEX); //FIXME CONNECT ALUA TO ALU
+    // assign ALUA = ShiftMuxEX ? SAEX : ReadData1EX;
 
     Mux32Bit2To1 ForwardAluAMux(ALUAFINAL, ALUA, NewValueRS, ALUAFORWARDMUX);
     Mux32Bit2To1 ForwardAluBMux(ALUBFINAL, ALUB, NewValueRT, ALUBFORWARDMUX);
     
     ALU32Bit alu(ALUOpEX, RTypeEX, ALUAFINAL, ALUBFINAL, ALUResultEX, ALUZeroEX);
     
-    Mux5Bit2To1 RegDestMux(RegDestEX, RtEX, RdEX, RegDstEX);
+    assign RegDestEX = RegDstEX ? RdEX : RtEX;
+    // Mux5Bit2To1 RegDestMux(RegDestEX, RtEX, RdEX, RegDstEX);
     
     EXMEM exmem(
     .Clk(ClkOut),
