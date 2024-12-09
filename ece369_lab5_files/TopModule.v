@@ -7,7 +7,7 @@ module TopModule
         parameter INSTANCE = 0,
 	parameter DATA_MEM = "test.mem",
 	parameter INSTRUCTION_MEM = "test.mem",
-        parameter STACK_REG = 39996
+        parameter STACK_REG = 2000
 )
 (Reset, Clk, X, Y, MINSAD);
     //Fetch

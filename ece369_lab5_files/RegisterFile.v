@@ -24,6 +24,7 @@ module RegisterFile #(
 
     // Initialize the zero, global pointer, and stack pointer
     initial begin
+        registers[27] = INSTANCE;
         registers[0] = 32'h0;           // $zero is always 0
         registers[28] = 32'h10008000;   // $gp (global pointer)
         registers[29] = STACK_REG;          // $sp (stack pointer)

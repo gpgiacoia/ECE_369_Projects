@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module MultiCore 
 (
 	input Reset,
@@ -47,71 +49,71 @@ module MultiCore
 		Y3,
 		SAD3
 	);
-	//
-	// TopModule #(
-	// 	.INSTANCE(4),
-	// 	.DATA_MEM("data_memory4.mem"),
-	// 	.INSTRUCTION_MEM("instruction_memory4.mem"),
-	// 	.STACK_REG(2628)
-	// ) core4 (
-	// 	Reset,
-	// 	Clk,
-	// 	X4,
-	// 	Y4,
-	// 	SAD4
-	// );
-	//
-	// TopModule #(
-	// 	.INSTANCE(5),
-	// 	.DATA_MEM("data_memory5.mem"),
-	// 	.INSTRUCTION_MEM("instruction_memory5.mem"),
-	// 	.STACK_REG(2624)
-	// ) core5 (
-	// 	Reset,
-	// 	Clk,
-	// 	X5,
-	// 	Y5,
-	// 	SAD5
-	// );
-	//
-	// TopModule #(
-	// 	.INSTANCE(6),
-	// 	.DATA_MEM("data_memory6.mem"),
-	// 	.INSTRUCTION_MEM("instruction_memory6.mem"),
-	// 	.STACK_REG(2620)
-	// ) core6 (
-	// 	Reset,
-	// 	Clk,
-	// 	X6,
-	// 	Y6,
-	// 	SAD6
-	// );
-	//
-	// TopModule #(
-	// 	.INSTANCE(7),
-	// 	.DATA_MEM("data_memory7.mem"),
-	// 	.INSTRUCTION_MEM("instruction_memory7.mem"),
-	// 	.STACK_REG(2618)
-	// ) core7 (
-	// 	Reset,
-	// 	Clk,
-	// 	X7,
-	// 	Y7,
-	// 	SAD7
-	// );
-	//
-	// TopModule #(
-	// 	.INSTANCE(8),
-	// 	.DATA_MEM("data_memory8.mem"),
-	// 	.INSTRUCTION_MEM("instruction_memory8.mem"),
-	// 	.STACK_REG(2614)
-	// ) core8 (
-	// 	Reset,
-	// 	Clk,
-	// 	X8,
-	// 	Y8,
-	// 	SAD8
-	// );
+
+	TopModule #(
+		.INSTANCE(4),
+		.DATA_MEM("data_memory4.mem"),
+		.INSTRUCTION_MEM("instruction_memory4.mem"),
+		.STACK_REG(2628)
+	) core4 (
+		Reset,
+		Clk,
+		X4,
+		Y4,
+		SAD4
+	);
+
+	TopModule #(
+		.INSTANCE(5),
+		.DATA_MEM("data_memory5.mem"),
+		.INSTRUCTION_MEM("instruction_memory5.mem"),
+		.STACK_REG(2624)
+	) core5 (
+		Reset,
+		Clk,
+		X5,
+		Y5,
+		SAD5
+	);
+
+	TopModule #(
+		.INSTANCE(6),
+		.DATA_MEM("data_memory6.mem"),
+		.INSTRUCTION_MEM("instruction_memory6.mem"),
+		.STACK_REG(2620)
+	) core6 (
+		Reset,
+		Clk,
+		X6,
+		Y6,
+		SAD6
+	);
+
+	TopModule #(
+		.INSTANCE(7),
+		.DATA_MEM("data_memory7.mem"),
+		.INSTRUCTION_MEM("instruction_memory7.mem"),
+		.STACK_REG(2618)
+	) core7 (
+		Reset,
+		Clk,
+		X7,
+		Y7,
+		SAD7
+	);
+
+	TopModule #(
+		.INSTANCE(8),
+		.DATA_MEM("data_memory8.mem"),
+		.INSTRUCTION_MEM("instruction_memory8.mem"),
+		.STACK_REG(2614)
+	) core8 (
+		Reset,
+		Clk,
+		X8,
+		Y8,
+		SAD8
+	);
 
 	assign X = temp_X;
 	assign Y = temp_Y;
