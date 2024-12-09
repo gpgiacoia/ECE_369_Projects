@@ -3,16 +3,11 @@ module MultiCore
 	input Reset,
 	input Clk,
 	output wire [31:0] X,
-	output wire [31:0] Y,
-	output wire [31:0] SAD
+	output wire [31:0] Y
 );
 	wire [31:0] X1, X2, X3, X4, X5, X6, X7, X8;
 	wire [31:0] Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8;
 	wire [31:0] SAD1, SAD2, SAD3, SAD4, SAD5, SAD6, SAD7, SAD8;
-
-	assign X = X4;
-	assign Y = Y4;
-	assign SAD = SAD4;
 
 	TopModule #(
 		.INSTANCE(1),
@@ -118,4 +113,62 @@ module MultiCore
 		SAD8
 	);
 
+	assign X = temp_X;
+	assign Y = temp_Y;
+	reg [31:0] min_S;
+	reg [31:0] temp_X;
+	reg [31:0] temp_Y;
+
+	initial begin
+		min_S = 99999;
+		temp_X = 9999;
+		temp_Y = 9999;
+	end
+	always @(*) begin
+		// Initialize minimum values
+
+		// Compare and update minimum
+		if (SAD1 < min_S) begin
+		    min_S = SAD1;
+		    temp_X = X1;
+		    temp_Y = X2;
+		end
+		if (SAD2 < min_S) begin
+		    min_S = SAD2;
+		    temp_X = X2;
+		    temp_Y = Y2;
+		end
+		if (SAD3 < min_S) begin
+		    min_S = SAD3;
+		    temp_X = X3;
+		    temp_Y = Y3;
+		end
+		if (SAD4 < min_S) begin 
+		    min_S = SAD4;
+		    temp_X = X4;
+		    temp_Y = Y4;
+		end
+		if (SAD5 < min_S) begin
+		    min_S = SAD5;
+		    temp_X = X5;
+		    temp_Y = Y5;
+		end
+		if (SAD6 < min_S) begin
+		    min_S = SAD6;
+		    temp_X = X6;
+		    temp_Y = Y6;
+		end
+		if (SAD7 < min_S) begin
+		    min_S = SAD7;
+		    temp_X = X7;
+		    temp_Y = Y7;
+		end
+		if (SAD8 < min_S) begin
+		    min_S = SAD8;
+		    temp_X = X8;
+		    temp_Y = Y8;
+		end
+
+		// Assign the results to output
+	end
 endmodule
