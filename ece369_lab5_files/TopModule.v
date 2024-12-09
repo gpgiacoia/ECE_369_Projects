@@ -95,14 +95,14 @@ module TopModule(Reset, Clk, X, Y);
     wire [31:0] PCFinal;
         //Writeback stage
     //Wires for wb
-    wire [31:0] MemReadWB;
+    wire [31:0] WriteDataWB;
     wire [31:0] ALUResultWB;
     wire RegWriteWB;
     wire MemToRegWB;
     wire [1:0] LoadDataWB;
     wire [4:0] RegDestWB;
     wire [31:0] LWFull, LWHalf, LWByte;
-    wire [31:0] WriteDataRegWB;
+    wire [31:0] WriteDataRegMEM;
     wire JrAddressWB, JrDataWB;
     wire [31:0] PCWB; 
     wire HAZARDPC, HAZARDCONTROL, HAZARDIFID; 
@@ -163,7 +163,7 @@ wire [31:0] NewValueRT;
     //DECODE PHASE
     
     RegisterFile registerFile(.ReadRegister1(InstructionOut[25:21]), .ReadRegister2(InstructionOut[20:16]), 
-    .WriteRegister(NEWFINALWRITEREGISTER), .WriteData(WriteData), .RegWrite(NEWFINALREGWRITE), .Clk(ClkOut), .ReadData1(ReadData1), .ReadData2(ReadData2), .FINALINDEX(FINALINDEX), .WIDTH(WIDTH));
+    .WriteRegister(NEWFINALWRITEREGISTER), .WriteData(NEWFINALWRITEDATA), .RegWrite(NEWFINALREGWRITE), .Clk(ClkOut), .ReadData1(ReadData1), .ReadData2(ReadData2), .FINALINDEX(FINALINDEX), .WIDTH(WIDTH));
     
     SignExtension signExtend_150(InstructionOut[15:0], Offset);
     SignExtension5Bit signExtend_SA(InstructionOut[10:6], SAID); 
@@ -312,7 +312,7 @@ ControlMux controlMUX(
     .NewValueRS(NewValueRS),
     .NewValueRT(NewValueRT),
     .ALURESULTMEM(ALUResultMEM),
-    .ALURESULTWB(WriteData), // to account for load words
+    .ALURESULTWB(WriteDataWB), // to account for load words
     
     .destNEW(NEWFINALWRITEREGISTER),
     .regWriteNEW(NEWFINALREGWRITE),
@@ -382,76 +382,50 @@ ControlMux controlMUX(
     .JrDataOut(JrDataMEM)
 
     );
-    //assign PCSrc = PCSrcMEM & ALUZeroMEM;
-    //JumpTarget jtarget(JTargetResult, JTargetMEM, PCMEM);
     
-    //Mux32Bit2To1 PcSrcMux(JPCValue, PCAdderResult, JumpPCMEM, PCSrc);
-    //Mux32Bit3To1 JmuxMux(PCFinal,JPCValue , RAMEM, JTargetResult, JmuxMEM);
-
     DataMemory datamemory(ALUResultMEM, WriteDataMEM, ClkOut, 
     MemWriteMEM, MemReadMEM, ReadDataMEM); 
     
+    assign LWFull = (MemToRegMEM) ? ALUResultMEM : ReadDataMEM;
+    SignExtension loadHalfEX(LWFull[15:0], LWHalf);
+    SignExtension8Bit loadByteEX(LWFull[7:0], LWByte);
+    Mux32Bit3To1 LoadDataMux(WriteDataRegMEM, LWFull, LWHalf,LWByte, LoadDataMEM);
+    assign WriteRegister = (JrAddressMEM) ? RA : RegDestMEM;
+    assign WriteData = JrDataMEM ? PCAdderResultMEM : WriteDataRegMEM;
+
     MEMWB memwb(
     .Clk(ClkOut), 
     .Reset(Reset),
     
     // Data inputs
-    .MemReadData(ReadDataMEM),
-    .ALUResultIn(ALUResultMEM),
-    .RegAddressIn(RegDestMEM),
+    .WriteDataIn(WriteData),
+    .RegAddressIn(WriteRegister),
     .PCIn(PCMEM), 
     
     // Control inputs
-    .RegWrite(RegWriteMEM),             
-    .MemToReg(MemToRegMEM),             
-    .LoadData(LoadDataMEM), 
-    .JrAddress(JrAddressMEM),            
-    .JrData(JrDataMEM),
-     .PCAdderResultIn(PCAdderResultMEM),
-    .PCAdderResultOut(PCAdderResultWB),
-    
+    .RegWrite(RegWriteMEM), 
+                    
     // Data outputs
-    .MemReadDataOut(MemReadWB),
-    .ALUResultOut(ALUResultWB),
+    .WriteDataOut(WriteDataWB),
     .RegAddressOut(RegDestWB),
     .PCOut(PCWB),
     
     // Control outputs
-    .RegWriteOut(RegWriteWB),             
-    .MemToRegOut(MemToRegWB),             
-    .LoadDataOut(LoadDataWB),
-    .JrAddressOut(JrAddressWB),            
-    .JrDataOut( JrDataWB)  
+    .RegWriteOut(RegWriteWB)             
     );
     
-    //Mux32Bit2To1 MemRegMux(LWFull, MemReadWB, ALUResultWB, MemToRegWB);
-    assign LWFull = (MemToRegWB) ? ALUResultWB : MemReadWB;
-
-    // Removed Bit, SignExtension is 16 -> 32
-    SignExtension loadHalfEX(LWFull[15:0], LWHalf);
-    SignExtension8Bit loadByteEX(LWFull[7:0], LWByte);
-
-    
-    Mux32Bit3To1 LoadDataMux(WriteDataRegWB, LWFull, LWHalf,LWByte, LoadDataWB);
-    
-    //Mux5Bit2To1 JrAddrMux(WriteRegister, RegDestWB, RA, JrAddressWB); 
-    assign WriteRegister = (JrAddressWB) ? RA : RegDestWB;
-
-    //Mux32Bit2To1 JrDatamux(WriteData, WriteDataRegWB, PCAdderResultWB, JrDataWB); //FIXME
 
     WBNEW wbnew(.Clk(ClkOut),
     .PCNEWIn(PCWB),
     .PCNEWOut(PCNEW), 
     .Reset(Reset),
     .regwriteIn(RegWriteWB), 
-    .writeDataIn(WriteDataRegWB),
+    .writeDataIn(WriteDataWB),
     .regwriteOut(NEWFINALREGWRITE),
     .writeDataOut(NEWFINALWRITEDATA),
-    .registerIn(WriteRegister),
+    .registerIn(RegDestWB),
     .registerOut(NEWFINALWRITEREGISTER)
     );
-    //POTENTIALLY MAKE THE MOVE BELLOW and change writedata above in .writedatain to WriteDataRegWB
-    assign WriteData = JrDataWB ? PCAdderResultWB : NEWFINALWRITEDATA;
 
     
     

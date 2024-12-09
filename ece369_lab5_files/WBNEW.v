@@ -11,7 +11,7 @@ module WBNEW(
     output reg regwriteOut,    // Output: regWrite control signal
     output reg [31:0] writeDataOut, // Output: data to be written
     output reg [4:0] registerOut,
-    output reg PCNEWOut
+    output reg [31:0] PCNEWOut
 
     
 );
