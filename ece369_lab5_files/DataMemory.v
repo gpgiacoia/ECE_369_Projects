@@ -10,7 +10,7 @@ module DataMemory(
 ); 
 
     // Memory array of 10,000 32-bit words
-    reg [31:0] memory [0:9999];
+    reg [31:0] memory [0:700];
 
     // Memory initialization
     initial $readmemh("data_memory.mem", memory);

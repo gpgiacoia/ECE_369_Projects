@@ -21,9 +21,9 @@ module RegisterFile(
 
     // Initialize the zero, global pointer, and stack pointer
     initial begin
-        registers[0] = 32'h0;           // $zero is always 0
-        registers[28] = 32'h10008000;   // $gp (global pointer)
-        registers[29] = 39996;          // $sp (stack pointer)
+        registers[0] = 32'h0;           // Initialize Zero
+        registers[28] = 32'h10008000;   // Initialize Global Pointer
+        registers[29] = 2640;        // Initialize Stack Pointer
     end
 
     // Assign values for WIDTH and FINALINDEX
