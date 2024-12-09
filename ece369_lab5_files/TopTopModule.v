@@ -10,9 +10,10 @@ module TopTopModule(Reset, Clk, out7, en_out);
     output [7:0] en_out;
     wire [31:0] X; 
     wire [31:0] Y; 
+    wire [31:0] FINALSAD;
     wire ClkOut;
     
     ClkDiv c(Clk, 0, ClkOut);
-    TopModule x(Reset, ClkOut, X, Y);
+    TopModule x(Reset, ClkOut, X, Y, FINALSAD);
     Two4DigitDisplay y(Clk, Y[15:0], X[15:0], out7, en_out);
 endmodule

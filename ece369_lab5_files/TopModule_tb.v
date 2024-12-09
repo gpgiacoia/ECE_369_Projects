@@ -5,12 +5,14 @@ module TopModule_tb();
     reg Reset;
     wire [31:0] X;
     wire [31:0] Y;
+    wire [31:0] FINALSAD;
 
     TopModule top_module(
 	.Clk(Clk),
 	.Reset(Reset),
 	.X(X),
-	.Y(Y)
+	.Y(Y),
+	.FINALSAD(FINALSAD)
     );
 
     initial begin

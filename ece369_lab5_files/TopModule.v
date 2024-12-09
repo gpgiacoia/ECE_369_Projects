@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //Authors: Giuseppe Pongelupe Giacoia, Leo Dickinson, Carson Keegan
 //Percentage Effort (33%, 33%, 33%)
-module TopModule(Reset, Clk, X, Y);
+module TopModule(Reset, Clk, X, Y, FINALSAD);
     //Fetch
     input Reset, Clk; 
     wire [31:0] PC;
@@ -135,10 +135,11 @@ wire [31:0] NewValueRT;
     wire [31:0] NEWFINALWRITEDATA, PCNEW;
     wire [4:0] NEWFINALWRITEREGISTER;
     wire NEWFINALREGWRITE;
-
+output [31:0] FINALSAD;
     // Mark the internal register as debug signal
     assign X = FINALINDEX / WIDTH;
     assign Y = FINALINDEX % WIDTH;
+    
     
     assign ClkOut = Clk;
     HazardALU hazardalu(.Opcode(InstructionOut[31:26]),.rt(InstructionOut[20:16]), .A(ReadData1), .B(ReadData2), .ALUResult(BRANCHALU));
@@ -165,7 +166,8 @@ wire [31:0] NewValueRT;
     //DECODE PHASE
     
     RegisterFile registerFile(.ReadRegister1(InstructionOut[25:21]), .ReadRegister2(InstructionOut[20:16]), 
-    .WriteRegister(NEWFINALWRITEREGISTER), .WriteData(NEWFINALWRITEDATA), .RegWrite(NEWFINALREGWRITE), .Clk(ClkOut), .ReadData1(ReadData1), .ReadData2(ReadData2), .FINALINDEX(FINALINDEX), .WIDTH(WIDTH));
+    .WriteRegister(NEWFINALWRITEREGISTER), .WriteData(NEWFINALWRITEDATA), .RegWrite(NEWFINALREGWRITE), .Clk(ClkOut), 
+    .ReadData1(ReadData1), .ReadData2(ReadData2), .FINALINDEX(FINALINDEX), .WIDTH(WIDTH), .FINALSAD(FINALSAD));
     
     SignExtension signExtend_150(InstructionOut[15:0], Offset);
     SignExtension5Bit signExtend_SA(InstructionOut[10:6], SAID); 
