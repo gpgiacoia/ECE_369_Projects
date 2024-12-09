@@ -47,7 +47,6 @@ module TopModule(Reset, Clk, X, Y);
     wire [31:0] StoreHalfEX;
     wire [31:0] StoreByteEX;
     wire [31:0] WriteDataEX;
-    wire [31:0] TempEX;
     wire [31:0] ALUB;
     wire [31:0] ALUA;
     wire [31:0] ALUResultEX;
@@ -107,8 +106,8 @@ module TopModule(Reset, Clk, X, Y);
     wire [31:0] PCWB; 
     wire HAZARDPC, HAZARDCONTROL, HAZARDIFID; 
     wire [31:0] PCAdderResultID,PCAdderResultEX,PCAdderResultMEM,PCAdderResultWB;
-    (* mark_debug = "true" *) output wire [31:0] X;
-    (* mark_debug = "true" *) output wire [31:0] Y;
+    output wire [31:0] X;
+    output wire [31:0] Y;
         wire RegWriteOut;
 wire MemWriteOut;
 wire MemReadOut;
@@ -149,7 +148,9 @@ wire [31:0] NewValueRT;
     assign JumpPCEX = PCAdderResultID + ShiftedEX;
 
     assign JPCValue = PCSrc ? JumpPCEX : PCAdderResult;
-    Mux32Bit3To1 JmuxMux(PCFinal, JPCValue , ReadData1, JTargetResult, JmuxID);
+    assign PCFinal = JmuxID == 2'b00 ? JPCValue :
+                     JmuxID == 2'b01 ? ReadData1 :
+                     JmuxID == 2'b10 ? JTargetResult : 0;
     ProgramCounter program_counter(.Address(PCFinal), .PCResult(PC), 
     .Reset(Reset), .Clk(ClkOut), .PCSTOP(HAZARDPC));
 
@@ -325,8 +326,10 @@ ControlMux controlMUX(
     
     Mux32Bit3To1 writeDataMux(WriteDataEX, ReadData2EX, StoreHalfEX, StoreByteEX, StoreDataEX);
     
-    assign ALUB = ALUSrcEX ? OffsetEX : ReadData2EX;
-    assign ALUA = ShiftMuxEX ? SAEX : ReadData1EX;
+    Mux32Bit2To1 AluSrcMux(ALUB, ReadData2EX, OffsetEX, ALUSrcEX);
+    // assign ALUB = ALUSrcEX ? OffsetEX : ReadData2EX;
+    Mux32Bit2To1 shiftMux(ALUA, ReadData1EX, SAEX, ShiftMuxEX); //FIXME CONNECT ALUA TO ALU
+    // assign ALUA = ShiftMuxEX ? SAEX : ReadData1EX;
 
     assign ALUAFINAL = ALUAFORWARDMUX ? NewValueRS : ALUA;
     assign ALUBFINAL = ALUBFORWARDMUX ? NewValueRT : ALUB;
