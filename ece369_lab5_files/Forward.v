@@ -10,6 +10,9 @@ module Forward(
     input regWriteWB, //Checks same as other
     input [31:0] ALURESULTMEM,
     input [31:0] ALURESULTWB,
+    input [4:0] destNEW,
+    input regWriteNEW,
+    input [31:0] ALURESULTNEW,
     output reg ALUAFORWARDMUX, 
     output reg ALUBFORWARDMUX,
     output reg [31:0] NewValueRS, 
@@ -34,13 +37,16 @@ module Forward(
             op == 6'b001_010 //slti
 
             ) begin
-                if((rs!=0) && ((regWriteMEM && rs == destMEM) || (regWriteWB && rs == destWB))) begin //STALL FIXME 
+                if((rs!=0) && ((regWriteMEM && rs == destMEM) || (regWriteWB && rs == destWB) || (regWriteNEW && rs == destNEW))) begin //STALL FIXME 
                     ALUAFORWARDMUX<= 1; 
                     if(regWriteMEM && rs == destMEM) begin
                         NewValueRS<=ALURESULTMEM;
                     end
-                    else begin
+                    else if (regWriteWB && rs == destWB)begin
                         NewValueRS<=ALURESULTWB;
+                    end
+                    else begin
+                        NewValueRS<=ALURESULTNEW;
                     end
                     //if writeback is the value that amtches rs
                     //newvalue = aluresultwb
@@ -51,23 +57,29 @@ module Forward(
         else if(op == 6'b000_000 ||
                 op == 6'b011100 //mul
                 ) begin
-                if((rs!=0) && ((regWriteMEM && rs == destMEM) || (regWriteWB && rs == destWB))) begin //STALL FIXME 
+                if((rs!=0) && ((regWriteMEM && rs == destMEM) || (regWriteWB && rs == destWB)|| (regWriteNEW && rs == destNEW))) begin //STALL FIXME 
                     ALUAFORWARDMUX<= 1; 
                     if(regWriteMEM && rs == destMEM) begin
                         NewValueRS<=ALURESULTMEM;
                     end
-                    else begin
+                    else if (regWriteWB && rs == destWB)begin
                         NewValueRS<=ALURESULTWB;
+                    end
+                    else begin
+                        NewValueRS<=ALURESULTNEW;
                     end
                 end
                 
-                if((rt!=0) && ((regWriteMEM && rt == destMEM) || (regWriteWB && rt == destWB))) begin //STALL FIXME 
+                if((rt!=0) && ((regWriteMEM && rt == destMEM) || (regWriteWB && rt == destWB)|| (regWriteNEW && rt == destNEW))) begin //STALL FIXME 
                     ALUBFORWARDMUX<= 1; 
                     if(regWriteMEM && rt == destMEM) begin
                         NewValueRT<=ALURESULTMEM;
                     end
-                    else begin
+                    else if (regWriteWB && rt == destWB)begin
                         NewValueRT<=ALURESULTWB;
+                    end
+                    else begin
+                        NewValueRT<=ALURESULTNEW;
                     end
                 end
             end

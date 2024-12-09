@@ -133,7 +133,9 @@ wire [31:0] ALUAFINAL;
 wire [31:0] ALUBFINAL;
 wire [31:0] NewValueRS;
 wire [31:0] NewValueRT;
-
+    wire [31:0] NEWFINALWRITEDATA, PCNEW;
+    wire [4:0] NEWFINALWRITEREGISTER;
+    wire NEWFINALREGWRITE;
 
     // Mark the internal register as debug signal
     assign X = FINALINDEX / WIDTH;
@@ -159,11 +161,9 @@ wire [31:0] NewValueRT;
     .InstructionOut(InstructionOut), .PCOut(PCID), .WRITE(HAZARDIFID));
 
     //DECODE PHASE
-    Mux5Bit2To1 JrAddrMux(WriteRegister, RegDestWB, RA, JrAddressWB); 
-    Mux32Bit2To1 JrDatamux(WriteData, WriteDataRegWB, PCAdderResultWB, JrDataWB); //FIXME
     
     RegisterFile registerFile(.ReadRegister1(InstructionOut[25:21]), .ReadRegister2(InstructionOut[20:16]), 
-    .WriteRegister(WriteRegister), .WriteData(WriteData), .RegWrite(RegWriteWB), .Clk(ClkOut), .ReadData1(ReadData1), .ReadData2(ReadData2), .FINALINDEX(FINALINDEX), .WIDTH(WIDTH));
+    .WriteRegister(NEWFINALWRITEREGISTER), .WriteData(WriteData), .RegWrite(NEWFINALREGWRITE), .Clk(ClkOut), .ReadData1(ReadData1), .ReadData2(ReadData2), .FINALINDEX(FINALINDEX), .WIDTH(WIDTH));
     
     SignExtension signExtend_150(InstructionOut[15:0], Offset);
     SignExtension5Bit signExtend_SA(InstructionOut[10:6], SAID); 
@@ -176,7 +176,11 @@ wire [31:0] NewValueRT;
     .MemReadEX(MemReadEX),
     .IDIF(HAZARDIFID), 
     .PCSTOP(HAZARDPC),
-    .ControlMux(HAZARDCONTROL));
+    .ControlMux(HAZARDCONTROL),
+    .destWB(RegDestWB),
+    .regWriteWB(RegWriteWB)
+
+    );
     
 ControlMux controlMUX(
     .RegWriteIn(RegWriteID),
@@ -308,7 +312,12 @@ ControlMux controlMUX(
     .NewValueRS(NewValueRS),
     .NewValueRT(NewValueRT),
     .ALURESULTMEM(ALUResultMEM),
-    .ALURESULTWB(WriteData) // to account for load words
+    .ALURESULTWB(WriteData), // to account for load words
+    
+    .destNEW(NEWFINALWRITEREGISTER),
+    .regWriteNEW(NEWFINALREGWRITE),
+    .ALURESULTNEW(NEWFINALWRITEDATA)
+
 );
     
     SignExtension storeHalfExtend(ReadData2EX[15:0], StoreHalfEX);
@@ -415,13 +424,35 @@ ControlMux controlMUX(
     .JrDataOut( JrDataWB)  
     );
     
-    Mux32Bit2To1 MemRegMux(LWFull, MemReadWB, ALUResultWB, MemToRegWB);
+    //Mux32Bit2To1 MemRegMux(LWFull, MemReadWB, ALUResultWB, MemToRegWB);
+    assign LWFull = (MemToRegWB) ? ALUResultWB : MemReadWB;
+
     // Removed Bit, SignExtension is 16 -> 32
     SignExtension loadHalfEX(LWFull[15:0], LWHalf);
     SignExtension8Bit loadByteEX(LWFull[7:0], LWByte);
 
     
     Mux32Bit3To1 LoadDataMux(WriteDataRegWB, LWFull, LWHalf,LWByte, LoadDataWB);
+    
+    //Mux5Bit2To1 JrAddrMux(WriteRegister, RegDestWB, RA, JrAddressWB); 
+    assign WriteRegister = (JrAddressWB) ? RA : RegDestWB;
+
+    //Mux32Bit2To1 JrDatamux(WriteData, WriteDataRegWB, PCAdderResultWB, JrDataWB); //FIXME
+
+    WBNEW wbnew(.Clk(ClkOut),
+    .PCNEWIn(PCWB),
+    .PCNEWOut(PCNEW), 
+    .Reset(Reset),
+    .regwriteIn(RegWriteWB), 
+    .writeDataIn(WriteDataRegWB),
+    .regwriteOut(NEWFINALREGWRITE),
+    .writeDataOut(NEWFINALWRITEDATA),
+    .registerIn(WriteRegister),
+    .registerOut(NEWFINALWRITEREGISTER)
+    );
+    //POTENTIALLY MAKE THE MOVE BELLOW and change writedata above in .writedatain to WriteDataRegWB
+    assign WriteData = JrDataWB ? PCAdderResultWB : NEWFINALWRITEDATA;
+
     
     
 endmodule
