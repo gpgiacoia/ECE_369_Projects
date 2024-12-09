@@ -151,6 +151,7 @@ wire [31:0] NewValueRT;
     assign PCFinal = JmuxID == 2'b00 ? JPCValue :
                      JmuxID == 2'b01 ? ReadData1 :
                      JmuxID == 2'b10 ? JTargetResult : 0;
+
     ProgramCounter program_counter(.Address(PCFinal), .PCResult(PC), 
     .Reset(Reset), .Clk(ClkOut), .PCSTOP(HAZARDPC));
 
@@ -327,12 +328,12 @@ ControlMux controlMUX(
     Mux32Bit3To1 writeDataMux(WriteDataEX, ReadData2EX, StoreHalfEX, StoreByteEX, StoreDataEX);
     
     Mux32Bit2To1 AluSrcMux(ALUB, ReadData2EX, OffsetEX, ALUSrcEX);
+    Mux32Bit2To1 shiftMux(ALUA, ReadData1EX, SAEX, ShiftMuxEX);
     // assign ALUB = ALUSrcEX ? OffsetEX : ReadData2EX;
-    Mux32Bit2To1 shiftMux(ALUA, ReadData1EX, SAEX, ShiftMuxEX); //FIXME CONNECT ALUA TO ALU
     // assign ALUA = ShiftMuxEX ? SAEX : ReadData1EX;
 
-    assign ALUAFINAL = ALUAFORWARDMUX ? NewValueRS : ALUA;
-    assign ALUBFINAL = ALUBFORWARDMUX ? NewValueRT : ALUB;
+    Mux32Bit2To1 ForwardAluAMux(ALUAFINAL, ALUA, NewValueRS, ALUAFORWARDMUX);
+    Mux32Bit2To1 ForwardAluBMux(ALUBFINAL, ALUB, NewValueRT, ALUBFORWARDMUX);
     
     ALU32Bit alu(ALUOpEX, RTypeEX, ALUAFINAL, ALUBFINAL, ALUResultEX, ALUZeroEX);
     
