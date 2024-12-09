@@ -23,7 +23,7 @@ module RegisterFile(
     initial begin
         registers[0] = 32'h0;           // $zero is always 0
         registers[28] = 32'h10008000;   // $gp (global pointer)
-        registers[29] = 39996;          // $sp (stack pointer)
+        registers[29] = 16464;          // $sp (stack pointer)
     end
 
     // Assign values for WIDTH and FINALINDEX
