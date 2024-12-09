@@ -5,8 +5,8 @@
 module TopModule
 #(
         parameter INSTANCE = 0,
-	parameter DATA_MEM = "data_memory.mem",
-	parameter INSTRUCTION_MEM = "instruction_memory.mem",
+	parameter DATA_MEM = "test.mem",
+	parameter INSTRUCTION_MEM = "test.mem",
         parameter STACK_REG = 39996
 )
 (Reset, Clk, X, Y, MINSAD);
@@ -166,7 +166,7 @@ wire [31:0] NewValueRT;
 
     InstructionMemory #(
         .INSTANCE(INSTANCE),
-        .INSTRUCTION_MEM("instruction_memory.mem")
+        .INSTRUCTION_MEM(INSTRUCTION_MEM)
     ) instructionMemory (
         PC,
         Instruction
@@ -418,7 +418,7 @@ ControlMux controlMUX(
     
     DataMemory #(
         .INSTANCE(INSTANCE),
-        .DATA_MEM("data_memory.mem")
+        .DATA_MEM(DATA_MEM)
     ) datamemory (
         ALUResultMEM,
         WriteDataMEM,
